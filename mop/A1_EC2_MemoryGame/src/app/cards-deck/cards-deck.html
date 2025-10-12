@@ -1,3 +1,8 @@
+<!-- in the end, send only an index to the card component, which will load the image path
+do an if else in the html to load the front side for 10 secs
+to make the images combine when clicked the correct ones, look for the index of the clicked image, if is the index of the first clicked +1, correct, if not, wrong
+from that function, call another one, which will se if the total number of correct clicks is 10, if so, ok else remain playing -->
+
 @for (index of randomList; track $index) {
-    <app-card [imagePath]="cardsList[index][1]"></app-card>
+    <app-card (clicked)="cardClicked(index)" [cardIndex]="index"></app-card>
 }

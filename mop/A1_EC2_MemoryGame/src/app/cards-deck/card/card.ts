@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { cardsList } from '../../CardsList';
 
 @Component({
   selector: 'app-card',
@@ -7,15 +8,22 @@ import { Component, Input } from '@angular/core';
   styleUrl: './card.css'
 })
 export class Card {
-  @Input() imagePath!: any;
-  selectedImage = "assets/cardsDeck/back_card.png";
+  @Input() cardIndex!: number;
+  @Output() clicked: EventEmitter<number> = new EventEmitter<number>();
+
+  cardsList = cardsList;
+  route = 'assets/cardsDeck/';
+  extension = '.png';
+  showCard = true;
 
   constructor() {
-
+    setTimeout(() => {
+      this.showCard = false;
+    }, 3000);
   }
 
-  changeImage() {
-    this.selectedImage = this.imagePath
+  cardClicked() {
+    this.showCard = true;
+    this.clicked.emit(this.cardIndex);
   }
-
 }
