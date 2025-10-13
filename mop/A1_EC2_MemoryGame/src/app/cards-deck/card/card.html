@@ -1,5 +1,5 @@
-@if (showCard) {
-    <img src="{{route}}{{ cardsList[cardIndex][1] }}{{extension}}" alt="">
+@if (hideCard) {
+    <img (click)="cardClicked()" src="{{route}}{{ cardsList[cardIndex][1] }}{{extension}}">
 } @else {
-    <img (click)="cardClicked()" src="{{route}}back_card{{extension}}" alt="">
+    <img (click)="cardClicked()" src="{{route}}back_card{{extension}}">
 }

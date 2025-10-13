@@ -1,4 +1,5 @@
 export const cardsList = [
+    [,],
     [1,  'armadillo1'],
     [2,  'armadillo2'],
     [3,  'búfal1'],
@@ -20,4 +21,5 @@ export const cardsList = [
     [19, 'tortuga1'],
     [20, 'tortuga2'],
 ];
-  
+
+export let finishedCards: number[] = [];
