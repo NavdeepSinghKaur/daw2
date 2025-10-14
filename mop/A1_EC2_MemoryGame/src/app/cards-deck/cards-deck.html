@@ -3,3 +3,9 @@
         <app-card [hideCard]="selectedCards[index]" (clicked)="cardClicked(index)" [cardIndex]="index"></app-card>
     }
 </div>
+
+@if (showLeaderboard) {
+    <div>
+        <app-leaderboard></app-leaderboard>
+    </div>
+}

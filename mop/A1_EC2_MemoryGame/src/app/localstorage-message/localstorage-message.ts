@@ -11,6 +11,7 @@ export class LocalstorageMessage {
   name!: string;
   shuffle!: number;
   @Output() playerName: EventEmitter<string> = new EventEmitter<string>();
+  @Output() timesShuffle: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {
 
@@ -18,16 +19,34 @@ export class LocalstorageMessage {
 
   saveValues() {
     let addPlayer = {
-        "name": this.name,
-        "score": 0,
-      }
+      "name": this.name,
+      "score": 0,
+    }
     
-    let oldPlayers = localStorage.getItem('players');
-    if (oldPlayers !== null) {
-      oldPlayers = JSON.parse(oldPlayers);
+    let unparsedLoadedPlayers = localStorage.getItem('players');
+
+    let loadedPlayers;
+    if (unparsedLoadedPlayers !== null) {
+      loadedPlayers = JSON.parse(unparsedLoadedPlayers);
+
+      let playerExists: boolean = false;
+      Object.values(loadedPlayers).forEach((player: any) => {
+        if (player.name === addPlayer.name) {
+          playerExists = true;
+        }
+      })
+
+      if (!playerExists) {
+        loadedPlayers.push(addPlayer);
+      }
+    } else {
+      loadedPlayers = [];
+      loadedPlayers.push(addPlayer);
     }
 
-    localStorage.setItem('players', JSON.stringify(addPlayer))
+    localStorage.setItem('players', JSON.stringify(loadedPlayers));
+    
     this.playerName.emit(addPlayer["name"]);
+    this.timesShuffle.emit(this.shuffle);
   }
 }

@@ -10,7 +10,9 @@ import { LocalstorageMessage } from "./localstorage-message/localstorage-message
 })
 export class App {
   username!: string;
+  timesToShuffle!: number;
   showGame = false;
+  
   constructor() {
 
   }

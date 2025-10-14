@@ -1,27 +1,45 @@
 import { Component, Input } from '@angular/core';
 import { finishedCards } from '../CardsList';
 import { Card } from "./card/card";
+import { Leaderboard } from "../leaderboard/leaderboard";
 
 @Component({
   selector: 'app-cards-deck',
-  imports: [Card],
+  imports: [Card, Leaderboard],
   templateUrl: './cards-deck.html',
   styleUrl: './cards-deck.css'
 })
 export class CardsDeck {
   @Input() name!: string;
+  @Input() timesToShuffle!: number;
   randomList: number[] = [];
   hideCard?: boolean;
+  showLeaderboard: boolean = false;
   selectedCards = new Array(21).fill(true);
 
   constructor () {
-    let randomInt = Math.floor(Math.random()*20);
-    for (let index = 0; index < 20; index++) { // replace by shuffle later
+    let randomInt = Math.floor(Math.random()*20)+1;
+    for (let index = 0; index < 20; index++) {
       while (this.randomList.indexOf(randomInt) !== -1) {
-        randomInt = Math.floor(Math.random()*20)+1;
+        randomInt = Math.floor(Math.random()*20)+1;  
       }
       this.randomList.push(randomInt);
     }
+
+    for (let index = 0; index < this.timesToShuffle; index++) {
+      let firstValue = Math.floor(Math.random()*20);
+      let secondValue = Math.floor(Math.random()*20);
+
+      while (firstValue === secondValue) {
+        secondValue = Math.floor(Math.random()*20)+1;
+      }
+
+      let storeArrValue = this.randomList[firstValue];
+      this.randomList[firstValue] = this.randomList[secondValue];
+      this.randomList[secondValue] = storeArrValue;
+    }
+
+    this.randomList
     
     setTimeout(() => {
       this.selectedCards = new Array(21).fill(false);
@@ -62,8 +80,22 @@ export class CardsDeck {
 
     if (finishedCards.length == 20) {
       localStorage.setItem('memoryGameFinished', 'true');
-      console.log(this.name);
-      console.log(localStorage.getItem('players'));
+      let unformattedPlayers = localStorage.getItem('players')!;
+      let players = JSON.parse(unformattedPlayers); 
+      
+      Object.values(players).forEach((player: any) => {
+        if(player.name == this.name) {
+          player["score"] = player["score"]+1;
+          console.log(player);
+        } else {
+          console.log(player.name);
+          console.log(player);
+          console.log("player if didn't execute");
+        }
+      });
+      this.showLeaderboard = true;
+      localStorage.setItem('players', JSON.stringify(players));
+      
     }
   }
   
