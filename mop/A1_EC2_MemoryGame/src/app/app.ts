@@ -9,4 +9,15 @@ import { LocalstorageMessage } from "./localstorage-message/localstorage-message
   styleUrl: './app.css'
 })
 export class App {
+  username!: string;
+  showGame = false;
+  constructor() {
+
+  }
+
+  nameInserted(input: string) {
+    this.username = input;
+    this.showGame = true;
+  }
+
 }

@@ -1,5 +1,7 @@
 <h1>MEMORY GAME</h1>
 
-<app-localstorage-message></app-localstorage-message>
-
-<app-cards-deck></app-cards-deck>
+@if (!showGame) {
+    <app-localstorage-message (playerName)="nameInserted($event)"></app-localstorage-message>
+} @else {
+    <app-cards-deck [name]="username"></app-cards-deck>
+}

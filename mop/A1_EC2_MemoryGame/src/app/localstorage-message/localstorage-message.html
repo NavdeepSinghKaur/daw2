@@ -1,7 +1,7 @@
-<form (submit)="logValues()">
+<form (submit)="saveValues()">
     <label for="name">Nom</label>
-    <input type="text" name="name" id="name" [(ngModel)]="name">
+    <input type="text" name="name" id="name" [(ngModel)]="name" required="true">
     <label for="shuffle">Quantes vegades vols barrejar les cartes?</label>
-    <input type="number" name="shuffle" id="shuffle" min="1" max="10" [(ngModel)]="shuffle">
+    <input type="number" name="shuffle" id="shuffle" min="1" max="10" [(ngModel)]="shuffle" required="true">
     <button type="submit">Guardar</button>
 </form>

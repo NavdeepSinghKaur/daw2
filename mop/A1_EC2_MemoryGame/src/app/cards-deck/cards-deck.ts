@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { finishedCards } from '../CardsList';
 import { Card } from "./card/card";
 
@@ -9,6 +9,7 @@ import { Card } from "./card/card";
   styleUrl: './cards-deck.css'
 })
 export class CardsDeck {
+  @Input() name!: string;
   randomList: number[] = [];
   hideCard?: boolean;
   selectedCards = new Array(21).fill(true);
@@ -61,6 +62,8 @@ export class CardsDeck {
 
     if (finishedCards.length == 20) {
       localStorage.setItem('memoryGameFinished', 'true');
+      console.log(this.name);
+      console.log(localStorage.getItem('players'));
     }
   }
   

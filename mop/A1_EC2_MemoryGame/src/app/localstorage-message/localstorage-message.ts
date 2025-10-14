@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,13 +10,24 @@ import { FormsModule } from '@angular/forms';
 export class LocalstorageMessage {
   name!: string;
   shuffle!: number;
-  
+  @Output() playerName: EventEmitter<string> = new EventEmitter<string>();
+
   constructor() {
 
   }
 
-  logValues() {
-    console.log(this.name);
-    console.log(this.shuffle);
-  }  
+  saveValues() {
+    let addPlayer = {
+        "name": this.name,
+        "score": 0,
+      }
+    
+    let oldPlayers = localStorage.getItem('players');
+    if (oldPlayers !== null) {
+      oldPlayers = JSON.parse(oldPlayers);
+    }
+
+    localStorage.setItem('players', JSON.stringify(addPlayer))
+    this.playerName.emit(addPlayer["name"]);
+  }
 }
