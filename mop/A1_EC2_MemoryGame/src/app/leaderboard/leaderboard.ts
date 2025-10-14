@@ -13,9 +13,9 @@ export class Leaderboard {
     let unformattedPlayers = localStorage.getItem('players')!;
 
     let formattedPlayers = JSON.parse(unformattedPlayers);
-    console.log(formattedPlayers);
-    this.classifiedPlayers = formattedPlayers.sort((elem1: any, elem2: any) => {
-      return elem2.score - elem1.score;
+    
+    this.classifiedPlayers = formattedPlayers.sort((player1: any, player2: any) => {
+      return player2.score - player1.score;
     });
   }  
 }
