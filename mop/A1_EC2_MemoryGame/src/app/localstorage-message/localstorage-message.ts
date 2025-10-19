@@ -13,6 +13,10 @@ export class LocalstorageMessage {
   @Output() playerName: EventEmitter<string> = new EventEmitter<string>();
   @Output() timesShuffle: EventEmitter<number> = new EventEmitter<number>();
 
+  constructor() {
+
+  }
+
   saveValues() {
     let addPlayer = {
       "name": this.name,
