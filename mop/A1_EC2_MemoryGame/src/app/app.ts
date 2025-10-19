@@ -13,10 +13,6 @@ export class App {
   timesToShuffle!: number;
   showGame = false;
   
-  constructor() {
-
-  }
-
   nameInserted(input: string) {
     this.username = input;
     this.showGame = true;
