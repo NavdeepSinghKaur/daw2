@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Alumne } from './alumne/alumne';
 import { alumnesList } from '../shared/alumneList';
 import { CreateAlumne } from './alumne/create-alumne/create-alumne';
@@ -14,12 +14,13 @@ import { LocalstorageMessage } from '../localstorage-message/localstorage-messag
   styleUrl: './alumnes.css'
 })
 export class Alumnes {
-  showLocalstorageComponent: boolean = true;
-  allAlumnes = alumnesList;
+  showLocalstorageComponent: boolean;
+  allAlumnes;
   filter: boolean | undefined;
 
   constructor() {
-
+    this.showLocalstorageComponent = true;
+    this.allAlumnes = alumnesList;
   }
 
   filterAlumne(filter: boolean | undefined) {

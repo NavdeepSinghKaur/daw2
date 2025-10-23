@@ -11,11 +11,11 @@ import { alumnesList } from '../../shared/alumneList';
 })
 export class Alumne {
   @Input() alumne?: AlumneModel;
-  @Output() deleteAlumne = new EventEmitter<AlumneModel[]>;
+  @Output() deleteAlumne;
 
 
   constructor() {
-
+    this.deleteAlumne = new EventEmitter<AlumneModel[]>;
   }
 
   deleteUser() {

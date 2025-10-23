@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { cardsList, finishedCards } from '../../CardsList';
+import { cardsList } from '../../CardsList';
 
 @Component({
   selector: 'app-card',
@@ -13,9 +13,7 @@ export class Card {
   @Output() clicked: EventEmitter<number> = new EventEmitter<number>();
 
   cardsList = cardsList;
-  route = 'assets/cardsDeck/';
-  extension = '.png';
-
+  
   cardClicked() {
     this.hideCard = false;
     this.clicked.emit(this.cardIndex);

@@ -7,11 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './leaderboard.css'
 })
 export class Leaderboard {
-  classifiedPlayers: any[] = [];
+  classifiedPlayers: any[];
 
   constructor() {
-    let unformattedPlayers = localStorage.getItem('players')!;
+    this.classifiedPlayers = [];
 
+    let unformattedPlayers = localStorage.getItem('players')!;
     let formattedPlayers = JSON.parse(unformattedPlayers);
     
     this.classifiedPlayers = formattedPlayers.sort((player1: any, player2: any) => {

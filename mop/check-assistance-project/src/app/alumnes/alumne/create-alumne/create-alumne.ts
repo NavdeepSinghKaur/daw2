@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { alumnesList, assistenciaList } from '../../../shared/alumneList';
+import { alumnesList } from '../../../shared/alumneList';
 import { AlumneModel } from '../../../shared/alumne.model.';
 
 @Component({
@@ -15,22 +15,15 @@ export class CreateAlumne {
   constructor() {
   }
 
-  cleanInput() {
-    this.name = ""
-  }
-
   saveAlumne() {
-    if (this.name.trim().length < 1) {
-      return;
+    if (this.name.trim().length > 1) {
+      let newAlumne: AlumneModel = {name: this.name, id: alumnesList.length +1, isPresent: undefined}
+
+      alumnesList.push(newAlumne);
+
+      localStorage.setItem("alumnes", JSON.stringify(alumnesList));
+      
+      this.name = "";
     }
-
-    let newAlumne: AlumneModel = {name: this.name, id: alumnesList.length +1, isPresent: undefined}
-
-    alumnesList.push(newAlumne);
-    assistenciaList.push('');
-
-    localStorage.setItem("alumnes", JSON.stringify(alumnesList));
-  
-    this.cleanInput();
   }
 }

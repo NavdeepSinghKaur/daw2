@@ -9,10 +9,10 @@ import { AlumneModel } from '../shared/alumne.model.';
   styleUrl: './localstorage-message.css'
 })
 export class LocalstorageMessage {
-  @Output() showComponent = new EventEmitter<boolean>();
+  @Output() showComponent: EventEmitter<boolean>;
 
   constructor() {
-
+    this.showComponent = new EventEmitter<boolean>();
   }
 
   ngOnInit() {

@@ -10,8 +10,13 @@ import { FormsModule } from '@angular/forms';
 export class LocalstorageMessage {
   name!: string;
   shuffle!: number;
-  @Output() playerName: EventEmitter<string> = new EventEmitter<string>();
-  @Output() timesShuffle: EventEmitter<number> = new EventEmitter<number>();
+  @Output() playerName: EventEmitter<string>;
+  @Output() timesShuffle: EventEmitter<number>;
+
+  constructor() {
+    this.playerName = new EventEmitter<string>();
+    this.timesShuffle = new EventEmitter<number>();
+  }
 
   saveValues() {
     let addPlayer = {
@@ -27,14 +32,10 @@ export class LocalstorageMessage {
 
       let playerExists: boolean = false;
       Object.values(loadedPlayers).forEach((player: any) => {
-        if (player.name === addPlayer.name) {
-          playerExists = true;
-        }
-      })
+        if (player.name === addPlayer.name) playerExists = true;
+      });
 
-      if (!playerExists) {
-        loadedPlayers.push(addPlayer);
-      }
+      if (!playerExists) loadedPlayers.push(addPlayer);
     } else {
       loadedPlayers = [];
       loadedPlayers.push(addPlayer);

@@ -12,12 +12,16 @@ import { Leaderboard } from "../leaderboard/leaderboard";
 export class CardsDeck {
   @Input() name!: string;
   @Input() timesToShuffle!: number;
-  randomList: number[] = [];
-  
-  showLeaderboard: boolean = false;
-  selectedCards = new Array(21).fill(true);
+
+  randomList: number[];
+  showLeaderboard: boolean;
+  selectedCards: boolean[];
 
   constructor () {
+    this.randomList = [];
+    this.showLeaderboard = false;
+    this.selectedCards = new Array(21).fill(true)
+
     let randomInt;
     for (let index = 0; index < 20; index++) {
       do {
@@ -61,9 +65,7 @@ export class CardsDeck {
 
     if (isRelative) {
       finishedCards.push(index1, index2)
-      
     } else {
-      
       setTimeout(() => {
         this.selectedCards[index1] = false;
         this.selectedCards[index2] = false;
@@ -78,15 +80,11 @@ export class CardsDeck {
       let players = JSON.parse(unformattedPlayers); 
       
       Object.values(players).forEach((player: any) => {
-        if(player.name == this.name) {
+        if(player.name == this.name) 
           player["score"] = player["score"]+1;
-        }
-
       });
       this.showLeaderboard = true;
       localStorage.setItem('players', JSON.stringify(players));
-
     }
   }
-  
 }
