@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { finishedCards } from '../CardsList';
 import { Card } from "./card/card";
 import { Leaderboard } from "../leaderboard/leaderboard";
 
@@ -16,11 +15,15 @@ export class CardsDeck {
   randomList: number[];
   showLeaderboard: boolean;
   selectedCards: boolean[];
+  cardsFinished: number;
+  clickedCards: number[];
 
   constructor () {
+    this.clickedCards = [];
     this.randomList = [];
+    this.cardsFinished = 0;
     this.showLeaderboard = false;
-    this.selectedCards = new Array(21).fill(true)
+    this.selectedCards = new Array(21).fill(true);
 
     let randomInt;
     for (let index = 0; index < 20; index++) {
@@ -46,17 +49,16 @@ export class CardsDeck {
     
     setTimeout(() => {
       this.selectedCards = new Array(21).fill(false);
-    }, 4000);
+    }, 10000);
   }
   
-  index1?: number;
-  index2?: number;
+  
   cardClicked(index: number) {
-    !this.index1 ? this.index1 = index : this.index2 = index;
-    
+    this.clickedCards.push(index);
+
     this.selectedCards[index] = true;
-    if (this.index1 && this.index2) {
-      this.cardAlgorithm(this.index1, this.index2);
+    if (this.clickedCards.length == 2) {
+      this.cardAlgorithm(this.clickedCards[0], this.clickedCards[1]);
     }
   }
 
@@ -64,25 +66,24 @@ export class CardsDeck {
     let isRelative = index1 % 2 == 0 ? (index2 == index1 - 1) : (index2 == index1 + 1);
 
     if (isRelative) {
-      finishedCards.push(index1, index2)
+      this.cardsFinished += 2;
     } else {
       setTimeout(() => {
         this.selectedCards[index1] = false;
         this.selectedCards[index2] = false;
       }, 500);
     }
-    this.index1 = undefined;
-    this.index2 = undefined;
+    this.clickedCards = [];
 
-    if (finishedCards.length == 20) {
+    if (this.cardsFinished == 20) {
       localStorage.setItem('memoryGameFinished', 'true');
       let unformattedPlayers = localStorage.getItem('players')!;
       let players = JSON.parse(unformattedPlayers); 
       
       Object.values(players).forEach((player: any) => {
-        if(player.name == this.name) 
-          player["score"] = player["score"]+1;
+        if(player.name == this.name) player["score"] = player["score"]+1;
       });
+
       this.showLeaderboard = true;
       localStorage.setItem('players', JSON.stringify(players));
     }

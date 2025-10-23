@@ -17,5 +17,4 @@ export class App {
     this.username = input;
     this.showGame = true;
   }
-
 }

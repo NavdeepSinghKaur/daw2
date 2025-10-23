@@ -4,10 +4,13 @@ let text = document.getElementById('text');
 
 let lastLetter = '';
 const letters = ["T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"];
+const strings = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZñ";
+let previousLength = 0;
 document.addEventListener('keyup', (e) => {
-    if (!(Number(e.key) >= 0 && Number(e.key <= 9)) && text.value.length <= 8 && !e.shiftKey) {
+    previousLength = text.value.length;
+    // do a mapping of the key
+    if (text.value.length < 8 && (text.value.length !== previousLength)) {
         text.value = text.value.substring(0, text.value.length -1);
-        return ;
     }
     if (text.value.length === 8) {
         lastLetter = e.value;

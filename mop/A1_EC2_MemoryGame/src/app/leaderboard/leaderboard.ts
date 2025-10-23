@@ -10,8 +10,6 @@ export class Leaderboard {
   classifiedPlayers: any[];
 
   constructor() {
-    this.classifiedPlayers = [];
-
     let unformattedPlayers = localStorage.getItem('players')!;
     let formattedPlayers = JSON.parse(unformattedPlayers);
     
