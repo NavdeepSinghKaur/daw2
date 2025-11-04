@@ -1,0 +1,31 @@
+<input type="text" placeholder="Artista o Títol">
+
+@for(song of songsToShow; track song.mp3Url) {
+<div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
+  <h4>{{ song.title }}</h4>
+  <p>{{ song.artist }}</p>
+</div>
+<!-- @if(selectSong !== null) {
+        <img src="{{song.cover}}" alt="">
+    } -->
+}
+
+<img
+  src="assets/plus-solid-full.svg"
+  height="50px"
+  (click)="openForm()"
+  class="add-icon"
+  alt=""
+  srcset=""
+/>
+<app-player
+  [songImage]="songImage()"
+  [songTitle]="songTitle()"
+  [artistName]="artistName()"
+  [isFavorite]="isFavorite()"
+  [description]="description()"
+  [songUrl]="songUrl()"
+></app-player>
+@if (_openForm) {
+  <app-add-form></app-add-form>
+}

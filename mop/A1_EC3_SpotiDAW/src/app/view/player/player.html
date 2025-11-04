@@ -1,0 +1,12 @@
+<img [src]="songImage()" height="100px" alt="" srcset="">
+<p>
+    {{songUrl()}}
+</p>
+@if (songUrl()) {
+    <audio controls [src]="songUrl()">
+        <!-- <source > -->
+    </audio>
+}
+<h4>{{ songTitle() }}</h4>
+<p>{{ artistName() }}</p>
+<p>{{ description() }}</p>

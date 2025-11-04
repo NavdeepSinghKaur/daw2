@@ -6,13 +6,7 @@
     <title>Calendar</title>
 </head>
 <body>
-    <?php
-        if (isset($_GET['error'])) {
-    ?>
-      <h1>WRONG CREDENTIALS</h1>      
-    <?php
-        }
-    ?>
+
     <form action="calendar.php" method="post">
         <label for="usr_name">Usuari:</label>
         <input type="text" name="usr_name" id="usr_name">
@@ -20,5 +14,12 @@
         <input type="password" name="passwd" id="passwd">
         <button type="submit">Entrar</button>
     </form>
+    <?php
+        if (isset($_GET['error'])) {
+    ?>
+      <h1 style="color:red;">WRONG CREDENTIALS</h1>      
+    <?php
+        }
+    ?>
 </body>
 </html>
