@@ -45,7 +45,6 @@ let checkCredentials = () => {
     if (pass1.length < 9 || pass2 < 9) {
         console.log("The length of the passwords should be at least 9 characters");
     } else {
-
         let upperCaseLetters = 0;
         let numbers = 0;
         let uppercaseChars = "ABCÇDEFGHIJKLMNÑOPQRSTUVWXYZ";

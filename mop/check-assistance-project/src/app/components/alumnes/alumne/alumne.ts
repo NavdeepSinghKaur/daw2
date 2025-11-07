@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AlumneModel } from '../../shared/alumne.model.';
-import { alumnesList } from '../../shared/alumneList';
+import { AlumneModel } from '../../../shared/alumne.model';
+import { alumnesList } from '../../../shared/alumneList';
 
 
 @Component({

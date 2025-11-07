@@ -27,5 +27,5 @@
   [songUrl]="songUrl()"
 ></app-player>
 @if (_openForm) {
-  <app-add-form></app-add-form>
+  <app-add-form (songValues)="addSong($event)"></app-add-form>
 }

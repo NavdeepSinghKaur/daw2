@@ -1,1 +1,6 @@
-<app-alumnes></app-alumnes>
+
+@if (showLocalstorageComponent) {
+    <app-localstorage-message (showComponent)="getLocalstorageComponentEvent($event)"/>
+} @else {
+    <app-alumnes />
+}

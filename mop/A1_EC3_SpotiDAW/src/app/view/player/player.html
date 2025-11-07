@@ -1,7 +1,4 @@
 <img [src]="songImage()" height="100px" alt="" srcset="">
-<p>
-    {{songUrl()}}
-</p>
 @if (songUrl()) {
     <audio controls [src]="songUrl()">
         <!-- <source > -->

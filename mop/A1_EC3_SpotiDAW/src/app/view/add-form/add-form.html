@@ -1,11 +1,11 @@
 <form>
-    <input type="text" placeholder="Títol de la peça">
-    <input type="text" placeholder="Nom del grup o de l'artista">
-    <input type="text" placeholder="Enllaç a la peça">
-    <input type="text" placeholder="Imatge del disc">
-    <textarea name="" id="" placeholder="Descripció"></textarea>
+    <input type="text" placeholder="Títol de la peça" [(ngModel)]="songTitle" name="songTitle" >
+    <input type="text" placeholder="Nom del grup o de l'artista" [(ngModel)]="artistName" name="artistName" >
+    <input type="text" placeholder="Enllaç a la peça" [(ngModel)]="songUrl" name="songUrl" >
+    <input type="text" placeholder="Imatge del disc" [(ngModel)]="songImage" name="songImage" >
+    <textarea name="" id="" placeholder="Descripció" [(ngModel)]="description" name="description" ></textarea>
 
     <button>Cancel·lar</button>
     <button>Esborrar</button>
-    <button>Afegir</button>
+    <button (click)="addSong()" >Afegir</button>
 </form>

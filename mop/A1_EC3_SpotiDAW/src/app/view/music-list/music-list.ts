@@ -40,7 +40,37 @@ export class MusicList {
   openForm() {
     this._openForm = !this._openForm;
   }
+
+  addSong(songInfo: any) {
+    console.log(songInfo);
+    this.saveToLocalStorage(songInfo);
+  }
   
+
+  saveToLocalStorage(data: any[]) {
+    let storedSongs: string | null = localStorage.getItem('songs');
+    if (storedSongs !== null) {
+      let songsList: any = JSON.parse(storedSongs);
+      songsList.push(data);
+      localStorage.setItem('songs', JSON.stringify(songsList));
+    } else {
+      localStorage.setItem('songs', JSON.stringify([data]));
+    }
+    
+    this.songsToShow.push({
+      'title': data[0],
+      'artist': data[1],
+      'favorite': data[2],
+      'description': data[3],
+      'mp3Url': data[4],
+      'cover': data[5]
+    });
+    console.log(this.songsToShow);
+  }
+
+  get getFromLocalStorage() {
+    return 0;
+  }
 }
 
 // interface MusicType {
