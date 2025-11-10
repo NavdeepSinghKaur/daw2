@@ -2,6 +2,7 @@
 
 @for(song of songsToShow; track song.mp3Url) {
 <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
+  <img src="assets/like.svg" id="like" height="25px" alt="" srcset="">
   <h4>{{ song.title }}</h4>
   <p>{{ song.artist }}</p>
 </div>

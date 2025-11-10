@@ -1,67 +1,56 @@
-let nameVar, local;
-let domain;
-
+let resultBox = document.getElementById('result');
 let form = document.getElementById('register_user');
+
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-})
-
-let checkCredentials = () => {
+    resultBox.innerHTML = '';
+    let isValidMail = false;
+    let isValidPassword = true;
     let email = document.getElementById('email');
 
     let pass1 = document.getElementById('password1');
     let pass2 = document.getElementById('password2');
     console.log(email.value);
-
-    if (!email.value.includes("@")) {
-    } else {
-        if (!email.value.split("@")) {
-        } else {
-            console.log("the email has a @")
-            nameVar = email.value.split("@")[0];
-            local = email.value.split("@")[1];
-            console.log(local.length <= 2)
-            if (nameVar.length < 1 || local.length <= 2) {
-                console.log("The email has an invalid length");
-            } else {
-                if (!local.split('.')) {
-                    console.log("the email doesn't have a .");
-                } else {
-                    domain = local.split(".")[1];
-                    console.log(domain);
-                    if (domain.length < 2) {
-                    } else {
-                        console.log("The email is valid");
-                    }
+    
+    if (email.value.includes("@")) {
+        let nameVar = email.value.split("@")[0];
+        let mailName = email.value.split("@")[1];
+        console.log(mailName.length <= 2)
+        if (nameVar.length >= 1 || mailName.length >= 2) {
+            if (mailName.includes('.')) {
+                let domain = mailName.split(".")[1];
+                if (domain.length >= 2) {
+                    isValidMail = true
                 }
             }
-        } 
-    }
-
-    if (pass1 !== pass2) {
-        console.log("Passwords should match!");
-    }
-    // Només comprovo la contrasenya ja que la pass2 ha de ser igual que la pass1
-    if (pass1.length < 9 || pass2 < 9) {
-        console.log("The length of the passwords should be at least 9 characters");
-    } else {
-        let upperCaseLetters = 0;
-        let numbers = 0;
-        let uppercaseChars = "ABCÇDEFGHIJKLMNÑOPQRSTUVWXYZ";
-
-        for (let i = 0; i < pass1.value.length; i++) {
-            console.log(isNaN(Number(pass1.value.charAt(i))))
-            if (!isNaN(Number(pass1.value.charAt(i)))) {
-                numbers += 1;
-            } else if (uppercaseChars.includes(pass1.value.charAt(i))) {
-                upperCaseLetters += 1;
-            }
         }
-        console.log(numbers);
-        console.log(upperCaseLetters);
     }
-    console.log(pass1.value);
-    console.log(pass2.value);
 
-
-}
+    if (!isValidMail){
+        resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">Correu amb format invàlid</p>')
+    }
+    
+    let upperCaseLetters = 0;
+    let numbers = 0;
+    
+    for (let i of pass1.value) {
+        if (i >= '0' && i<= '9') { numbers += 1; }
+        else if (i >= 'A' && i <= 'Z') { upperCaseLetters += 1; }
+    }
+    
+    if (numbers < 1 ) {
+        isValidPassword = false;
+        resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">El password ha de contenir mínim 1 número</p>');
+    }
+    if (upperCaseLetters < 2) {
+        isValidPassword = false;
+        resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">El password ha de contenir mínim 2 majúscules</p>');
+    }
+    if (pass1.value.length < 9 || pass2.value.length < 9 || pass1.value != pass2.value || pass2.value.length !== pass1.value.length) {
+        isValidPassword = false;
+        resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">Longitud mínima del password 9</p>');
+    }
+    if (isValidMail && isValidPassword) {
+        resultBox.insertAdjacentHTML('beforeend', '<p style="color: green">Dades de registre correctes</p>')
+    }
+});

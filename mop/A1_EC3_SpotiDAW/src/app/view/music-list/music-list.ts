@@ -23,6 +23,11 @@ export class MusicList {
 
   constructor() {
     this.selectedSong = null;
+    this.getFromLocalStorage.forEach((element: any) => {
+      console.log(element);
+      
+      this.songsToShow = element;
+    });
   }
 
   selectSong(song: any) {
@@ -69,7 +74,12 @@ export class MusicList {
   }
 
   get getFromLocalStorage() {
-    return 0;
+    let songs = localStorage.getItem('songs');
+    if (songs) {
+      let formattedSongs = JSON.parse(songs);
+      console.log(formattedSongs)
+      return formattedSongs;
+    }
   }
 }
 
