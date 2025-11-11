@@ -1,38 +1,36 @@
 let box = document.getElementById('text-box');
-userInputs = 0;
-document.addEventListener('keyup', (e) => {
-    
-    if(e.key === 'Backspace') {
-        userInput--;
-    }
-    if (box.value.length < 19) {
-        if (Number(e.key) >= 0 && Number(e.key) <= 9 && e.key !== ' ') { 
-            userInput++;
-        }
 
-        else {
-            box.value = box.value.substring(0, box.value.length -1);
-        }
+let letterHasIterated = [];
 
-        if (userInput%4 == 0 && userInput > 0 && userInput < 16) {
-            box.value += '-';
+document.addEventListener('input', (e) => {
+    if (e.data >= '0' && e.data <= '9') {
+        if (box.value.length <= 19) {
+            for (let index = 0; index < box.value.length; index++) {
+                console.log(index)
+                if (index === 4 && box.value[4] !== '-') {
+                    console.log(box.value[4]);
+                    box.value = box.value.substring(0, 4) + '-' + box.value.substring(4);
+                    // box.value[index] += '-'
+                } else if (index === 9 && box.value[9] !== '-') {
+                    console.log(box.value[10])
+                    box.value = box.value.substring(0, 9) + '-' + box.value.substring(9);
+                } else if (index === 14 && box.value[14] !== '-') {
+                    box.value = box.value.substring(0, 14) + '-' + box.value.substring(14);
+                }
+            }
+        } else {
+            box.value = box.value.substring(0, 19)
         }
-
     } else {
-        box.value = box.value.substring(0, 19);
+        let boxValues = box.value.split("");
+        let filteredValues = ""
+        boxValues.forEach(value => {
+            if (value >= 0 && value <= 9) {
+                filteredValues += value;
+            } else if (value === '-') {
+                filteredValues += value;
+            }
+        });
+        box.value = filteredValues;
     }
-    
-    // if (userInputs > 15) {
-    //     box.value = box.value.substring(0, 19);
-    // } 
-    // else {
-    //     if (Number(e.key) >= 0 && Number(e.key) <= 9 && e.key !== ' ') {
-    //         userInputs++;
-    //     }
-    //     if (!(Number(e.key) >= 0 && Number(e.key) <= 9 && e.key !== ' ')) {
-    //         box.value = box.value.substring(0, box.value.length -1);
-    //     } else if (userInputs%4 === 0 && userInputs > 0 && userInputs < 15) {
-    //         box.value += '-';
-    //     }
-    // }
 });
