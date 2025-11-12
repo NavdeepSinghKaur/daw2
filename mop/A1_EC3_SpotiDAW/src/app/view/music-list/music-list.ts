@@ -2,10 +2,11 @@ import { Component, output, Signal, signal, WritableSignal } from '@angular/core
 import { Player } from "../player/player";
 import { AddForm } from "../add-form/add-form";
 import { SONGS } from '../../model/songs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-music-list',
-  imports: [Player, AddForm],
+  imports: [Player, AddForm, FormsModule],
   templateUrl: './music-list.html',
   styleUrl: './music-list.scss',
 })
@@ -17,6 +18,7 @@ export class MusicList {
   description: WritableSignal<string> = signal<string>("");
   songUrl: WritableSignal<string> = signal<string>("");
   protected _openForm: boolean = false;
+  searchEngine: WritableSignal<string> = signal<string>("");
 
   songsToShow = SONGS;
   selectedSong: string | null;
@@ -26,7 +28,18 @@ export class MusicList {
     this.getFromLocalStorage.forEach((element: any) => {
       console.log(element);
       
-      this.songsToShow = element;
+      this.songsToShow.push(
+        {
+          artist: element[0],
+          cover: element[1],
+          description: element[2],
+          favorite: element[3],
+          mp3Url: element[4],
+          title: element[5],
+
+        }
+      );
+      console.log(this.songsToShow);
     });
   }
 
@@ -80,6 +93,11 @@ export class MusicList {
       console.log(formattedSongs)
       return formattedSongs;
     }
+  }
+
+  changeFavoriteImage(song: any) {
+    console.log(song);
+    song.favorite = !song.favorite
   }
 }
 

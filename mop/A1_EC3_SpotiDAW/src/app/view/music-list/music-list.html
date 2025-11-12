@@ -1,11 +1,21 @@
-<input type="text" placeholder="Artista o Títol">
+<input type="text" placeholder="Artista o Títol" [(ngModel)]="searchEngine">
+
+<p>{{searchEngine()}}</p>
 
 @for(song of songsToShow; track song.mp3Url) {
-<div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
-  <img src="assets/like.svg" id="like" height="25px" alt="" srcset="">
-  <h4>{{ song.title }}</h4>
-  <p>{{ song.artist }}</p>
-</div>
+  @if (song.title.toLowerCase().includes(searchEngine().toLowerCase()) ||  song.artist.toLowerCase().includes(searchEngine().toLocaleLowerCase()) ) {
+    <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
+      <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
+      <h4>{{ song.title }}</h4>
+      <p>{{ song.artist }}</p>
+    </div>
+  } @else if (searchEngine() === "") {
+    <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
+      <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
+      <h4>{{ song.title }}</h4>
+      <p>{{ song.artist }}</p>
+    </div>
+  }
 <!-- @if(selectSong !== null) {
         <img src="{{song.cover}}" alt="">
     } -->
