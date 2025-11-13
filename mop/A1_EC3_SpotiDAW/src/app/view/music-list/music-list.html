@@ -1,4 +1,4 @@
-<input type="text" placeholder="Artista o Títol" [(ngModel)]="searchEngine">
+<input type="text" placeholder="Artista o Títol" [(ngModel)]="searchEngine" placeholder="filtrar per cancçó o artista">
 
 <p>{{searchEngine()}}</p>
 
@@ -37,6 +37,7 @@
   [description]="description()"
   [songUrl]="songUrl()"
 ></app-player>
+
 @if (_openForm) {
   <app-add-form (songValues)="addSong($event)"></app-add-form>
 }
