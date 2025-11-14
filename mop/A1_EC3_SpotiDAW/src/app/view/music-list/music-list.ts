@@ -25,22 +25,26 @@ export class MusicList {
 
   constructor() {
     this.selectedSong = null;
-    this.getFromLocalStorage.forEach((element: any) => {
-      console.log(element);
-      
-      this.songsToShow.push(
-        {
-          artist: element[0],
-          cover: element[1],
-          description: element[2],
-          favorite: element[3],
-          mp3Url: element[4],
-          title: element[5],
-
-        }
-      );
-      console.log(this.songsToShow);
-    });
+    this.selectedSong = null;
+    let localStorageSongs = this.getFromLocalStorage;
+    if (localStorageSongs !== null) {
+      localStorageSongs.forEach((element: any) => {
+        console.log(element);
+        
+        this.songsToShow.push(
+          {
+            artist: element[0],
+            cover: element[1],
+            description: element[2],
+            favorite: element[3],
+            mp3Url: element[4],
+            title: element[5],
+  
+          }
+        );
+        console.log(this.songsToShow);
+      });
+    }
   }
 
   selectSong(song: any) {
@@ -92,7 +96,7 @@ export class MusicList {
       let formattedSongs = JSON.parse(songs);
       console.log(formattedSongs)
       return formattedSongs;
-    }
+    } else return null;
   }
 
   changeFavoriteImage(song: any) {

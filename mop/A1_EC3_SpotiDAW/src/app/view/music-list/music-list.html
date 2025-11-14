@@ -1,25 +1,29 @@
-<input type="text" placeholder="Artista o Títol" [(ngModel)]="searchEngine" placeholder="filtrar per cancçó o artista">
+<input type="text" class="form-control w-50" placeholder="Artista o Títol" [(ngModel)]="searchEngine" placeholder="filtrar per cancçó o artista">
 
 <p>{{searchEngine()}}</p>
 
-@for(song of songsToShow; track song.mp3Url) {
-  @if (song.title.toLowerCase().includes(searchEngine().toLowerCase()) ||  song.artist.toLowerCase().includes(searchEngine().toLocaleLowerCase()) ) {
-    <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
-      <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
-      <h4>{{ song.title }}</h4>
-      <p>{{ song.artist }}</p>
-    </div>
-  } @else if (searchEngine() === "") {
-    <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
-      <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
-      <h4>{{ song.title }}</h4>
-      <p>{{ song.artist }}</p>
-    </div>
+<div class="overflow-auto" style="max-height: 50vh; max-width: fit-content;">
+  @for(song of songsToShow; track song.mp3Url) {
+    @if (song.title.toLowerCase().includes(searchEngine().toLowerCase()) ||  song.artist.toLowerCase().includes(searchEngine().toLocaleLowerCase()) ) {
+      <div class="songList d-flex justify-content-between p-3 border rounded" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
+        <div>
+          <h4>{{ song.title }}</h4>
+          <p>{{ song.artist }}</p>
+        </div>
+        <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
+      </div>
+    } @else if (searchEngine() === "") {
+      <!-- <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
+        <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
+        <h4>{{ song.title }}</h4>
+        <p>{{ song.artist }}</p>
+      </div> -->
+    }
+  <!-- @if(selectSong !== null) {
+          <img src="{{song.cover}}" alt="">
+      } -->
   }
-<!-- @if(selectSong !== null) {
-        <img src="{{song.cover}}" alt="">
-    } -->
-}
+</div>
 
 <img
   src="assets/plus-solid-full.svg"
