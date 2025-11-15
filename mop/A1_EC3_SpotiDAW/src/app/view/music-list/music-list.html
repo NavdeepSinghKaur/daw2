@@ -1,28 +1,54 @@
-<input type="text" class="form-control w-50" placeholder="Artista o Títol" [(ngModel)]="searchEngine" placeholder="filtrar per cancçó o artista">
-
-<p>{{searchEngine()}}</p>
-
-<div class="overflow-auto" style="max-height: 50vh; max-width: fit-content;">
-  @for(song of songsToShow; track song.mp3Url) {
-    @if (song.title.toLowerCase().includes(searchEngine().toLowerCase()) ||  song.artist.toLowerCase().includes(searchEngine().toLocaleLowerCase()) ) {
-      <div class="songList d-flex justify-content-between p-3 border rounded" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
-        <div>
+<div class="row">
+  <div class="col-md-6">
+    <input
+      type="text"
+      class="form-control form-control-sm mb-3 my-3 rounded-3"
+      placeholder="Artista o Títol"
+      [(ngModel)]="searchEngine"
+      placeholder="filtrar per cancçó o artista"
+    />
+    <div class="overflow-auto" style="max-height: 50vh">
+      @for(song of songsToShow; track song.mp3Url) { @if
+      (song.title.toLowerCase().includes(searchEngine().toLowerCase()) ||
+      song.artist.toLowerCase().includes(searchEngine().toLocaleLowerCase()) ) {
+      <div
+        class="songList d-flex justify-content-between p-3 mb-3 border rounded-3"
+        (click)="selectSong(song)"
+        [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''"
+      >
+        <div class="me-5">
           <h4>{{ song.title }}</h4>
           <p>{{ song.artist }}</p>
         </div>
-        <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
+        @if (!song.favorite) {
+        <img
+          src="assets/like-icon-like.svg"
+          (click)="changeFavoriteImage(song)"
+          id="like"
+          height="25px"
+        />
+        } @else {
+        <img
+          src="assets/like-icon-liked.svg"
+          (click)="changeFavoriteImage(song)"
+          id="like"
+          height="25px"
+        />
+        }
       </div>
-    } @else if (searchEngine() === "") {
-      <!-- <div class="songList" (click)="selectSong(song)" [style]="selectedSong == song.mp3Url ? 'background: #0096ff;' : ''">
-        <img src="assets/like.svg" (click)="changeFavoriteImage(song)" id="like" height="25px" alt="" srcset="">
-        <h4>{{ song.title }}</h4>
-        <p>{{ song.artist }}</p>
-      </div> -->
-    }
-  <!-- @if(selectSong !== null) {
-          <img src="{{song.cover}}" alt="">
-      } -->
-  }
+      } }
+    </div>
+  </div>
+  <div class="col-md-6">
+    <app-player
+      [songImage]="songImage()"
+      [songTitle]="songTitle()"
+      [artistName]="artistName()"
+      [isFavorite]="isFavorite()"
+      [description]="description()"
+      [songUrl]="songUrl()"
+    ></app-player>
+  </div>
 </div>
 
 <img
@@ -33,15 +59,7 @@
   alt=""
   srcset=""
 />
-<app-player
-  [songImage]="songImage()"
-  [songTitle]="songTitle()"
-  [artistName]="artistName()"
-  [isFavorite]="isFavorite()"
-  [description]="description()"
-  [songUrl]="songUrl()"
-></app-player>
 
 @if (_openForm) {
-  <app-add-form (songValues)="addSong($event)"></app-add-form>
+<app-add-form (songValues)="addSong($event)"></app-add-form>
 }

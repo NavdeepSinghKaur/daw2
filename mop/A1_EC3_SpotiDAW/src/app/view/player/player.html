@@ -1,15 +1,15 @@
-@if (songUrl() !== "") {
-    <img [src]="songImage()" height="100px" alt="" srcset="">
-    @if (songUrl()) {
-        <img src="assets/x.svg" height="25px" alt="" srcset="">
-        <audio controls [src]="songUrl()">
-            <!-- <source > -->
-        </audio>
-    }
-    <h4>{{ songTitle() }}</h4>
-    <p>{{ artistName() }}</p>
-    <p>{{ description() }}</p>
-} @else {
-    <h1>SpotiDAW premium</h1>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/YouTube_Premium_logo.svg/1280px-YouTube_Premium_logo.svg.png" width="400px" alt="">
-}
+    <div class="d-grid">
+        @if (songUrl() !== "") {
+            <img class="close top-0 end-0" src="assets/x.svg" height="25px" alt="" srcset="">
+            <img [src]="songImage()" class="rounded-3" height="300px" alt="" srcset="">
+            <audio controls [src]="songUrl()"></audio>
+            <h4>{{ songTitle() }}</h4>
+            <p>{{ artistName() }}</p>
+            <p>{{ description() }}</p>
+        } @else {
+            <div>
+                <h1>SpotiDAW premium</h1>
+                <img src="assets/logo.svg" class="rounded-3" width="400px" alt="">
+            </div>
+        }
+    </div>

@@ -1,6 +1,8 @@
 .songList {
     border: 1px solid black;
-    width: 50vw;
+    // width: 50vw;
+
+    transition: background 0.2s ease-in-out;
 }
 
 .songList:hover {
@@ -28,9 +30,5 @@
 }
 
 #like:hover {
-    background-color: rgb(206, 206, 206);
-}
-
-#like:active {
-    background: black;
+    cursor: pointer;
 }
