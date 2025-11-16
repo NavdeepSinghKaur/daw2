@@ -13,7 +13,7 @@
             
             <button class="btn p-0" (click)="changeFavoriteImage()" aria-label="Toggle favorite status">
                 @if (!song()?.favorite) {
-                    <img src="assets/like-icon-like.svg" height="25px" alt="Like">
+                    <img src="assets/like-icon-like.svg" class="like-icon-like" height="25px" alt="Like">
                 } @else {
                     <img src="assets/like-icon-liked.svg" height="25px" alt="Liked">
                 }

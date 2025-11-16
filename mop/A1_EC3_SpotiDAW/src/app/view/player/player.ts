@@ -14,7 +14,7 @@ export class Player {
   constructor() {
   }
 
-  changeFavoriteImage() {
+  changeFavoriteImage(): void {
     if (this.song() !== null) {
       this.favoriteChange.emit(this.song());
     }

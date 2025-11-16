@@ -26,7 +26,7 @@ export class AddForm {
   
   constructor() {}
 
-  protected addSong() {
+  protected addSong(): void {
     this.songValues.emit(this.song());
   }
 
@@ -41,7 +41,7 @@ export class AddForm {
     });
   }
   
-  cancel() {
+  cancel(): void {
     this.exitScreen.emit(true);
   }
 

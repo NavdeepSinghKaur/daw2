@@ -12,42 +12,28 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MusicList {
-  song: WritableSignal<MusicType | null> = signal({
-    title: '',
-    artist: '',
-    favorite: false,
-    description: '',
-    mp3Url: '',
-    cover: ''
-  });
-  
-  
-
   protected _openForm: boolean = false;
-  searchEngine: WritableSignal<string> = signal<string>("");
+  searchEngine: WritableSignal<string>;
 
   songsToShow: WritableSignal<MusicType[]>;
-  selectedSong: WritableSignal<string | null> = signal(null);
+  selectedSong: WritableSignal<MusicType | null>;
 
   constructor() {
-    this.selectedSong.set(null);
-    // this.selectedSong = null;
+    this.searchEngine = signal<string>("");
+    this.selectedSong = signal(null);
     let localStorageSongs = this.getFromLocalStorage;
     if (localStorageSongs !== null) {
       SONGS.forEach((song: MusicType) => {
-        // console.log(song);
+  
         let skipSong = false;
 
         localStorageSongs.forEach((storedSong: MusicType) => {
           if (this.compare(song, storedSong)) {
-            console.log(song)
-            console.log(storedSong)
             skipSong = true
           }
         });
 
         if (!skipSong) {
-          console.log("saving", song)
           this.saveToLocalStorage(song)
         }
       });
@@ -56,11 +42,10 @@ export class MusicList {
     }
 
     this.songsToShow = signal(this.getFromLocalStorage);
-    console.log(this.songsToShow());
   }
 
-  selectSong(song: any) {
-    this.song.set({
+  selectSong(song: MusicType) {
+    this.selectedSong.set({
       title: song.title,
       cover: song.cover,
       artist: song.artist,
@@ -69,22 +54,19 @@ export class MusicList {
       mp3Url: song.mp3Url,
     })
 
-    this.selectedSong.set(song.mp3Url);
-    console.log(song.mp3Url)
   }
 
-  openForm() {
+  closeOpenForm(): void {
     this._openForm = !this._openForm;
   }
 
-  addSong(songInfo: any) {
-    console.log(songInfo);
+  addSong(songInfo: MusicType): void {
     this.saveToLocalStorage(songInfo);
     this.songsToShow.update(songs => [...songs, songInfo]);
   }
   
 
-  saveToLocalStorage(data: MusicType) {
+  saveToLocalStorage(data: MusicType): void {
     let storedSongs = localStorage.getItem('songs');
     let formattedSongs;
     if (storedSongs !== null) {
@@ -114,11 +96,7 @@ export class MusicList {
     return null;
   }
 
-  changeFavoriteImage(song: any) {
-    console.log('kjkjkjkjk')
-    console.log(song);
-    
-    // song.favorite.update(!song.favorite);
+  changeFavoriteImage(song: any): void {
     this.songsToShow.update((songs: MusicType[]) => {
       return songs.map(arrSong => {
 
@@ -130,13 +108,15 @@ export class MusicList {
       });
     });
     
-    console.log(this.songsToShow)
+    if (this.compare(this.selectedSong()!, song)) {
+      this.selectedSong.set({ ...this.selectedSong()!, favorite: !this.selectedSong()!.favorite });
+    }
+    
     localStorage.setItem('songs', JSON.stringify(this.songsToShow()))
   }
 
-  close() {
+  close(): void {
     this.selectedSong.set(null);
-    this.song.set(null)
   }
 
   private compare(song1: MusicType, song2: MusicType): boolean {
@@ -147,10 +127,6 @@ export class MusicList {
       && song1.mp3Url === song2.mp3Url
       && song1.title === song2.title
     )
-  }
-
-  closeForm() {
-    this._openForm = !this._openForm
   }
   
 }
