@@ -1,31 +1,22 @@
-import { Component, input, Signal } from '@angular/core';
-import { MusicList } from "../music-list/music-list";
-
+import { ChangeDetectionStrategy, Component, input, output, OutputEmitterRef } from '@angular/core';
+import { MusicType } from '../music-list/music-list';
 @Component({
   selector: 'app-player',
   imports: [],
   templateUrl: './player.html',
   styleUrl: './player.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Player {
-  songImage = input();
-  artistName = input();
-  songTitle = input();
-  isFavorite = input();
-  description = input();
-  songUrl = input<string>();
-  pathOfSong = this.songUrl();
-
+  song = input.required<MusicType | null>();
+  favoriteChange: OutputEmitterRef<MusicType | null> = output<MusicType | null>();
+  
   constructor() {
   }
-}
 
-
-interface MusicType {
-  title: string,
-  artist: string,
-  favorite: boolean,
-  description: string,
-  mp3Url: string,
-  cover: string
+  changeFavoriteImage() {
+    if (this.song() !== null) {
+      this.favoriteChange.emit(this.song());
+    }
+  }
 }

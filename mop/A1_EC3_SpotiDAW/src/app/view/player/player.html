@@ -1,15 +1,30 @@
-    <div class="d-grid">
-        @if (songUrl() !== "") {
-            <img class="close top-0 end-0" src="assets/x.svg" height="25px" alt="" srcset="">
-            <img [src]="songImage()" class="rounded-3" height="300px" alt="" srcset="">
-            <audio controls [src]="songUrl()"></audio>
-            <h4>{{ songTitle() }}</h4>
-            <p>{{ artistName() }}</p>
-            <p>{{ description() }}</p>
-        } @else {
+<div class="player-main-div d-grid gap-3 px-4 mx-auto">
+    @if (song() !== null) {        
+
+        <img [src]="song()?.cover ? song()?.cover : 'assets/using-colors2.svg'" height="300px" class="rounded-3 shadow m-auto">
+        
+        <audio class="w-100 shadow-sm rounded-3" controls [src]="song()?.mp3Url" aria-label="Audio player"></audio>
+        
+        <div class="d-flex justify-content-between align-items-center mt-2">
             <div>
-                <h1>SpotiDAW premium</h1>
-                <img src="assets/logo.svg" class="rounded-3" width="400px" alt="">
+                <h4 class="mb-0">{{ song()?.title }}</h4>
+                <p class="text-muted mb-0">{{ song()?.artist }}</p>
             </div>
-        }
-    </div>
+            
+            <button class="btn p-0" (click)="changeFavoriteImage()" aria-label="Toggle favorite status">
+                @if (!song()?.favorite) {
+                    <img src="assets/like-icon-like.svg" height="25px" alt="Like">
+                } @else {
+                    <img src="assets/like-icon-liked.svg" height="25px" alt="Liked">
+                }
+            </button>
+        </div>
+
+        <p class="text-secondary mt-3">{{ song()?.description }}</p>
+    } @else {
+        <div class="text-center p-5 h-100">
+            <h1 class="display-6 text-center text-secondary mb-4 fw-bold">SpotiDAW Premium</h1>
+            <img src="assets/logo.svg" class="img-fluid rounded-3 mt-3">
+        </div>
+    }
+</div>

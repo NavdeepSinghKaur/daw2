@@ -15,18 +15,20 @@ form.addEventListener('submit', (e) => {
     if (email.value.includes("@")) {
         let nameVar = email.value.split("@")[0];
         let mailName = email.value.split("@")[1];
-        console.log(mailName.length <= 2)
-        if (nameVar.length >= 1 || mailName.length >= 2) {
-            if (mailName.includes('.')) {
-                let domain = mailName.split(".")[1];
-                if (domain.length >= 2) {
-                    isValidMail = true
-                }
+
+        if (
+            nameVar.length >= 1 
+            && mailName.length >= 2 
+            && mailName.includes('.')
+        ) {
+            let domain = mailName.split(".")[1];
+            if (domain.length >= 2) {
+                isValidMail = true
             }
         }
     }
 
-    if (!isValidMail){
+    if (!isValidMail) {
         resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">Correu amb format invàlid</p>')
     }
     
@@ -46,9 +48,14 @@ form.addEventListener('submit', (e) => {
         isValidPassword = false;
         resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">El password ha de contenir mínim 2 majúscules</p>');
     }
-    if (pass1.value.length < 9 || pass2.value.length < 9 || pass1.value != pass2.value || pass2.value.length !== pass1.value.length) {
+    if (pass1.value.length < 9 || pass2.value.length < 9 ) {
         isValidPassword = false;
         resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">Longitud mínima del password 9</p>');
+    }
+    if (pass1.value != pass2.value || pass2.value.length !== pass1.value.length) {
+        isValidPassword = false;
+        resultBox.insertAdjacentHTML('beforeend', '<p style="color:red">Password 1 i 2 no coincideixen</p>');
+
     }
     if (isValidMail && isValidPassword) {
         resultBox.insertAdjacentHTML('beforeend', '<p style="color: green">Dades de registre correctes</p>')

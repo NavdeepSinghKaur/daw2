@@ -1,38 +1,50 @@
-import { Component, output, Output, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MusicType } from '../music-list/music-list';
 
 @Component({
   selector: 'app-add-form',
   imports: [FormsModule],
   templateUrl: './add-form.html',
   styleUrl: './add-form.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddForm {
-  songTitle: WritableSignal<string> = signal<string>('');
-  songImage: WritableSignal<string> = signal<string>('');
-  artistName: WritableSignal<string> = signal<string>('');
-  isFavorite: WritableSignal<boolean> = signal<boolean>(false);
-  description: WritableSignal<string> = signal<string>('');
-  songUrl: WritableSignal<string> = signal<string>('');
+  song: WritableSignal<MusicType> = signal<MusicType>({
+    title: '',
+    artist: '',
+    description: '',
+    cover: '',
+    favorite: false,
+    mp3Url: '',
+  });
 
-  songValues = output<[string, string, string, boolean, string, string]>();
+  exitScreen: OutputEmitterRef<boolean> = output<boolean>();
 
+  
+  songValues = output<MusicType>();
+  
   constructor() {}
 
   protected addSong() {
-    this.songValues.emit([
-      this.songTitle(),
-      this.songImage(),
-      this.artistName(),
-      this.isFavorite(),
-      this.description(),
-      this.songUrl(),
-    ]);
-    console.log(this.songTitle());
-    console.log(this.songImage());
-    console.log(this.artistName());
-    console.log(this.isFavorite());
-    console.log(this.description());
-    console.log(this.songUrl());
+    this.songValues.emit(this.song());
   }
+
+  protected cleanInput() {
+    this.song.set({
+      title: '',
+      artist: '',
+      description: '',
+      cover: '',
+      favorite: false,
+      mp3Url: '',
+    });
+  }
+  
+  cancel() {
+    this.exitScreen.emit(true);
+  }
+
 }
+
+

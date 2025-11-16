@@ -1,4 +1,4 @@
-import { Component, output, Signal, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, WritableSignal } from '@angular/core';
 import { Player } from "../player/player";
 import { AddForm } from "../add-form/add-form";
 import { SONGS } from '../../model/songs';
@@ -9,53 +9,67 @@ import { FormsModule } from '@angular/forms';
   imports: [Player, AddForm, FormsModule],
   templateUrl: './music-list.html',
   styleUrl: './music-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MusicList {
-  songTitle: WritableSignal<string> = signal<string>("");
-  songImage: WritableSignal<string> = signal<string>("");
-  artistName: WritableSignal<string> = signal<string>("");
-  isFavorite: WritableSignal<boolean> = signal<boolean>(false);
-  description: WritableSignal<string> = signal<string>("");
-  songUrl: WritableSignal<string> = signal<string>("");
+  song: WritableSignal<MusicType | null> = signal({
+    title: '',
+    artist: '',
+    favorite: false,
+    description: '',
+    mp3Url: '',
+    cover: ''
+  });
+  
+  
+
   protected _openForm: boolean = false;
   searchEngine: WritableSignal<string> = signal<string>("");
 
-  songsToShow = SONGS;
-  selectedSong: string | null;
+  songsToShow: WritableSignal<MusicType[]>;
+  selectedSong: WritableSignal<string | null> = signal(null);
 
   constructor() {
-    this.selectedSong = null;
-    this.selectedSong = null;
+    this.selectedSong.set(null);
+    // this.selectedSong = null;
     let localStorageSongs = this.getFromLocalStorage;
     if (localStorageSongs !== null) {
-      localStorageSongs.forEach((element: any) => {
-        console.log(element);
-        
-        this.songsToShow.push(
-          {
-            artist: element[0],
-            cover: element[1],
-            description: element[2],
-            favorite: element[3],
-            mp3Url: element[4],
-            title: element[5],
-  
+      SONGS.forEach((song: MusicType) => {
+        // console.log(song);
+        let skipSong = false;
+
+        localStorageSongs.forEach((storedSong: MusicType) => {
+          if (this.compare(song, storedSong)) {
+            console.log(song)
+            console.log(storedSong)
+            skipSong = true
           }
-        );
-        console.log(this.songsToShow);
+        });
+
+        if (!skipSong) {
+          console.log("saving", song)
+          this.saveToLocalStorage(song)
+        }
       });
+    } else {
+      localStorage.setItem('songs', JSON.stringify(SONGS));
     }
+
+    this.songsToShow = signal(this.getFromLocalStorage);
+    console.log(this.songsToShow());
   }
 
   selectSong(song: any) {
-    this.songTitle.set(song.title);
-    this.songImage.set(song.cover);
-    this.artistName.set(song.artist);
-    this.isFavorite.set(song.favorite);
-    this.description.set(song.description);
-    this.songUrl.set(song.mp3Url);
+    this.song.set({
+      title: song.title,
+      cover: song.cover,
+      artist: song.artist,
+      favorite: song.favorite,
+      description: song.description,
+      mp3Url: song.mp3Url,
+    })
 
-    this.selectedSong = song.mp3Url;
+    this.selectedSong.set(song.mp3Url);
     console.log(song.mp3Url)
   }
 
@@ -66,50 +80,86 @@ export class MusicList {
   addSong(songInfo: any) {
     console.log(songInfo);
     this.saveToLocalStorage(songInfo);
+    this.songsToShow.update(songs => [...songs, songInfo]);
   }
   
 
-  saveToLocalStorage(data: any[]) {
-    let storedSongs: string | null = localStorage.getItem('songs');
+  saveToLocalStorage(data: MusicType) {
+    let storedSongs = localStorage.getItem('songs');
+    let formattedSongs;
     if (storedSongs !== null) {
-      let songsList: any = JSON.parse(storedSongs);
-      songsList.push(data);
-      localStorage.setItem('songs', JSON.stringify(songsList));
-    } else {
-      localStorage.setItem('songs', JSON.stringify([data]));
+      formattedSongs = JSON.parse(storedSongs);
     }
-    
-    this.songsToShow.push({
-      'title': data[0],
-      'artist': data[1],
-      'favorite': data[2],
-      'description': data[3],
-      'mp3Url': data[4],
-      'cover': data[5]
+
+    let saveSong = true;
+    formattedSongs.forEach((song: MusicType) => {
+      if (this.compare(song, data)) {
+        saveSong = false
+      }
     });
-    console.log(this.songsToShow);
+    if (saveSong) {
+      formattedSongs.push(data);
+      localStorage.setItem('songs', JSON.stringify(formattedSongs));
+    }
+    this._openForm = false;
   }
 
   get getFromLocalStorage() {
     let songs = localStorage.getItem('songs');
     if (songs) {
       let formattedSongs = JSON.parse(songs);
-      console.log(formattedSongs)
       return formattedSongs;
-    } else return null;
+    } 
+    
+    return null;
   }
 
   changeFavoriteImage(song: any) {
+    console.log('kjkjkjkjk')
     console.log(song);
-    song.favorite = !song.favorite
+    
+    // song.favorite.update(!song.favorite);
+    this.songsToShow.update((songs: MusicType[]) => {
+      return songs.map(arrSong => {
+
+        if (this.compare(arrSong, song)) {
+          return { ...arrSong, favorite: !arrSong.favorite };
+        }
+
+        return arrSong;
+      });
+    });
+    
+    console.log(this.songsToShow)
+    localStorage.setItem('songs', JSON.stringify(this.songsToShow()))
   }
+
+  close() {
+    this.selectedSong.set(null);
+    this.song.set(null)
+  }
+
+  private compare(song1: MusicType, song2: MusicType): boolean {
+    return (
+      song1.artist === song2.artist
+      && song1.cover === song2.cover
+      && song1.description === song2.description
+      && song1.mp3Url === song2.mp3Url
+      && song1.title === song2.title
+    )
+  }
+
+  closeForm() {
+    this._openForm = !this._openForm
+  }
+  
 }
 
-// interface MusicType {
-//   title: string,
-//   artist: string,
-//   favorite: boolean,
-//   description: string,
-//   mp3Url: string,
-//   cover: string
-// }
+export interface MusicType {
+  title: string,
+  artist: string,
+  favorite: boolean,
+  description: string,
+  mp3Url: string,
+  cover: string
+}
