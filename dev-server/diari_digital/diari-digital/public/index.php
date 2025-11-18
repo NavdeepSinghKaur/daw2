@@ -1,3 +1,12 @@
+<?php
+ini_set('display_errors', 1);
+echo (__DIR__ . '/../src/controllers/ArticleController.php') . '<br>';
+echo (file_exists(__DIR__ . '/../src/controllers/ArticleController.php') ? 'YES' : 'NO') . '<br>';
+require_once __DIR__ . '/../src/controllers/ArticleController.php';
+
+$articles = getArticle();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,5 +25,12 @@
     <h1>DIARI DIGITAL</h1>
     <div id="articles"></div>
     <script src="./assets/js/main.js"></script>
+
+    <div id="articles">
+        <h1>Articles</h1>
+        <?php
+
+        ?>
+    </div>
 </body>
 </html>

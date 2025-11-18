@@ -108,9 +108,7 @@ export class MusicList {
       });
     });
     
-    if (this.compare(this.selectedSong()!, song)) {
-      this.selectedSong.set({ ...this.selectedSong()!, favorite: !this.selectedSong()!.favorite });
-    }
+    this.selectedSong.set({ ...this.selectedSong()!, favorite: !this.selectedSong()!.favorite });
     
     localStorage.setItem('songs', JSON.stringify(this.songsToShow()))
   }

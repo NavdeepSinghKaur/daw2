@@ -1,2 +1,2 @@
-RewriteEngine On
-Deny from all
+# RewriteEngine On
+# Deny from all

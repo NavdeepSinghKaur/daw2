@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulari registre</title>
+    <title>Formulari login</title>
     <link rel="stylesheet" href="assets/css/login.css">
   </head>
   <body>
     <div class="app">
       <div class="form">
-        <h1>Pagina registre</h1>
-        <form id="register_user">
+        <h1>Pagina login</h1>
+        <form id="register_user" action="../src/LoginController.php" method="post">
           <label for="">Usuari</label>
           <input
             type="text"
