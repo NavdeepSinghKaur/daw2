@@ -39,7 +39,7 @@
       } }
     </div>
   </div>
-  @if (_openForm) {
+  @if (openForm) {
     <div class="col-md-6">
       <app-add-form (songValues)="addSong($event)" (exitScreen)="closeOpenForm()"></app-add-form>
     </div>

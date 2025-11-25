@@ -1,7 +1,0 @@
-# Per poder sobreescriure
-RewriteEngine On
-
-# Bloquejar aquest arxiu
-<Files ".htaccess">
-    Require all denied
-</Files>

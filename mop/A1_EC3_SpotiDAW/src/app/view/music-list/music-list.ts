@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MusicList {
-  protected _openForm: boolean = false;
+  protected openForm: boolean = false;
   searchEngine: WritableSignal<string>;
 
   songsToShow: WritableSignal<MusicType[]>;
@@ -45,19 +45,14 @@ export class MusicList {
   }
 
   selectSong(song: MusicType) {
-    this.selectedSong.set({
-      title: song.title,
-      cover: song.cover,
-      artist: song.artist,
-      favorite: song.favorite,
-      description: song.description,
-      mp3Url: song.mp3Url,
-    })
+    this.selectedSong.set(
+      song
+    )
 
   }
 
   closeOpenForm(): void {
-    this._openForm = !this._openForm;
+    this.openForm = !this.openForm;
   }
 
   addSong(songInfo: MusicType): void {
@@ -83,7 +78,7 @@ export class MusicList {
       formattedSongs.push(data);
       localStorage.setItem('songs', JSON.stringify(formattedSongs));
     }
-    this._openForm = false;
+    this.openForm = false;
   }
 
   get getFromLocalStorage() {
@@ -124,7 +119,7 @@ export class MusicList {
       && song1.description === song2.description
       && song1.mp3Url === song2.mp3Url
       && song1.title === song2.title
-    )
+    );
   }
   
 }

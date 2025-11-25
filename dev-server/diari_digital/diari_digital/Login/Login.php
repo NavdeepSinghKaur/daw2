@@ -3,31 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulari registre</title>
+    <title>Formulari login</title>
     <link rel="stylesheet" href="assets/css/login.css">
   </head>
   <body>
     <div class="app">
       <div class="form">
-        <h1>Pagina registre</h1>
-        <form id="register_user">
+        <h1>Pagina login</h1>
+        <form id="register_user" action="LoginHandler.php" method="post">
           <label for="">Usuari</label>
           <input
             type="text"
-            name="email"
-            id="email"
+            name="name"
+            id="name"
             placeholder="john@doe.com"
           />
 
-          <label for="password1">Password 1</label>
-          <input type="password" name="password1" id="password1" />
-
-          <label for="password2">Password 2</label>
-          <input type="password" name="password2" id="password2" />
+          <label for="password">Contrasenya</label>
+          <input type="password" name="password" id="password" />
 
           <button type="submit">Registrar</button>
         </form>
-        <a href="login.php">Tens compte? Inicia sessió</a>
+        <a href="../Register.php">No tens compte? Registra't</a>
       </div>
     </div>
     <div id="result"></div>
