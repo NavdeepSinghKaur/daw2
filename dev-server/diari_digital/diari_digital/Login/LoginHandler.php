@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $userEmail = $_POST['name'];
 $passwd = $_POST['password'];
 
@@ -7,11 +7,15 @@ echo $name;
 require_once __DIR__ . '/../QueryController.php';
 $controller = new QueryController();
 
-print_r($controller->loginUser($userEmail, $passwd));
+$logged = $controller->loginUser($userEmail, $passwd);
+if ($logged === true) {
+
+    header('Location: /diari_digital/index.php');
+}
 
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,4 +25,4 @@ print_r($controller->loginUser($userEmail, $passwd));
 <body>
     <h1>Iniciant sessió</h1>
 </body>
-</html>
+</html> -->

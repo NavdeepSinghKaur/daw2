@@ -2,7 +2,8 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SESSION['level'] >= 10) {
-?>
+    global $userId;
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SESSION['level'] >= 10) {
 <body>
     <h1>Configuració</h1>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia repellendus saepe exercitationem vero unde eum et quas modi neque! Voluptas autem accusamus eos dolorem hic, rem nobis magnam nihil odio.</p>
+    <?php
+    echo ($_SESSION['userId']);
+    ?>
 </body>
 </html>
 <?php

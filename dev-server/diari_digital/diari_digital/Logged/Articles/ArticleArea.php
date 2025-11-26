@@ -8,6 +8,7 @@ if ($_SESSION['level'] < 20) {
     return http_response_code(403);
 }
 
+require_once __DIR__ . '/../../QueryController.php';
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +19,8 @@ if ($_SESSION['level'] < 20) {
     <title>Àrea d'articles</title>
 </head>
 <body>
-    Hacer un select de la tabla de articulos si el usuairo es de 20 de sólo él.
+    
+    <!-- Hacer un select de la tabla de articulos si el usuairo es de 20 de sólo él.
     Si el usuario es de 30 pues él y todos los del 20 (haciendo un inner join simple)
     Si es de 40 pues todos
 
@@ -28,8 +30,24 @@ if ($_SESSION['level'] < 20) {
     oportunidad de editar el text o el titulo y guardar los cambios.
 
     La opción de borrar será la más sencilla ya que es un botón y una comprobación
-    (el id del articulo)
-    
-    <button type="button">Crear article</button>
+    (el id del articulo) -->
+    <?php
+        $queryController = new QueryController();
+
+        if ($_SESSION['level'] >= 30) {
+            $articles = $queryController->getAllArticles();
+        } else if ($_SESSION['level'] == 20) {
+            $articles = $queryController->getUserArticles();
+        }
+
+        foreach($articles as $article) {
+            print_r($article);
+            echo ("<br>");
+            echo("<a href=\"\">Eliminar article</a>");
+            echo("<a href=\"\">Editar article</a>");
+            echo("<br>");
+        }
+    ?>
+    <a type="button" href="CreateArticle.php">Crear article</a>
 </body>
 </html>

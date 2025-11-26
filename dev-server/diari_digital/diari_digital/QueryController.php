@@ -13,14 +13,16 @@ class QueryController
     {
     }
     
-    public function printEverything() 
+    public function printAllUsers() 
     {
         global $pdo;
-        $sql = "SELECT * FROM User";
+        $sql = "SELECT username, email, permission FROM User";
 
         $stmt = $pdo->query($sql);
 
-        return $stmt->fetchAll();
+        $result = $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     function getArticle() 
@@ -50,7 +52,7 @@ class QueryController
     function loginUser($name, $passwd) 
     {
         global $pdo;
-        $sql = "SELECT email, userPassword FROM User WHERE email = ?";
+        $sql = "SELECT * FROM User WHERE email = ?";
         $stmt = $pdo->prepare($sql);
         echo $sql;
         $stmt->execute([$name]);
@@ -64,21 +66,62 @@ class QueryController
         }
 
         if (password_verify($passwd, $storedUser['userPassword'])) {
-            http_response_code(404);
+            // http_response_code(404);
+            $_SESSION['userId'] = $storedUser['id'];
+            $_SESSION['level'] = $storedUser['permission'];
+            
+            return true;
+
         } else {
             http_response_code(403);
         }
 
     }
     
-    function getArticles($level)
+    function getUserArticles()
     {
         global $pdo;
 
-        if ($level === 20) {
-            $sql = "SELECT A.id, A.title, A.article, U.username FROM Article A INNER JOIN User U ON A.userId = U.id ORDER BY A.id DESC;";
+        $sql = "SELECT * FROM Article A WHERE A.userId = ?;";
 
-            $stmt = $pdo->prepare($sql);
-        }
+        $stmt = $pdo->prepare($sql);
+
+        $result = $stmt->execute([$_SESSION['userId']]);
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function getAllArticles()
+    {
+        global $pdo;
+
+        $sql = "SELECT * FROM Article;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    function addUser($userName, $userEmail, $userPassword, $userLevel)
+    {
+        global $pdo;
+        
+        $sql = "INSERT INTO User (username, email, userPassword, persmission) VALUES (?, ?, ?, ?)";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$userName, $userEmail, $userPassword, $userLevel]);
+        
+    }
+
+    function createArticle($title, $article)
+    {
+        global $pdo;
+
+        $sql = "INSERT INTO Article (userId, title, article) VALUES (?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        
+        $stmt->execute([$_SESSION['userId'], $title, $article]);
+
+        // para sabe rque usuario ha creado el articulo, usar una variable global donde se alamacenarà el id del usuario
     }
 }

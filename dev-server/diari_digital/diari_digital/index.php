@@ -1,16 +1,15 @@
 <?php
 session_start();
 ini_set('display_errors', 1);
-// error_reporting(E_ALL);
+error_reporting(E_ALL);
 define('APP_CODE_WPDKJDLOXHN', "7c1a52882a913a3ad0fe67ebfe220659c4621a8828432350aec45cfa7d40dbc6");
 print_r ($_SESSION);
 include_once __DIR__ . '/QueryController.php';
 
 $queries = new QueryController();
-$users = $queries->printEverything();
+$users = $queries->printAllUsers();
 $articles = $queries->getArticle();
 
-// print_r($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -23,8 +22,14 @@ $articles = $queries->getArticle();
 <body>
     <header>
         <ul>
-            <li><a href="Login/Login.php">Iniciar sessió</a></li>
-            <li><a href="Register.php">Registrar-se</a></li>
+            <?php
+            if (!isset($_SESSION['level'])) {
+            ?>
+                <li><a href="Login/Login.php">Iniciar sessió</a></li>
+                <li><a href="Register.php">Registrar-se</a></li>
+            <?php
+            }
+            ?>
             <?php
             if (isset($_SESSION['level'])) {
                 if ($_SESSION['level'] >= 10) {
@@ -33,9 +38,16 @@ $articles = $queries->getArticle();
                     echo ("<li><a href=\"Logged/Shared/FavoriteArticles.php\">Articles preferits</a></li>");
                     echo ("<li><a href=\"Logged/Shared/Settings.php\">Configuració</a></li>");
                 }
+                if ($_SESSION['level'] >= 20) {
+                    echo ("<li><a href=\"Logged/Articles/ArticleArea.php\">Gestionar articles</a></li>");
+                }
+            }
+            if (isset($_SESSION['level'])) {
+                if ($_SESSION['level'] >= 30) {
+                    echo ("<li><a href=\"Logged/Users/UserAdminArea.php\">Gestionar usuaris</a></li>");
+                }
             }
             ?>
-            <li></li>
         </ul>
     </header>
     <h1>DIARI DIGITAL</h1>
