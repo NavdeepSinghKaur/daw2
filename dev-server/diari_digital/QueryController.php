@@ -37,12 +37,15 @@ class QueryController
         return $results;
     }
 
-    function registerUser($name, $email, $passwd) 
+    function registerUser($name, $email, $passwd, $level = null) 
     {
         global $pdo;
         $hashedPasswd = password_hash($passwd, PASSWORD_DEFAULT);
-
-        $sql = "INSERT INTO User (username, email, userpassword, permission) VALUES (?, ?, ?, 10)";
+        if ($level !== null) {
+            $sql = "INSERT INTO User (username, email, userpassword, permission) VALUES (?, ?, ?, $level)";
+        } else {
+            $sql = "INSERT INTO User (username, email, userpassword, permission) VALUES (?, ?, ?, 10)";
+        }
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$name, $email, $hashedPasswd]);
@@ -123,5 +126,64 @@ class QueryController
         $stmt->execute([$_SESSION['userId'], $title, $article]);
 
         // para sabe rque usuario ha creado el articulo, usar una variable global donde se alamacenarà el id del usuario
+    }
+
+    function getArticleData($articleId)
+    {
+        global $pdo;
+
+        $sql = "SELECT userId FROM Article WHERE id = ?";
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute([$articleId]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function deleteArticle($articleId)
+    {
+        global $pdo;
+        
+        $sql = "DELETE FROM Article WHERE id = ?";
+        
+        $stmt = $pdo->prepare($sql);
+        
+        echo( $stmt->execute([$articleId]));
+
+    }
+
+    function deleteUser($userId)
+    {
+        global $pdo;
+
+        $sql = "DELETE FROM User WHERE id = ?";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([$userId]);
+    }
+
+    function editArticle($articleId, $newTitle, $newArticle)
+    {
+        global $pdo;
+        
+        $sql = "UPDATE Article SET title = ?, article = ? WHERE id = ?";
+        
+        $stmt = $pdo->prepare($sql);
+        
+        return $stmt->execute([$newTitle, $newArticle, $articleId]);
+
+    }
+
+    function changeUserLevel($userId, $newLevel)
+    {
+        global $pdo;
+
+        $sql = "UPDATE User SET permission = ? WHERE id = ?";
+
+        $stmt = $pdo->prepare($sql);
+
+        return $stmt->execute([$newLevel, $userId]);
     }
 }

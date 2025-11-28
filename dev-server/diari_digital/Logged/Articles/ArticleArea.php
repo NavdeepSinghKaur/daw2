@@ -9,6 +9,7 @@ if ($_SESSION['level'] < 20) {
 }
 
 require_once __DIR__ . '/../../QueryController.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +44,8 @@ require_once __DIR__ . '/../../QueryController.php';
         foreach($articles as $article) {
             print_r($article);
             echo ("<br>");
-            echo("<a href=\"\">Eliminar article</a>");
-            echo("<a href=\"\">Editar article</a>");
+            echo("<a href=\"Delete/DeleteArticle.php?id=$article[id] \">Eliminar article</a>");
+            echo("<a href=\"Edit/EditArticle.php?id=$article[id]&title=$article[title]&article=$article[article]\">Editar article</a>");
             echo("<br>");
         }
     ?>

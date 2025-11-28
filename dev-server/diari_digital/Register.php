@@ -1,7 +1,11 @@
 <?php
+session_start();
 ini_set('display_errors', 1);
 define('APP_CODE_WPDKJDLOXHN', "7c1a52882a913a3ad0fe67ebfe220659c4621a8828432350aec45cfa7d40dbc6");
 
+if (isset($_SESSION['level'])) {
+  header('Location: /diari_digital/index.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

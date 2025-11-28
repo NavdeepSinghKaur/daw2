@@ -7,7 +7,7 @@ if (!isset($_SESSION['level']) || $_SERVER['REQUEST_METHOD'] !== 'GET') {
     die;
 }
 
-if ($_SESSION['level'] < 30) {
+if ($_SESSION['level'] !== 40) {
     http_response_code(403);
     echo ("FORBIDDEN");
     die;    
@@ -30,7 +30,14 @@ require_once __DIR__ . '/../../QueryController.php';
 
         $userList = $queryController->printAllUsers();
 
-        print_r($userList);
+        foreach($userList as $user) {
+            print_r($user);
+            echo("<br>");
+            echo("<a>Eliminar</a>");
+            echo("<a>Canviar permisos</a>");
+        }
     ?>
+
+    <a href="CreateUser.php">Crear nou usuari</a>
 </body>
 </html>

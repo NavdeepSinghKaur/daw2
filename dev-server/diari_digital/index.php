@@ -41,10 +41,10 @@ $articles = $queries->getArticle();
                 if ($_SESSION['level'] >= 20) {
                     echo ("<li><a href=\"Logged/Articles/ArticleArea.php\">Gestionar articles</a></li>");
                 }
-            }
-            if (isset($_SESSION['level'])) {
-                if ($_SESSION['level'] >= 30) {
-                    echo ("<li><a href=\"Logged/Users/UserAdminArea.php\">Gestionar usuaris</a></li>");
+                if (isset($_SESSION['level'])) {
+                    if ($_SESSION['level'] >= 30) {
+                        echo ("<li><a href=\"Logged/Users/UserAdminArea.php\">Gestionar usuaris</a></li>");
+                    }
                 }
             }
             ?>

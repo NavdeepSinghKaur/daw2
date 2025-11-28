@@ -17,7 +17,7 @@ $ArticleTable = "CREATE TABLE IF NOT EXISTS Article (
     userId INT NOT NULL,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     -- FOREIGN KEY (userId) REFERENCES User(id),
-    title VARCHAR(200),
+    title VARCHAR(200) NOT NULL,
     article TEXT NOT NULL
 );";
 

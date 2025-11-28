@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+
+if (isset($_SESSION['level'])) {
+  header('Location: /diari_digital/index.php');
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
