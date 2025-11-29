@@ -1,4 +1,5 @@
 <?php
+
 // $code = "7c1a52882a913a3ad0fe67ebfe220659c4621a8828432350aec45cfa7d40dbc6";
 // if (!defined('APP_CODE_WPDKJDLOXHN') || APP_CODE_WPDKJDLOXHN !== $code) {
 //     return http_response_code(403);
@@ -16,11 +17,11 @@ class QueryController
     public function printAllUsers() 
     {
         global $pdo;
-        $sql = "SELECT username, email, permission FROM User";
+        $sql = "SELECT id, username, email, permission FROM User";
 
         $stmt = $pdo->query($sql);
 
-        $result = $stmt->execute();
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -48,7 +49,7 @@ class QueryController
         }
         
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$name, $email, $hashedPasswd]);
+        return $stmt->execute([$name, $email, $hashedPasswd]);
     
     }
 
@@ -69,7 +70,7 @@ class QueryController
         }
 
         if (password_verify($passwd, $storedUser['userPassword'])) {
-            // http_response_code(404);
+            http_response_code(404);
             $_SESSION['userId'] = $storedUser['id'];
             $_SESSION['level'] = $storedUser['permission'];
             
@@ -112,7 +113,7 @@ class QueryController
         $sql = "INSERT INTO User (username, email, userPassword, persmission) VALUES (?, ?, ?, ?)";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$userName, $userEmail, $userPassword, $userLevel]);
+        return $stmt->execute([$userName, $userEmail, $userPassword, $userLevel]);
         
     }
 
@@ -123,9 +124,8 @@ class QueryController
         $sql = "INSERT INTO Article (userId, title, article) VALUES (?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         
-        $stmt->execute([$_SESSION['userId'], $title, $article]);
+        return $stmt->execute([$_SESSION['userId'], $title, $article]);
 
-        // para sabe rque usuario ha creado el articulo, usar una variable global donde se alamacenarà el id del usuario
     }
 
     function getArticleData($articleId)
@@ -149,7 +149,7 @@ class QueryController
         
         $stmt = $pdo->prepare($sql);
         
-        echo( $stmt->execute([$articleId]));
+        return $stmt->execute([$articleId]);
 
     }
 
@@ -181,9 +181,9 @@ class QueryController
         global $pdo;
 
         $sql = "UPDATE User SET permission = ? WHERE id = ?";
-
+        
         $stmt = $pdo->prepare($sql);
-
+        
         return $stmt->execute([$newLevel, $userId]);
     }
 }

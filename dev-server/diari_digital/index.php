@@ -17,39 +17,15 @@ $articles = $queries->getArticle();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <title>Diari digital</title>
 </head>
 <body>
-    <header>
-        <ul>
-            <?php
-            if (!isset($_SESSION['level'])) {
-            ?>
-                <li><a href="Login/Login.php">Iniciar sessió</a></li>
-                <li><a href="Register.php">Registrar-se</a></li>
-            <?php
-            }
-            ?>
-            <?php
-            if (isset($_SESSION['level'])) {
-                if ($_SESSION['level'] >= 10) {
-                    echo ("<li><a href=\"Logged/Shared/Logout.php\">Tancar Sessió</a></li>");
-                    echo ("<li><a href=\"Logged/Shared/Profile.php\">El meu perfil</a></li>");
-                    echo ("<li><a href=\"Logged/Shared/FavoriteArticles.php\">Articles preferits</a></li>");
-                    echo ("<li><a href=\"Logged/Shared/Settings.php\">Configuració</a></li>");
-                }
-                if ($_SESSION['level'] >= 20) {
-                    echo ("<li><a href=\"Logged/Articles/ArticleArea.php\">Gestionar articles</a></li>");
-                }
-                if (isset($_SESSION['level'])) {
-                    if ($_SESSION['level'] >= 30) {
-                        echo ("<li><a href=\"Logged/Users/UserAdminArea.php\">Gestionar usuaris</a></li>");
-                    }
-                }
-            }
-            ?>
-        </ul>
-    </header>
+    <?php
+    include __DIR__ . '/header.php';
+    ?>
+
     <h1>DIARI DIGITAL</h1>
     <div id="articles"></div>
     <script src="./assets/js/main.js"></script>

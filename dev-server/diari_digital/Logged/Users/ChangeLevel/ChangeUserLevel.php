@@ -1,9 +1,10 @@
 <?php
 session_start();
 
-$_GET['selectedUserId'];
-
-$_SESSION['selectedUserId'] = $_GET['selectedUserId'];
+$_GET['id'];
+echo ($_GET['id']);
+$_SESSION['selectedUserId'] = $_GET['id'];
+echo $_SESSION['selectedUserId'];
 ?>
 
 <!DOCTYPE html>
@@ -15,10 +16,10 @@ $_SESSION['selectedUserId'] = $_GET['selectedUserId'];
 </head>
 <body>
     <form action="ChangeUserLevelController.php" method="post">
-        <label><input type="radio" name="level" value="10" id="level10"> Nivell 10</label><br>
-        <label><input type="radio" name="level" value="20" id="level20"> Nivell 20</label><br>
-        <label><input type="radio" name="level" value="30" id="level30"> Nivell 30</label><br>
-        <label><input type="radio" name="level" value="40" id="level40"> Nivell 40</label><br>
+        <label><input type="radio" name="newLevel" value="10" id="level10"> Nivell 10</label><br>
+        <label><input type="radio" name="newLevel" value="20" id="level20"> Nivell 20</label><br>
+        <label><input type="radio" name="newLevel" value="30" id="level30"> Nivell 30</label><br>
+        <label><input type="radio" name="newLevel" value="40" id="level40"> Nivell 40</label><br>
 
         <input type="submit" value="submit">
     </form>

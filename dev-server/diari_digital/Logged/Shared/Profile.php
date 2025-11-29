@@ -3,7 +3,7 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SESSION['level'] >= 10) {
     global $userId;
-    ?>
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $_SESSION['level'] >= 10) {
     ?>
 </body>
 </html>
+
 <?php
 } else {
     return http_response_code(403);

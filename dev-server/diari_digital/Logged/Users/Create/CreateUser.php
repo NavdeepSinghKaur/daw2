@@ -28,7 +28,7 @@ if ($_SESSION['level'] !== 40) {
         <input type="text" name="email" id="email">
 
         <label for="password">Contrasenya</label>
-        <input type="text" name="password" id="password">
+        <input type="password" name="password" id="password">
 
         <label for="level">Nivell</label>
         <input type="text" name="level" id="level">

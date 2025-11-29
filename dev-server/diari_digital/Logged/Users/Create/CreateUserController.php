@@ -23,7 +23,7 @@ if (
     exit;
 }
 
-require_once __DIR__ . '/../../QueryController.php';
+require_once __DIR__ . '/../../../QueryController.php';
 
 $queryController = new QueryController();
 
