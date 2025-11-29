@@ -11,26 +11,19 @@ if ($_SESSION['level'] < 20) {
     die;
 }
 
+include __DIR__ . '/../../../header.php';
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear article</title>
-</head>
-<body>
-    <form action="CreateArticleController.php" method="post">
+    <form class="" action="CreateArticleController.php" method="post">
         
-        <label for="title">Títol</label>
-        <input type="text" name="title" id="title">
+        <label class="form-label" for="title">Títol</label>
+        <input class="form-control" type="text" name="title" id="title">
 
-        <label for="article">Article</label>
-        <textarea name="article" id="article"></textarea>
+        <label class="form-label" for="article">Article</label>
+        <textarea class="form-control" name="article" id="article"></textarea>
 
-        <button type="submit">Guardar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
     </form>
 </body>
 </html>

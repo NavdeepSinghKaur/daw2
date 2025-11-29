@@ -1,14 +1,14 @@
 <?php
 error_reporting(E_ALL);
-// if ($_SERVER['REQUEST_METHOD'] !== "POST") {
-//     die("<h1>FORBIDDEN</h1>");
-// }
+if ($_SERVER['REQUEST_METHOD'] !== "POST") {
+    die("<h1>FORBIDDEN</h1>");
+}
 
-// if (!(isset($_POST['name']) && isset($_POST['password1']))
-//     || ($_POST['name'] === '' && $_POST['password1'] === '')) 
-// {
-//     return http_response_code(403);
-// }
+if (!(isset($_POST['name']) && isset($_POST['password1']))
+    || ($_POST['name'] === '' && $_POST['password1'] === '')) 
+{
+    return http_response_code(403);
+}
 
 require_once __DIR__ . '/QueryController.php';
 

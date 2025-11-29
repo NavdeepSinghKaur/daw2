@@ -10,16 +10,11 @@ if ($_SESSION['level'] !== 40) {
     http_response_code(403);
     exit;
 }
+
+include __DIR__ . '/../../header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear nou usuari</title>
-</head>
-<body>
     <form action="CreateUserController.php" method="post">
         <label for="username">Nom d'usuari</label>
         <input type="text" name="username" id="username">

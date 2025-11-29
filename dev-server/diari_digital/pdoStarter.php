@@ -1,6 +1,12 @@
 <?php
 
-$config = require 'config.php';
+$config = [
+    'db_host' => 'localhost',
+    'db_user' => 'root',
+    'db_pass' => '',
+    'db_name' => 'diari_digital',
+    'db_charset' => 'utf8mb4'
+];
 
 $host = $config['db_host'];
 $user = $config['db_user'];
