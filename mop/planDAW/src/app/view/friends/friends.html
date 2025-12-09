@@ -1,0 +1,21 @@
+<p>friends works!</p>
+
+<form>
+    <label for="name">Nom
+    </label>
+        <input type="text" name="name" [(ngModel)]="name">
+    <label for="role">Rol
+    </label>
+        <input type="text" name="role" [(ngModel)]="role">
+    <button type="submit" (click)="createFriend()">Guardar amic</button>
+</form>
+
+<div>
+    <h2>Llista d'amics</h2>
+    <div>
+        @for (friend of friendsList(); track $index) {
+            <p>Nom: {{friend.name}}</p>
+            <p>Rol: {{friend.role}}</p>
+        }
+    </div>
+</div>
