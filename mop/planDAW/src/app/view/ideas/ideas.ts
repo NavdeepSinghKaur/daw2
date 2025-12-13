@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Plan } from '../../model/plan';
 import { Fetch } from '../../service/fetch';
 import { Add } from '../../service/add';
@@ -12,10 +12,10 @@ import { Add } from '../../service/add';
 export class Ideas {
   // storedIdeas = input.required<Plan[]>();
 
-  constructor(
-    private fetchService: Fetch,
-    private addService: Add
-  ) {
+  private fetchService: Fetch = inject(Fetch);
+  private addService: Add = inject(Add);
+
+  constructor() {
 
   }
 
@@ -28,21 +28,17 @@ export class Ideas {
     return this.fetchService.getIdeasFromLocalStorage;
   }
 
-  likeIdea(idea: Plan) {
-    this.addService.insertFavoriteIdea(idea)
+  get getAllIdeas() {
+    return this.fetchService.getAllIdeas;
   }
 
-  // private isStoredInLocalStorage() {
-  //   this.fetchService.getIdeasFromArray.forEach(idea => {
-  //     this.fetchService.getIdeasFromLocalStorage.forEach((element: Plan) => {
-  //       if (element.title === idea.title 
-  //         && element.description === idea.description 
-  //         && element.duration === idea.duration 
-  //         && element.image === idea.image 
-  //         && element.mood === idea.mood) {
+  likeIdea(idea: Plan) {
+    if (idea.isFavorite === false) {
+      idea.isFavorite = true;
+      this.addService.insertFavoriteIdea(idea)
+    } else{
+      idea.isFavorite = false;
+    }
+  }
 
-  //         }
-  //     });
-  //   })
-  // }
 }

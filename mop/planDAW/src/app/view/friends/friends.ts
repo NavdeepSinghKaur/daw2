@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Add } from '../../service/add';
 import { Fetch } from '../../service/fetch';
@@ -17,15 +17,14 @@ export class Friends {
   name: string;
   role: string;
 
-  constructor(
-    private fetchService: Fetch,
-    private addService: Add
-  ) {
+  private fetchService: Fetch = inject(Fetch);
+  private addService: Add = inject(Add);
+
+  constructor() {
     this.name = "";
     this.role = "";
-    // const initialFriends = fetchService.getFirends || [];
-    this.friendsList = signal<Friend[]>(fetchService.getFirends);
-    // console.log('initial friends', this.friendsList());
+    
+    this.friendsList = signal<Friend[]>(this.fetchService.getFirends);
   }
 
   get getFriends() {

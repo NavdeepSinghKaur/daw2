@@ -1,9 +1,9 @@
 <p>ideas works!</p>
 
-@for (idea of getIdeasFromArray; track $index) {
+@for (idea of getAllIdeas; track $index) {
     <h1>{{ idea.title }}</h1>
     <img [src]="idea.image" height="100px" alt="" srcset="">
     <p>{{ idea.description }}</p>
     <small>Tipus d'idea: {{ idea.mood }} - Duració (minuts): {{ idea.duration }} minuts</small>
-    <button (click)="idea"></button>
+    <button (click)="likeIdea(idea)">Idea favorita</button>
 }

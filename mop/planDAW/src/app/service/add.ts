@@ -27,7 +27,7 @@ export class Add {
     }
 
     parsedStoredItem.push(item);
-    localStorage.setItem('friends', JSON.stringify(parsedStoredItem));
+    localStorage.setItem(name, JSON.stringify(parsedStoredItem));
   }
 
 }

@@ -4,4 +4,5 @@ export interface Plan {
     image: string;
     mood: string;
     duration: string;
+    isFavorite?: boolean;
 }
