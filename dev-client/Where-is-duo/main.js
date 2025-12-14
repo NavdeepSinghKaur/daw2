@@ -1,17 +1,19 @@
 class WhereDuoGame {
+    audio = new Audio('assets/card-flip.mp3');
     containerName;
     numCards; 
     positions = [];
-    imagePositions = []; // stores the boolean map of the images
-    flippedImage = [];
+    // imagePositions = []; // stores the boolean map of the images
+    // flippedImage = [];
     unmovableCards = [];
     actualTimestamp = null;
-    cardsPosition;
-    height;
-    dimensions = []; // height, width
-    width;
-    reversedCards = 0;
-    booleanHelper = [];
+    // cardsPosition;
+    // height;
+    dimensions = [4]; // height, width
+    // width;
+    selectedCards = [];
+    // reversedCards = 0;
+    // booleanHelper = [];
 
     constructor (divName, numCards) {
         this.containerName = divName;
@@ -42,24 +44,29 @@ class WhereDuoGame {
 
     getCards() {
         // refactor then to only width, because height remains the same always
-        if (this.numCards == 8) {
-            // this.dimensions[0] = [4, 4];
-            this.height = 4;
-            this.width = 4;
-            this.cardsPosition = new Array(this.height*this.width).fill(false)
-        } else if (this.numCards == 10) {
-            // this.dimensions = [4, 5];
-            this.height = 4;
-            this.width = 5;
-            this.cardsPosition = new Array(this.height*this.width).fill(false)
-
-        } else if (this.numCards == 12) {
-            // this.dimensions = [4, 6];
-            this.height = 4;
-            this.width = 6;
-            this.cardsPosition = new Array(this.height*this.width).fill(false)
-
+        switch (this.numCards) {
+            case 8:  this.dimensions.push(4); break;
+            case 10: this.dimensions.push(5); break;
+            case 12: this.dimensions.push(6); break;
         }
+        // if (this.numCards == 8) {
+        //     this.dimensions[0] = [4, 4];
+        //     // this.height = 4;
+        //     // this.width = 4;
+        //     // this.cardsPosition = new Array(this.height*this.width).fill([false, false])
+        // } else if (this.numCards == 10) {
+        //     this.dimensions = [4, 5];
+        //     // this.height = 4;
+        //     // this.width = 5;
+        //     // this.cardsPosition = new Array(this.height*this.width).fill([false, false])
+
+        // } else if (this.numCards == 12) {
+        //     this.dimensions = [4, 6];
+        //     // this.height = 4;
+        //     // this.width = 6;
+        //     // this.cardsPosition = new Array(this.height*this.width).fill([false, false])
+
+        // }
 
         
 
@@ -69,9 +76,9 @@ class WhereDuoGame {
         let table = document.createElement('table');
         let imageCounter = 0;
         
-        for (let i = 0; i < this.height; i++) {
+        for (let i = 0; i < this.dimensions[0]; i++) {
             let td = document.createElement('td');
-            for (let j = 0; j < this.width; j++) {
+            for (let j = 0; j < this.dimensions[1]; j++) {
                 let img = document.createElement('img');
                 console.log(this.positions[imageCounter]);
                 img.src = `../assets/frontal${this.positions[imageCounter]}.png`;
@@ -89,7 +96,7 @@ class WhereDuoGame {
     }
 
     getTotalFrames(timestamp) {
-        if (timestamp < 200) {
+        if (timestamp < 2000) {
             console.log(timestamp)
             /*
             (timestamp) => this.getTotalFrames(timestamp) <- js creates a reference on this funciton and calls it as 
@@ -109,8 +116,8 @@ class WhereDuoGame {
     }
 
     refreshCards() {
-        let container = document.getElementById(this.containerName);
-        for (let index = 0; index < this.height*this.width; index++) {
+        // let container = document.getElementById(this.containerName);
+        for (let index = 0; index < this.dimensions[0]*this.dimensions[1]; index++) {
             document.getElementsByTagName('img')[index].src = '/assets/trasera.png';
         }
         console.log(document.getElementsByTagName('img')[0].src)
@@ -125,62 +132,87 @@ class WhereDuoGame {
         let gameArea = document.getElementById(this.containerName);
 
         gameArea.addEventListener('click', (e) => {
-            this.cardsPosition[e.target.className] = true;
+            // console.log(this.cardsPosition)
+            console.log(e.target.className)
+            // this.cardsPosition[e.target.className] = [true, false];
+            // console.log(this.cardsPosition)
             // console.log(e.target.closest('td'));
             let pos = e.target.className;
-            // e.target.
-            console.log(pos)
-            // console.log()
-            console.log(e.target.src = `/assets/frontal${this.positions[pos]}.png`);
+            if (!this.selectedCards.includes(pos)) {
+                // e.target.
+                console.log(pos)
+                // console.log()
+                console.log(e.target.src = `/assets/frontal${this.positions[pos]}.png`);
+                this.audio.play();
+                this.selectedCards.push(pos);
+            }
+            // console.log(this.unmovableCards)
+            // this.reversedCards++;
 
-            this.reversedCards++;
-
-            if (this.cardsPosition.filter(elem => elem).length == 2) {
+            // console.log(this.cardsPosition.filter(elem => elem[0] == true))
+            // classNAme contains the positions, while positions contains the image number
+            // if (this.reversedCards == 2) { // no need to explicitly tell == true
+            // setTimeout(() => {
+            if (this.selectedCards.length == 2) {
                 console.log("two images are selected")
                 // sadly there will be a loop
                 // the loop will iterate all the images inside the div and then backside them
                 // if they are in excluded positions, the loop will obiously not touch them
-                let elem1 = null;
-                let elem2 = null;
-                console.log(this.cardsPosition);
-                console.log(this.positions.length)
-                for (let i = 0; i < this.positions.length; i++) {
-                    if (this.cardsPosition[i] == true) {
-                        console.log("position", i, 'is true');
-                        if (elem1 == null) {
-                            elem1 = this.positions[i];
-                        } else {
-                            elem2 = this.positions[i];
-                        }
-                    }
+                // let elem1 = null;
+                // let elem2 = null;
+                // console.log(this.cardsPosition);
+                // console.log(this.positions.length)
+                // for (let i = 0; i < this.positions.length; i++) {
+                //     if (this.cardsPosition[i][0] == true) {
+                //         console.log("position", i, 'is true');
+                //         if (elem1 == null) {
+                //             elem1 = this.positions[i];
+                //         } else {
+                //             elem2 = this.positions[i];
+                //         }
+                //     }
+                // }
+                // console.log(this.selectedCards)
+                // console.log(this.positions[this.selectedCards[0]]);
+                // console.log(this.positions[this.selectedCards[1]]);
+                // console.log(this.positions[this.selectedCards[0]] == this.positions[this.selectedCards[1]]);
+                if (this.positions[this.selectedCards[0]] == this.positions[this.selectedCards[1]]) {
+                    this.unmovableCards.push(Number(this.selectedCards[0]), Number(this.selectedCards[1]));
                 }
-                console.log(elem1);
-                console.log(elem2);
-                if (elem1 === elem2) {
-                    this.unmovableCards.push(elem1, elem2);
-                }
-
                 // problem here, or could be anywhere else, but cards don't flip back
+                // console.log(this.positions.length);
+                // console.log(this.unmovableCards);
+                // console.log(this.positions);
+                // console.log(this.unmovableCards.includes("23"));
+                // console.log(this.unmovableCards.includes(23));
                 for (let i = 0; i < this.positions.length; i++) {
-                    if (!this.unmovableCards.includes(this.positions[i])) {
-                        console.log(document.getElementsByClassName(this.positions[i])[0]);
-                        document.getElementsByClassName(this.positions[i])[0].src = '/assets/trasera.png';
+                    console.log(this.unmovableCards.includes(i))
+                    if (!this.unmovableCards.includes(i)) {
+                        // console.log("the card in position ", i, "is invalid")
+                        // console.log(document.getElementsByClassName(i)[0]);
+                        setTimeout(() => {
+                            document.getElementsByClassName(i)[0].src = '/assets/trasera.png';
+                        }, 500);
                     }
                 }
+                // this.reversedCards = 0;
+                this.selectedCards = [];
             }
+            // }, 1000);
 
-            // if (this.reversedCards == 2) { // onlyl solution is to add the position into the class name
-            //     if ()
-            // }
+            if (this.unmovableCards.length == this.positions.length) { // onlyl solution is to add the position into the class name
+                let div = document.appendChild('div');
+                div.innerText = "Felicitats";
+            }
             // e.src = 
-        })
+        });
     }
 
-    flipCardsBack() {
-        this.positions.find(elem => {
-            elem
-        })
-    }
+    // flipCardsBack() {
+    //     this.positions.find(elem => {
+    //         elem
+    //     })
+    // }
 
 /*
 there will be one array with the cards, then another with the backside, the arrays will be coordinated by their coodinates
