@@ -1,31 +1,34 @@
 import { Injectable } from '@angular/core';
-import { GoogleGenAI } from '@google/genai';
+import { InferenceClient } from "@huggingface/inference";
 
 @Injectable({
   providedIn: 'root',
 })
 export class CreateWeekPlan {
-  private ai: GoogleGenAI;
-  private connector = {
-    apiKey: 'AIzaSyC528SMx7YApjHkgjoHRCLGNpiw6m5RJBY',
-    model: 'gemini-2.0-flash-lite',
-  };
+  private ai: InferenceClient;
 
   private prompt = 
-  "Think of a weekend plan to hang out with my friends. Write-out a no more than 10 words-long text in catalan. The output must be only the idea.";
+  "Genera una idea per a un pla de cap de setmana amb amics (per exemple, sortir a sopar, fer una excursió, veure una pel·lícula, etc.). Màxim 15 paraules.";
 
   constructor() {
-    this.ai = new GoogleGenAI({apiKey: this.connector.apiKey});
+    this.ai = new InferenceClient(TOKEN-FROM-HUGGINGFACE);
   }
 
   private async generateNewPlan() {
-    return await this.ai.models.generateContent({
-      model: this.connector.model,
-      contents: this.prompt
+    const res = await this.ai.chatCompletion({
+      model: "meta-llama/Llama-3.1-8B-Instruct:novita",
+      messages: [
+        {
+          role: "user",
+          content: this.prompt
+        },
+      ],
     });
+
+    return res.choices[0].message;
   }
 
   get getResponse() {
-    return Promise.resolve(this.generateNewPlan());
+    return this.generateNewPlan();
   }
 }

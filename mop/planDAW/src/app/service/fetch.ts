@@ -7,15 +7,15 @@ import { Friend } from '../model/friend';
   providedIn: 'root',
 })
 export class Fetch {
-  plans = PLANS;
+  private _plans: Plan[];
 
   constructor() {
-
+    this._plans = PLANS;
   }
 
   // fetches the ideas that are stored on the model
   get getIdeasFromArray() {
-    return this.plans;
+    return this._plans;
   }
 
   // fetches the ideas that are stored on the localstorage
@@ -32,6 +32,21 @@ export class Fetch {
     if (localStorageIdeas) {
       localStorageIdeas.forEach((idea: Plan) => {
         allIdeas.push(idea);
+      });
+    }
+    return allIdeas;
+  }
+
+  get getFavoriteIdeas() {
+    let allIdeas: Plan[] = [];
+
+    const localStorageIdeas: Plan[] | false = this.getIdeasFromLocalStorage;
+
+    if (localStorageIdeas) {
+      localStorageIdeas.forEach((idea: Plan) => {
+        if (idea.isFavorite) {
+          allIdeas.push(idea);
+        }
       });
     }
     return allIdeas;

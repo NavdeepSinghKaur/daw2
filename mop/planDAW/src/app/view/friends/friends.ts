@@ -1,4 +1,4 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Add } from '../../service/add';
 import { Fetch } from '../../service/fetch';
@@ -10,6 +10,7 @@ import { Friend } from '../../model/friend';
   imports: [FormsModule],
   templateUrl: './friends.html',
   styleUrl: './friends.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Friends {
 
@@ -36,14 +37,15 @@ export class Friends {
       name: this.name,
       role: this.role
     };
-
-    this.addService.addFriend(newFriend);
-    // const updated =  || [];
-    this.friendsList.set(this.fetchService.getFirends);
-
-    // reset the form fields
-    this.name = '';
-    this.role = '';
+    if (newFriend.name.length > 0 && newFriend.role.length > 2) {
+      this.addService.addFriend(newFriend);
+      // const updated =  || [];
+      this.friendsList.set(this.fetchService.getFirends);
+    
+      // reset the form fields
+      this.name = '';
+      this.role = '';
+    }
   }
 
 }
