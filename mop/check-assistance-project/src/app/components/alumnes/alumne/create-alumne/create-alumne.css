@@ -1,0 +1,29 @@
+.form-container {
+    text-align: center;
+}
+
+button {
+    padding: 10px 25px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bolder;
+    border-radius: 10px;
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ffffff; 
+    color: black;  
+}
+
+input {
+    height: 30px;
+    width: 200px;
+    margin-left: 1em;
+    border-radius: 8px;
+}
+
+label {
+    font-size: 1.5rem;
+}

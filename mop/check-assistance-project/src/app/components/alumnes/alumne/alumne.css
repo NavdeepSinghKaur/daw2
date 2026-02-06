@@ -1,0 +1,41 @@
+button {
+    padding: 5px 15px;
+    color: #fff;
+    font-weight: bolder;
+    border-radius: 5px;
+    margin-left: 1em;
+    border: none;
+    cursor: pointer;
+}
+
+.alumne-container {
+    align-items: start;
+}
+
+.alumne-name {
+    font-size: 1.2rem;
+}
+
+.delete-button {
+    background: #df0000;
+}
+
+.delete-button:hover {
+    background: #a40000;
+}
+
+.present-button {
+    background: #00d700;
+}
+
+.present-button:hover {
+    background: #25a125;
+}
+
+.absent-button {
+    background: #ffc400;
+}
+
+.absent-button:hover {
+    background: #c0a000;
+}

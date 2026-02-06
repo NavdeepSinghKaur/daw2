@@ -1,0 +1,25 @@
+@for (idea of getIdeas(); track $index) {
+    <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 border rounded-4 my-3">
+        <h1 class="display-4 text-center">{{ idea.title }}</h1>
+
+        <img [src]="idea.image" class="img-fluid rounded-4 shadow-lg" alt="" srcset="">
+
+        <p class="mt-3 text-center">{{ idea.description }}</p>
+
+        <small class="text-muted text-center">
+            Tipus d'idea: {{ idea.mood }} - Duració (minuts): {{ idea.duration }} minuts
+        </small>
+
+        <div class="mt-3 text-center">
+            @if (idea.isFavorite) {
+                <button (click)="likeIdea(idea)" class="btn btn-danger rounded-3 shadow-lg">
+                    Eliminar del llistat de favorits
+                </button>
+            } @else {
+                <button (click)="likeIdea(idea)" class="btn btn-primary rounded-3 shadow-lg">
+                    Guardar al llistat de favorits
+                </button>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,11 @@
+@if (showLeaderboard) {
+    <div>
+        <app-leaderboard></app-leaderboard>
+    </div>
+} @else {
+    <div>
+        @for (index of randomList; track index) {
+            <app-card [hideCard]="selectedCards[index]" (clicked)="cardClicked(index)" [cardIndex]="index"></app-card>
+        }
+    </div>
+}

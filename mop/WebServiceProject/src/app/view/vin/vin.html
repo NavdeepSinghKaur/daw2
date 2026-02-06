@@ -1,0 +1,27 @@
+<header class="bg-primary text-white text-center py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="display-4 fw-bold">Informació de vehicles per bastidor</h1>
+        <p class="lead mb-4">Busca totes les dades d'un vehicle només amb el seu bastidor.</p>
+        <small>Només funciona amb bastidors que están registrats en servidors dels EE.UU.</small>
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-4">
+            <div class="input-group input-group-lg">
+              <input [(ngModel)]="vin" type="text" class="form-control" placeholder="Exemple: 5J8TC2H31KL012420" aria-label="VIN Search">
+              <button class="btn btn-warning fw-bold" type="button" (click)="searchVin()">Consultar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
+</header>
+@for (result of getResults(); track $index) {
+  <div class="card m-3 p-3 border-1 shadow-sm w-50 mx-auto">
+    <p>{{result}}</p>
+  </div>
+    
+}

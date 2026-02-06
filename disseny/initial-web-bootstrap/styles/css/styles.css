@@ -1,0 +1,15 @@
+.primary-bg {
+    background-color: #155017 !important;
+}
+
+.primary-border {
+    border: #155017 !important;
+}
+
+footer {
+    background-color: #000000;
+}
+
+footer > div  {
+    color: white
+}

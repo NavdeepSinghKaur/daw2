@@ -1,0 +1,9 @@
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    if (code && code !== '') {
+        window.opener.postMessage({type: 'GOOGLE_AUTH_CODE', code: code}, window.location.origin);
+        window.close()    
+    }
+</script>

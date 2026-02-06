@@ -1,0 +1,27 @@
+<form class="p-4 rounded-3" style="max-width: 650px; margin: auto;">
+  <div class="mb-3">
+    <input class="form-control" type="text" placeholder="Títol de la peça" [(ngModel)]="song().title" name="songTitle" required>
+  </div>
+
+  <div class="mb-3">
+    <input class="form-control" type="text" placeholder="Nom del grup o de l'artista" [(ngModel)]="song().artist" name="artistName" required>
+  </div>
+
+  <div class="mb-3">
+    <input class="form-control" type="text" placeholder="Enllaç a la peça" [(ngModel)]="song().mp3Url" name="songUrl" required>
+  </div>
+
+  <div class="mb-3">
+    <input class="form-control" type="text" placeholder="Imatge del disc" [(ngModel)]="song().cover" name="songImage">
+  </div>
+
+  <div class="mb-3">
+    <textarea class="form-control" placeholder="Descripció" [(ngModel)]="song().description" name="description"></textarea>
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <button type="button" class="btn btn-warning px-4" (click)="cancel()">Cancel·lar</button>
+    <button type="button" class="btn btn-danger px-4" (click)="cleanInput()">Esborrar</button>
+    <button type="submit" class="btn btn-success px-4" (click)="addSong()">Afegir</button>
+  </div>
+</form>

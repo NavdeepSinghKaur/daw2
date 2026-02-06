@@ -1,0 +1,11 @@
+@if(checkIfLoggedIn()) {
+  <app-menu></app-menu>
+  <router-outlet></router-outlet>
+} @else {
+  <div class="w-100 vh-100 d-flex">
+    <div class="m-auto">
+      <h1>Iniciant sessió</h1>
+      <p>Si no apareix una finestra emergent, torna a carregar</p>
+    </div>
+  </div>
+}

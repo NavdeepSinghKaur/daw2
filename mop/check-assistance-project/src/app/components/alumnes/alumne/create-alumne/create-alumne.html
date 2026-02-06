@@ -1,0 +1,7 @@
+<div class="form-container">
+    <form #form="ngForm" (ngSubmit)="saveAlumne()">
+        <label for="name" class="input-label">Nom de l'alumne: </label>
+        <input type="text" id="name" name="name" [(ngModel)]="name" autofocus>
+        <button type="submit">Guardar alumne</button>
+    </form>
+</div>

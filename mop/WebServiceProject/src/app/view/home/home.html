@@ -1,0 +1,61 @@
+<div class="container my-5">
+  <div class="d-flex align-items-center mb-5">
+    <img [src]="user().picture" class="rounded-circle shadow-sm me-3" width="60" height="60">
+    <h1 class="h3 mb-0">Hola, <strong>{{ user().name }}</strong></h1>
+  </div>
+
+  <div class="row g-5">
+    <div class="col-lg-7">
+      <h2 class="display-6 fw-bold text-primary mb-4">Què és la NHTSA?</h2>
+      <p class="lead">La <strong>NHTSA</strong> (National Highway Traffic Safety Administration) és l'agència pareguda a la DGT del govern dels Estats Units responsable de la seguretat a les carreteres.</p>
+      
+      <div class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <div class="p-3 border rounded shadow-sm bg-white h-100">
+            <i class="bi bi-shield-check text-success fs-3"></i>
+            <h5 class="mt-2 fw-bold">Estableix Normes</h5>
+            <p class="small text-muted">Crea els estàndards de seguretat que tots els vehicles han de complir per ser venuts.</p>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="p-3 border rounded shadow-sm bg-white h-100">
+            <i class="bi bi-star-fill text-warning fs-3"></i>
+            <h5 class="mt-2 fw-bold">Crash Tests</h5>
+            <p class="small text-muted">Realitza proves de xoc per puntuar els cotxes amb el sistema de 5 estrelles.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning mt-4 border-start border-4 border-warning shadow-sm" role="alert">
+        <div class="d-flex">
+          <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+          <div>
+            <h5 class="alert-heading fw-bold">Atenció: Base de dades dels EUA</h5>
+            <p class="mb-0">Aquesta informació prové dels Estats Units. És possible que <strong>no trobis dades</strong> de certs models si no es venen al mercat nord-americà o si no han estat provats per la NHTSA.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="col-lg-5">
+      <div class="card border-0 shadow-lg overflow-hidden mb-4">
+        <img src="https://calspan.com/application/files/4216/3423/2728/NCAP.jpg" 
+             class="card-img-top" 
+             alt="Test de xoc frontal de la NHTSA">
+        <div class="card-body bg-light ">
+          <p class="card-text small fw-bold text-secondary">
+            <i class="bi bi-camera-video-fill me-2"></i>
+            Mazda CX-30 als laboratoris de NHTSA.
+          </p>
+        </div>
+      </div>
+      
+      <div class="p-4 rounded-3 bg-white border shadow-sm">
+        <h5 class="fw-bold"><i class="bi bi-info-circle me-2 text-primary"></i>Informació</h5>
+        <p class="small text-muted mb-0">
+          La NHTSA és la DGT dels Estats Units. Aquesta aplicació utilitza la API pública de la NHTSA per obtenir dades de seguretat dels vehicles. Pots cercar per VIN, model o pujar una imatge del vehicle per obtenir les puntuacions de seguretat i enllaços als vídeos de les proves de xoc realitzades per la NHTSA.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulari registre</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .app {
+        height: 80vh;
+        width: 100vw;
+        margin: 0;
+        display: flex;
+      }
+      .form {
+        margin: auto auto;
+        background: rgba(210, 210, 210, 0.174);
+        border-radius: 2em;
+        padding: 2rem 5rem;
+        box-shadow: 0 8px 60px rgba(120, 120, 120, 0.221);
+      }
+      label,
+      input {
+        display: block;
+      }
+      label {
+        font-size: 1.4rem;
+        display: block;
+        margin-bottom: 0.25rem;
+        color: #333;
+      }
+
+      input {
+        height: 2.5rem;
+        width: 20rem;
+        font-size: 1rem;
+        padding: 0 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+      }
+
+      button {
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 0.75rem;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 1rem;
+
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      button:hover {
+        color: #000;
+        background-color: #ffffff;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      #result {
+        text-align: center;
+        font-size: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="form">
+        <h1>Pagina registre</h1>
+        <form id="register_user">
+          <label for="">Usuari</label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="john@doe.com"
+          />
+
+          <label for="password1">Password 1</label>
+          <input type="password" name="password1" id="password1" />
+
+          <label for="password2">Password 2</label>
+          <input type="password" name="password2" id="password2" />
+
+          <button type="submit">Registrar</button>
+        </form>
+        
+      </div>
+    </div>
+    <div id="result"></div>
+    <script src="main.js"></script>
+  </body>
+</html>

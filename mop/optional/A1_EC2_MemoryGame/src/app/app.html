@@ -1,0 +1,7 @@
+<h1>memory game.</h1>
+
+@if (!showGame()) {
+    <app-localstorage-message (playerData)="nameInserted($event)"></app-localstorage-message>
+} @else {
+    <app-cards-deck [name]="username()" [timesToShuffle]="inputTimesToShuffle()"></app-cards-deck>
+}

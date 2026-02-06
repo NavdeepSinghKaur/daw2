@@ -1,0 +1,38 @@
+<h1 class="app-title">Generador i gestor de llista d'alumnes</h1>
+
+@if(allAlumnes.length > 0) {
+    <div class="list-button-div">
+        <button (click)="saveList()" class="list-button">Guardar llista d'aquest dia</button>
+        <button (click)="viewOlderLists()" class="list-button">Visualitzar llistes/Tornar</button>
+    </div>
+}
+
+@if (!viewList) {
+    <app-create-alumne />
+    <div>
+        <p class="order-text">Ordenar alumnes per:</p>
+        <button (click)="filterAlumne(undefined)" [ngStyle]="{'background-color': filter == undefined ? '#6f6f6f' : '#000'}">Tots els alumnes</button>
+        <button (click)="filterAlumne(true)" [ngStyle]="{'background-color': filter == true ? '#6f6f6f' : '#000'}">Alumnes presents</button>
+        <button (click)="filterAlumne(false)" [ngStyle]="{'background-color': filter == false ? '#6f6f6f' : '#000'}">Alumnes no presents</button>
+
+        @for (alumne of allAlumnes; track alumne.id) {
+            @if(filter === undefined) {
+                <app-alumne [alumne]="alumne"/>
+            }
+            @else if(alumne.isPresent == filter) {
+                <app-alumne [alumne]="alumne"/>
+            }
+        }
+        
+    </div>
+} @else {
+    <div>
+        @for (assistanceList of formattedAssistanceList; track assistanceList[0]) {
+            <span class="assistanceData">Dia: </span>
+            @for (assistance of assistanceList; track assistance[0]) {
+                <span class="assistanceData">{{assistance}} | </span>
+            }
+            <br>
+        }
+    </div>
+}

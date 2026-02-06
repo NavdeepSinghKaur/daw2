@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-md-6">
+    <input
+      type="text"
+      class="form-control form-control mb-3 my-3 rounded-3"
+      placeholder="Artista o Títol"
+      [(ngModel)]="searchEngine"
+      placeholder="filtrar per cancçó o artista"
+    />
+    <div class="overflow-auto" style="max-height: 50vh">
+      @for(song of songsToShow(); track song.mp3Url) { @if
+      (song.title.toLowerCase().includes(searchEngine().toLowerCase()) ||
+      song.artist.toLowerCase().includes(searchEngine().toLocaleLowerCase()) ) {
+      <div
+        class="songList d-flex justify-content-between p-3 mb-3 border rounded-3"
+        (click)="selectSong(song)"
+        [style]="selectedSong()?.mp3Url === song.mp3Url ? 'background: #0096ff;' : ''"
+      >
+        <div class="me-5">
+          <h4>{{ song.title }}</h4>
+          <p>{{ song.artist }}</p>
+        </div>
+        @if (!song.favorite) {
+        <img class="like-icon-like"
+          src="assets/like-icon-like.svg"
+          (click)="changeFavoriteImage(song);"
+          id="like"
+          height="25px"
+        />
+        } @else {
+        <img
+          src="assets/like-icon-liked.svg"
+          (click)="changeFavoriteImage(song);"
+          id="like"
+          height="25px"
+        />
+        }
+      </div>
+      } }
+    </div>
+  </div>
+  @if (openForm) {
+    <div class="col-md-6">
+      <app-add-form (songValues)="addSong($event)" (exitScreen)="closeOpenForm()"></app-add-form>
+    </div>
+  } @else {
+    <div class="col-md-6">
+      @if (selectedSong() !== null) {
+        <div class="d-flex justify-content-end p-3">
+          <button class="btn-close ms-auto" (click)="close()"></button>
+        </div>
+      }
+      <app-player
+        [song]="selectedSong()"
+        (favoriteChange)="changeFavoriteImage($event)"
+      ></app-player>
+    </div>
+  }
+</div>
+
+<div class="pb-3">
+  <img
+    src="assets/plus-solid-full.svg"
+    height="50px"
+    (click)="closeOpenForm()"
+    class="add-icon"
+    alt=""
+    srcset=""
+  />
+</div>

@@ -1,0 +1,36 @@
+.row {
+    height: 60vh;
+}
+
+.songList {
+    border: 1px solid black;
+    transition: background 0.2s ease-in-out;
+}
+
+.songList:hover {
+    background: #bde3ff;
+}
+
+.songList:active {
+    background: #0096ff;
+}
+
+.selected {
+    background: #0096ff;   
+}
+
+.add-icon {
+    background: rgb(0, 0, 0);
+    border-radius: 100%;
+    cursor: pointer;
+}
+.add-icon:hover {
+    background: rgb(51, 51, 51);
+}
+.add-icon:active {
+    background: rgb(255, 255, 255);
+}
+
+#like:hover {
+    cursor: pointer;
+}

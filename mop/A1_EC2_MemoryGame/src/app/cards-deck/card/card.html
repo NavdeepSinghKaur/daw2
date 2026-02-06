@@ -1,0 +1,5 @@
+@if (hideCard) {
+    <img (click)="cardClicked()" src="assets/cardsDeck/{{ cardsList[cardIndex][1] }}.png">
+} @else {
+    <img (click)="cardClicked()" src="assets/cardsDeck/back_card.png">
+}

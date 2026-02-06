@@ -1,0 +1,14 @@
+<div class="alumne-container">
+    <h2>Alumne {{ alumne!.id }}  {{alumne?.isPresent ? ' - Present' : alumne?.isPresent == false ? ' - Absent' : ''}}</h2>
+    
+    <p class="alumne-name">Nom: {{ alumne!.name }}</p>
+    <button (click)="deleteUser()" class="delete-button">Eliminar</button>
+    
+    @if(alumne?.isPresent != true) {
+        <button (click)="changeState(true)" class="present-button">Present</button>
+    }
+    @if(alumne?.isPresent != false) {
+        <button (click)="changeState(false)" class="absent-button">Absent</button>
+    }
+</div>
+

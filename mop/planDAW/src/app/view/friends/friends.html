@@ -1,0 +1,28 @@
+<div class="container d-flex flex-column justify-content-center align-items-center">
+  <!-- Form -->
+  <form class="w-25">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nom</label>
+      <input type="text" name="name" [(ngModel)]="name" class="form-control" id="name">
+    </div>
+    
+    <div class="mb-3">
+      <label for="role" class="form-label">Rol</label>
+      <input type="text" name="role" [(ngModel)]="role" class="form-control" id="role">
+    </div>
+    
+    <button type="submit" (click)="createFriend()" class="btn btn-primary w-100 rounded-3">Guardar amic</button>
+  </form>
+
+  <div class="mt-5 w-50">
+    <h2 class="text-center">Llista d'amics</h2>
+    <div>
+      @for (friend of getFriends(); track $index) {
+        <div class="mb-3 border w-75 mx-auto rounded-4 p-4">
+          <p><strong>Nom:</strong> {{ friend.name }}</p>
+          <p><strong>Rol:</strong> {{ friend.role }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

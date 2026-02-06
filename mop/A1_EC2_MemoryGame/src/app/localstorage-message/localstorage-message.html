@@ -1,0 +1,7 @@
+<form class="form" (submit)="saveValues()">
+    <label for="name">Nom</label>
+    <input class="input" type="text" name="name" id="name" [(ngModel)]="name" required="true">
+    <label for="shuffle">Quantes vegades vols barrejar les cartes?</label>
+    <input class="input" type="number" name="shuffle" id="shuffle" min="1" max="10" [(ngModel)]="shuffle" required="true">
+    <button class="btn" type="submit">Guardar</button>
+</form>

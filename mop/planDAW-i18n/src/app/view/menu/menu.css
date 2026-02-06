@@ -1,0 +1,10 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.navbar {
+    background-color: #ffffff4b;
+    backdrop-filter: blur(30px);
+    border-radius: 100px;
+}

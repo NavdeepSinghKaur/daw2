@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Punts</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (item of classifiedPlayers; track item.name) {
+            <tr>
+                <td>{{item.name}}</td>
+                <td>{{item.score}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
