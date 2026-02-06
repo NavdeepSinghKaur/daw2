@@ -22,7 +22,7 @@ export class Photo implements OnInit {
   results: WritableSignal<any[]>;
 
   constructor() {
-    const token: string = 'AIzaSyBRc0V7cRYMYOMEdEaT16n_3h7ODlfJg78';
+    const token: string = '';
     this.ai = new GoogleGenAI({ apiKey: token });
 
     this.results = signal([]);
