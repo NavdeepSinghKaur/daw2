@@ -1,3 +1,7 @@
+* {
+    font-family: "Google Sans Flex", sans-serif;
+}
+
 .primary-bg {
     background-color: #155017 !important;
 }
@@ -8,8 +12,13 @@
 
 footer {
     background-color: #000000;
+    background-image: url('../../assets/images/footer-gradient.webp');
 }
 
 footer > div  {
     color: white
+}
+
+.search-engine {
+    height: 4em;
 }

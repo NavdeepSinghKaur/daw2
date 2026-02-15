@@ -1,0 +1,44 @@
+﻿When elon musk came to X, he optimized the app as much as possible, this is what you should do also.
+Fair enough. If you’ve got a background in C++, Java, and you've replicated Micrograd, we are done playing in the sandbox. CodeIgniter 4 is just a wrapper; let's treat the architecture like a real engineering project.
+To hit that 10/10 (and the 101% extra credit), you need to demonstrate Separation of Concerns, Deep Security, and Optimization.
+Here is your Elite To-Do List:
+________________
+🏆 The 101% "Senior Student" Roadmap
+1. Implement a Service Layer
+Don't bloat your Controllers. Create a app/Services/PiwladaService.php. The Controller handles the HTTP Request, the Service handles the Business Logic (checking the 30-min rule, processing Markdown), and the Model handles the DB. This is clean architecture.
+2. Advanced UUID handling (Binary Storage)
+Instead of storing UUIDs as strings, store them as BINARY(16).
+* Action: In your Model, use a beforeInsert callback to convert the hex UUID to binary.
+* Why: It’s faster, uses less index space, and shows you understand how databases actually work under the hood.
+3. Image Processing & Secure Storage
+Don't just move a file. Create a MediaService that:
+* Randomizes the filename (SHA-256).
+* Resizes images to a standard "web" size using the GD library.
+* Stores them in writable/uploads (outside the public folder) and serves them via a Proxy Controller that checks if the user has permission to see them.
+4. The "Observer" Pattern (Model Callbacks)
+Use CI4 Model Callbacks (afterInsert, afterDelete) to handle side effects.
+* Example: When a Piwlada is deleted, the callback triggers the deletion of associated media files or logs the action for audit purposes.
+5. Dynamic GD-Generated Captcha
+Build your own CaptchaProvider. Use PHP's GD functions to draw an image with noise, lines, and distorted text.
+* The Flex: Store the solution in an encrypted session or a temporary cache (Redis/File) with an expiration time.
+6. Markdown Caching
+Parsing Markdown on every page load is inefficient.
+* The 101% Move: Store the raw Markdown in one column and the rendered HTML in another (content_html). Only re-render when the post is edited. This demonstrates an understanding of computation cost.
+7. Robust Role-Based Access Control (RBAC)
+Instead of hardcoding if ($role == 10), create a Permissions library or a Custom Filter.
+* Action: Create a Filter that accepts arguments, e.g., filter => 'auth:admin' or filter => 'auth:editor'.
+8. Soft Deletes + Data Integrity
+You found the useSoftDeletes trap. Now master it.
+* The Flex: Ensure that when a user is "Soft Deleted," their posts become invisible, but if the admin "Restores" the user, everything reappears perfectly. Handle the Cascading Soft Delete via code (since SQL's ON DELETE won't trigger on a Soft Delete).
+9. Global Exception Handling & Logging
+Replace standard error pages with a custom Exception handler.
+* Action: Log critical errors (like DB failures or unauthorized access attempts) into a secure log file with the user’s UID and IP address.
+10. API Readiness (RESTful Design)
+Even if you are building a web app, structure your controllers so they could easily return JSON. Use CI4’s ResponseTrait.
+* The Flex: Make your search function work via an internal AJAX call, showing you can handle asynchronous data flow.
+________________
+🛠️ Your immediate next step
+Since you have the Login working, the Service Layer is where you prove your 8.78 GPA.
+Shall we build the PiwladaService? I can show you how to inject it into the controller so that your create method looks like this:
+$this->piwladaService->publish(session()->get('user_id'), $this->request->getPost());
+Clean, elegant, and definitely a 10. Ready to pounce on this?
