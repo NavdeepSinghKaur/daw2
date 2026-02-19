@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
+use App\Controllers\CaptchaController;
 
 class AuthController extends BaseController
 {
@@ -16,16 +17,26 @@ class AuthController extends BaseController
 
     public function index()
     {
+        if (session()->get('email') !== null) {
+            return redirect()->to('/');
+        }
         return view('Welcome.php');
     }
 
     public function loginView()
     {
+        if (session()->get('email') !== null) {
+            return redirect()->to('/');
+        }
+        // $captcha = new CaptchaController();
         return view('Login.php');
     }
 
     public function registerView()
     {
+        if (session()->get('email') !== null) {
+            return redirect()->to('/');
+        }
         // Simply load and display the Register view
         return view('Register');
     }
@@ -76,7 +87,7 @@ class AuthController extends BaseController
             $session->set('id', $user['uid']);
             $session->set('name', $user['name']);
             $session->set('admin', $user['admin']);
-            return view('Home');
+            return redirect()->to('/');
         }
     }
 

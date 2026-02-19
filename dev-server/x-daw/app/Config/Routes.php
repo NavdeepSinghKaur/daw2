@@ -5,17 +5,29 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+// home routes
 $routes->get('/', 'HomeController::index');
-$routes->get('/post/new', 'Posts/Post::new');
+$routes->get('logout', 'HomeController::logout');
+
+
+// post routes
+$routes->get('/post/new', 'PostController::new');
+$routes->post('/post/new', 'PostController::create');
+$routes->get('/post', 'PostController::getPosts');
+$routes->get('/post/reply/(:segment)', 'PostController::reply/$1');
+$routes->post('/post/reply', 'PostController::createReply');
+$routes->get('/post/delete/(:segment)', 'PostController::delete/$1');
 
 // login routes
 $routes->get('welcome', 'AuthController::index');
 $routes->get('login', 'AuthController::loginView');
-
 $routes->post('login', 'AuthController::login');
 
 // Registration Routes
 $routes->get('register', 'AuthController::registerView');
 $routes->post('register', 'AuthController::create');
 
-$routes->get('logout', 'HomeController::logout');
+// Captcha routes
+$routes->get('captcha', 'CaptchaController::index');
+

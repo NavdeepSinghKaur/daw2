@@ -26,7 +26,7 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (!(session()->has('email') && session()->has('name') && session()->has('id') )) {
-            return redirect('welcome');
+            return redirect()->to('welcome');
         }
     }
 

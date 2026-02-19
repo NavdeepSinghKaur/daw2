@@ -78,6 +78,7 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            'isLoggedIn' => ['except' => ['login', 'welcome', 'register', 'captcha']],
         ],
         'after' => [
             // 'honeypot',
@@ -110,6 +111,6 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'isLoggedIn' => ['before' => ['/', '/post/new']],
+        // 'isLoggedIn' => ['before' => ['/', '/post/new']],
     ];
 }

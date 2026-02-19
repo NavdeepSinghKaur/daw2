@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PostModel extends Model
+class MediaModel extends Model
 {
-    protected $table            = 'Posts';
+    protected $table            = 'Media';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = true;
-    protected $protectFields    = false;
-    protected $allowedFields    = ["user_id", "id", "title", "text", "is_public", "deleted_at", "likes", "parent_id"];
+    protected $useSoftDeletes   = false;
+    protected $protectFields    = true;
+    protected $allowedFields    = ["id", "post_id", "media_url", "type"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -52,4 +52,3 @@ class PostModel extends Model
         return $data;
     }
 }
-

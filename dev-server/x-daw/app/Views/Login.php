@@ -17,6 +17,8 @@
 
         >
         <input type="password" name="password" id="password">
+        <img src="<?= base_url('captcha') ?>" alt="" srcset="">
+        <input type="text" name="captcha-answer" id="captcha-answer">
         <button type="submit">Iniciar sessió</button>
     </form>
 </body>

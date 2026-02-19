@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class UserController extends BaseController
 {
@@ -110,19 +109,6 @@ class UserController extends BaseController
                 ->withInput()
                 ->with('errors', ['database' => 'An error occurred. Please try again.' . $e->getMessage()]);
         }
-    }
-
-    /**
-     * Display all users (for testing purposes)
-     * You can remove this in production
-     */
-    public function index()
-    {
-        // Get all users from the database
-        $users = $this->userModel->findAll();
-        
-        // Display users as JSON for easy viewing
-        return $this->response->setJSON($users);
     }
 
 }

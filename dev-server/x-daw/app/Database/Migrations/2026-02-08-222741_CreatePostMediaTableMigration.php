@@ -10,22 +10,9 @@ class CreatePostMediaTableMigration extends Migration
     {
         $this->forge->addField([
             "id" => [
-                'type' => 'VARCHAR',
+                'type' => 'BIGINT',
                 'constraint' => 36,
-                'null' => false,
-            ],
-            'media' => [
-                'type' => 'LONGBLOB',
-                'null' => false,
-            ],
-            'type' => [
-                'type' => 'VARCHAR',
-                'constraint' => 128,
-                'null' => false,
-            ],
-            'mime' => [
-                'type' => 'VARCHAR',
-                'constraint' => 128,
+                'unsigned' => true,
                 'null' => false,
             ],
             'post_id' => [
@@ -33,6 +20,16 @@ class CreatePostMediaTableMigration extends Migration
                 'constraint' => 36,
                 'null' => false,
             ],
+            'media_url' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => false,
+            ],
+            'type' => [
+                'type' => 'VARCHAR',
+                'constraint' => 128,
+                'null' => false,
+            ]
         ]);
 
         $this->forge->addKey('id', true);

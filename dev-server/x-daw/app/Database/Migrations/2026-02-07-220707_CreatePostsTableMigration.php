@@ -42,6 +42,7 @@ class CreatePostsTableMigration extends Migration
             "deleted_at" => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
+                'default' => null,
             ],
             "parent_id" => [
                 'type' => 'VARCHAR',

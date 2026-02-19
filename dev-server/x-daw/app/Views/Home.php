@@ -6,3 +6,5 @@
 </form>
 
 <a href="<?= base_url('post/new') ?>">Crear post</a>
+
+<?=  view_cell('PostCell') ?>
