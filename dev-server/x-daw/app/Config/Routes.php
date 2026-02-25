@@ -18,6 +18,7 @@ $routes->get('/post', 'PostController::getPosts');
 $routes->get('/post/reply/(:segment)', 'PostController::reply/$1');
 $routes->post('/post/reply', 'PostController::createReply');
 $routes->get('/post/delete/(:segment)', 'PostController::delete/$1');
+$routes->get('/post/edit/(:segment)', 'PostController::edit/$1');
 
 // login routes
 $routes->get('welcome', 'AuthController::index');

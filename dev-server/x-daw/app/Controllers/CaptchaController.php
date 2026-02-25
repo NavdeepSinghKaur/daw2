@@ -24,6 +24,9 @@ class CaptchaController extends BaseController
         imagefill($captchaImg, 0, 0, imagecolorallocate($captchaImg, 128, 128, 128));
 
         $text = "$number1 + $number2 = ?";
+        $result = $number1 + $number2;
+        session()->set('captchaResult', $result);
+
         imagestring($captchaImg, 5, 20, 12, $text, imagecolorallocate($captchaImg, 0, 0, 0));
 
         header('Content-Type: image/png');

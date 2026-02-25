@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
-use App\Controllers\CaptchaController;
 
 class AuthController extends BaseController
 {
@@ -28,7 +27,7 @@ class AuthController extends BaseController
         if (session()->get('email') !== null) {
             return redirect()->to('/');
         }
-        // $captcha = new CaptchaController();
+
         return view('Login.php');
     }
 
@@ -72,13 +71,17 @@ class AuthController extends BaseController
         
         $user = $this->userModel->where($data)->first();
 
-        print_r($user);
-
         $res = '';
         if ($user !== null) {
             $res = password_verify($pwd, $user['password']);
         }
+        
+        $captcha = session()->get('captchaResult');
+        $captchaInput = $this->request->getPost('captcha-answer');
 
+        if ($captcha != $captchaInput) {
+            return redirect()->back()->withInput()->with('errors', 'El captcha no es correcte');
+        }
 
         if ($res) {
             $session = session();
@@ -152,6 +155,13 @@ class AuthController extends BaseController
             // Note: 'password' will be auto-hashed by the model's beforeInsert callback
         ];
 
+        $captcha = session()->get('captchaResult');
+        $captchaInput = $this->request->getPost('captcha-answer');
+
+        if ($captcha != $captchaInput) {
+            return redirect()->back()->withInput()->with('errors', ['El captcha no es correcte']);
+        }
+
         // Step 4: Try to insert the user into the database
         try {
             // The insert() method returns the new user's ID if successful
@@ -173,6 +183,16 @@ class AuthController extends BaseController
             return redirect()->back()
                 ->withInput()
                 ->with('errors', ['database' => 'An error occurred. Please try again.' . $e->getMessage()]);
+        }
+    }
+
+    private function checkCaptcha()
+    {
+        $captcha = session()->get('captchaResult');
+        $captchaInput = $this->request->getPost('captcha-answer');
+
+        if ($captcha != $captchaInput) {
+            return redirect()->back()->withInput()->with('errors', 'El captcha no es correcte');
         }
     }
 

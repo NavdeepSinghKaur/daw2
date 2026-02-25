@@ -1,44 +1,77 @@
-﻿When elon musk came to X, he optimized the app as much as possible, this is what you should do also.
-Fair enough. If you’ve got a background in C++, Java, and you've replicated Micrograd, we are done playing in the sandbox. CodeIgniter 4 is just a wrapper; let's treat the architecture like a real engineering project.
-To hit that 10/10 (and the 101% extra credit), you need to demonstrate Separation of Concerns, Deep Security, and Optimization.
-Here is your Elite To-Do List:
-________________
-🏆 The 101% "Senior Student" Roadmap
-1. Implement a Service Layer
-Don't bloat your Controllers. Create a app/Services/PiwladaService.php. The Controller handles the HTTP Request, the Service handles the Business Logic (checking the 30-min rule, processing Markdown), and the Model handles the DB. This is clean architecture.
-2. Advanced UUID handling (Binary Storage)
-Instead of storing UUIDs as strings, store them as BINARY(16).
-* Action: In your Model, use a beforeInsert callback to convert the hex UUID to binary.
-* Why: It’s faster, uses less index space, and shows you understand how databases actually work under the hood.
-3. Image Processing & Secure Storage
-Don't just move a file. Create a MediaService that:
-* Randomizes the filename (SHA-256).
-* Resizes images to a standard "web" size using the GD library.
-* Stores them in writable/uploads (outside the public folder) and serves them via a Proxy Controller that checks if the user has permission to see them.
-4. The "Observer" Pattern (Model Callbacks)
-Use CI4 Model Callbacks (afterInsert, afterDelete) to handle side effects.
-* Example: When a Piwlada is deleted, the callback triggers the deletion of associated media files or logs the action for audit purposes.
-5. Dynamic GD-Generated Captcha
-Build your own CaptchaProvider. Use PHP's GD functions to draw an image with noise, lines, and distorted text.
-* The Flex: Store the solution in an encrypted session or a temporary cache (Redis/File) with an expiration time.
-6. Markdown Caching
-Parsing Markdown on every page load is inefficient.
-* The 101% Move: Store the raw Markdown in one column and the rendered HTML in another (content_html). Only re-render when the post is edited. This demonstrates an understanding of computation cost.
-7. Robust Role-Based Access Control (RBAC)
-Instead of hardcoding if ($role == 10), create a Permissions library or a Custom Filter.
-* Action: Create a Filter that accepts arguments, e.g., filter => 'auth:admin' or filter => 'auth:editor'.
-8. Soft Deletes + Data Integrity
-You found the useSoftDeletes trap. Now master it.
-* The Flex: Ensure that when a user is "Soft Deleted," their posts become invisible, but if the admin "Restores" the user, everything reappears perfectly. Handle the Cascading Soft Delete via code (since SQL's ON DELETE won't trigger on a Soft Delete).
-9. Global Exception Handling & Logging
-Replace standard error pages with a custom Exception handler.
-* Action: Log critical errors (like DB failures or unauthorized access attempts) into a secure log file with the user’s UID and IP address.
-10. API Readiness (RESTful Design)
-Even if you are building a web app, structure your controllers so they could easily return JSON. Use CI4’s ResponseTrait.
-* The Flex: Make your search function work via an internal AJAX call, showing you can handle asynchronous data flow.
-________________
-🛠️ Your immediate next step
-Since you have the Login working, the Service Layer is where you prove your 8.78 GPA.
-Shall we build the PiwladaService? I can show you how to inject it into the controller so that your create method looks like this:
-$this->piwladaService->publish(session()->get('user_id'), $this->request->getPost());
-Clean, elegant, and definitely a 10. Ready to pounce on this?
+﻿Desenvolupar una aplicació web social amb CodeIgniter 4 de microblogging similar a Twitter/X que permeti la publicació de contingut multimèdia, gestió d'usuaris i interacció mitjançant fils de comentaris.
+
+1. Requisits Tècnics Transversals
+Framework: CodeIgniter 4.
+
+Base de Dades: MySQL/MariaDB. L'estructura s'ha de crear obligatòriament mitjançant Migrations.
+
+Dades de prova: Cal incloure Seeds per generar usuaris i piwlades inicials per facilitar la correcció.
+
+Front-end: Ús del framework Bootstrap per a la maquetació responsive.
+
+Arquitectura: Estricte compliment del patró MVC estricte.
+
+2. Gestió d'Usuaris i Seguretat
+Registre: Formulari amb validació de dades (CodeIgniter Validation).
+
+Camps: Usuari, email, contrasenya (xifrada amb password_hash).
+
+Anti-Bot: Implementació obligatòria d'un Captcha (Math captcha propi).
+
+Login: Sistema d'autenticació per sessions.
+
+Rols:
+
+Usuari estàndard: Pot publicar, editar les seves coses i comentar.
+
+Admin: Pot editar/esborrar qualsevol contingut del sistema.
+
+3. Funcionalitat de les Piwlades (Posts)
+Contingut:
+
+Text amb suport per a Markdown (negretes, llistes, enllaços). Nota: No es permet HTML pur per evitar XSS.
+
+Pujada de fitxers: Imatges (JPG/PNG) que es mostrin com a galeria (estil Instagram) o fitxers generals per descarregar.
+
+Identificació Única (UUID):
+
+Les Piwlades no s'han d'accedir per ID numèric a la URL, sinó per UUID.
+
+Ruta exemple: http://localhost/piw/123e4567-e89b-12d3-a456-426614174000
+
+Edició Temporal:
+
+L'autor només pot editar o esborrar la seva piwlada durant els 30 minuts posteriors a la publicació. Passat aquest temps, el botó ha de desaparèixer o donar error.
+
+Privacitat:
+
+Mode "Esborrany/Privat": Una piwlada marcada com a privada només és visible per l'autor i els administradors.
+
+4. Sistema de Comentaris (Fils)
+Estructura: Els comentaris tècnicament són també "Piwlades" però vinculades a una piwlada "pare" (parent_id).
+
+Visualització:
+
+S'han de mostrar sota la piwlada principal.
+
+Han d'estar paginats (ex: mostrar de 10 en 10).
+
+Integritat referencial: Si s'esborra una Piwlada pare, el sistema ha d'eliminar automàticament tots els seus comentaris (Cascading Delete).
+
+5. Extres i Millores (Opcionals per pujar nota)
+Multi-idioma: Sistema de localització de CI4 per tenir la web en Català, Castellà i Anglès.
+
+Gestor Multimèdia: Un panell on l'usuari pugui veure totes les imatges que ha pujat històricament i reutilitzar-les en noves piwlades.
+
+Exportació PDF: Generar un PDF amb el fil complet d'una conversa (Piwlada original + comentaris).
+
+2FA (Segon Factor): Els usuaris poden activar opcionalment el 2FA emprant TOTP (Google Authenticator). Es permet l'ús de llibreries de composer per a la generació del QR i validació del codi.
+Tips o notes tècniques
+Sobre UUID: A CodeIgniter 4 podeu fer servir la classe CodeIgniter\I18n\Time per controlar els 30 minuts, però per generar UUIDs potser necessiteu un helper o una funció nativa de PHP 8.
+
+Sobre Rutes: Podeu fer servir els placeholders personalitzats a app/Config/Routes.php per acceptar el format UUID:
+
+PHP
+$routes->addPlaceholder('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+$routes->get('piw/(:uuid)', 'PiwladaController::view/$1');
+Sobre Markdown: Podeu fer servir una llibreria markdown instal·lable via composer

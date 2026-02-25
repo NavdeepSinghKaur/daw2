@@ -91,6 +91,12 @@ class PostController extends BaseController
         return redirect()->to('/');
     }
 
+    public function edit($id)
+    {
+        $post = $this->postModel->find($id);
+        return view('Posts/Edit', ['post' => $post]);
+    }
+
     public function delete($id)
     {
         $this->postModel->delete($id);

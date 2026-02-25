@@ -1,3 +1,4 @@
+<?= view_cell('PostCell', ['post_id' => $parent['id']]) ?>
 <?php foreach ($replies as $reply): ?>
     <div>
         <?php
@@ -5,8 +6,6 @@
                 echo '<a href="' . base_url('/post/delete/' . $reply['id']) . '">Eliminar</a>';
             }
         ?>
-        <p><?= $parent['title'] ?></p>
-        <p><?= $parent['text'] ?></p>
         <hr>
         <p><?= $reply['title'] ?></p>
         <p><?= $reply['text'] ?></p>

@@ -81,6 +81,9 @@
                 >
             </div>
             
+            <img src="<?= base_url('captcha') ?>" alt="" srcset="">
+            <input type="text" name="captcha-answer" id="captcha-answer">
+
             <button type="submit">Crear compte</button>
         </form>
         

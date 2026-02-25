@@ -1,0 +1,47 @@
+<h1>Friends</h1>
+
+<!-- SEARCH SECTION -->
+<section>
+  <h2>Add a friend</h2>
+  <input type="text" [(ngModel)]="searchUsername" placeholder="Enter username" />
+  <button (click)="search()">Search</button>
+
+  @if (searchResult() && searchResult() !== 'not-found') {
+    <div>
+      <!-- The ! tells TypeScript "trust me, this is a User object" -->
+      <p>Found: {{ $any(searchResult()).username }}</p>
+      <button (click)="sendRequest()">Send Request</button>
+    </div>
+  }
+  @if (searchResult() === 'not-found' && searchUsername) {
+    <p>No user found with that username.</p>
+  }
+</section>
+
+<!-- INCOMING REQUESTS SECTION -->
+<section>
+  <h2>Pending requests</h2>
+  @if (pendingUsers().length === 0) {
+    <p>No pending requests.</p>
+  }
+  @for (user of pendingUsers(); track user.id) {
+    <div>
+      <span>{{ user.username }} wants to be your friend</span>
+      <button (click)="accept(user.id)">Accept</button>
+      <button (click)="decline(user.id)">Decline</button>
+    </div>
+  }
+</section>
+
+<!-- FRIENDS LIST SECTION -->
+<section>
+  <h2>My friends ({{ friends().length }})</h2>
+  @if (friends().length === 0) {
+    <p>You have no friends yet.</p>
+  }
+  @for (friend of friends(); track friend.id) {
+    <div>
+      <span>{{ friend.username }}</span>
+    </div>
+  }
+</section>

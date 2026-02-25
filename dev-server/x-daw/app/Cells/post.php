@@ -6,9 +6,21 @@ foreach ($posts as $post) {
     }
     echo "<h2>{$post['title']}</h2>";
     echo "<p>{$post['text']}</p>";
+    ?>
+
+    <?php if (!empty($post['media_url'])) { ?>
+        <img src="data:<?= $post['mime_type'] ?>;base64,<?= $post['media_img'] ?>" class="">
+    <?php } ?>
+
+    <?php
     echo "<hr>";
     ?>
-    <a href="<?= base_url('/post/reply/' . $post['id']) ?>">Reply</a>
+    <?php if (!$isInsideReply) {?>
+        <a href="<?= base_url('/post/reply/' . $post['id']) ?>">Reply</a>
+    <?php }?>
+    <?php if ($post['created_at'] < date('Y-m-d H:i:s')) {?>
+        <a href="<?= base_url('/post/edit/' . $post['id']) ?>">Editar</a>
+    <?php }?>
 <?php 
 }
 ?>

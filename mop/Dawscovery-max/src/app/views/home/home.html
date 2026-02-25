@@ -1,0 +1,13 @@
+<h1>Home</h1>
+@if (posts().length === 0) {
+  <p>No posts yet. Be the first!</p>
+}
+@for (post of posts(); track post.id) {
+  <div>
+    <img [src]="post.images[0]" alt="post image" />
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.address }}</p>
+    <p>By: {{ post.authorName }}</p>
+    <button (click)="savePost(post.id)">Save</button>
+  </div>
+}
