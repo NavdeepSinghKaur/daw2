@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,4 +15,4 @@
     </form>
     <?= view_cell('PostReplyCell', ['post_id' => $parent_id]) ?>
 </body>
-</html>
+</html> -->

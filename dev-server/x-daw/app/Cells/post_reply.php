@@ -1,3 +1,4 @@
+
 <?= view_cell('PostCell', ['post_id' => $parent['id']]) ?>
 <?php foreach ($replies as $reply): ?>
     <div>

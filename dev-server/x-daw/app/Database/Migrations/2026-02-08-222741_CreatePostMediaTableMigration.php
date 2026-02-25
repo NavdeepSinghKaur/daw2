@@ -14,6 +14,7 @@ class CreatePostMediaTableMigration extends Migration
                 'constraint' => 36,
                 'unsigned' => true,
                 'null' => false,
+                'auto_increment' => true,
             ],
             'post_id' => [
                 'type' => 'VARCHAR',

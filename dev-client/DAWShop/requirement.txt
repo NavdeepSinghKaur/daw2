@@ -1,0 +1,50 @@
+Objectiu: Dissenyar i desenvolupar una aplicació web que permeti gestionar una 
+llista de la compra de forma visual, intuïtiva i altament interactiva.
+ L'aplicació ha de simular l'experiència real de fer la llista abans d'anar 
+ al supermercat i anar marcant els productes a mesura que els posem al carretó.
+
+Requeriments
+L'aplicació haurà de permetre als usuaris realitzar les següents accions principals:
+
+Afegir articles: Hi ha d'haver una zona on l'usuari pugui escriure el nom del 
+producte (ex: "Patates") i la quantitat que en necessita (ex: "2Kg" o "3 unitats").
+ En confirmar, l'article ha d'aparèixer a la llista principal.
+
+Marcar com a comprat: Cada element de la llista ha de tenir una casella de
+ selecció (checkbox). En marcar-la, el text de l'article ha de quedar ratllat
+  per indicar que ja l'hem posat al carretó.
+
+Reordenar la llista: Com que als supermercats els passadissos tenen un ordre, 
+l'usuari ha de poder agafar qualsevol article de la llista amb el ratolí, 
+arrossegar-lo amunt o avall, i deixar-lo anar en una nova posició per canviar 
+l'ordre de la llista.
+
+Eliminar articles (Paperera): A la pantalla hi ha d'haver una icona o zona que 
+representi una paperera. Per esborrar un article que ja no volem, l'usuari 
+l'haurà d'agafar de la llista, arrossegar-lo fins a la paperera i deixar-lo 
+caure a dins.
+
+Memòria persistent: L'aplicació no pot oblidar la llista. Si l'usuari tanca la 
+pestanya del navegador o refresca la pàgina, quan hi torni a entrar ha de trobar 
+la llista de la compra exactament igual com la va deixar (amb els mateixos 
+articles, en el mateix ordre i amb els elements ratllats corresponents).
+
+
+Opcionals
+Imatge del producte: A la zona d'afegir un nou article, habilita un espai on 
+l'usuari pugui arrossegar una fotografia des del seu ordinador. Quan l'article 
+s'afegeixi a la llista, haurà de mostrar aquesta miniatura al costat del nom.
+
+Edició ràpida: Si l'usuari s'ha equivocat (per exemple, volia 5Kg de patates 
+en lloc de 2Kg), ha de poder modificar l'article directament des de la llista 
+sense haver d'esborrar-lo i tornar-lo a crear.
+
+Còpia de seguretat (Exportar): Afegeix un botó que permeti a l'usuari 
+descarregar la seva llista de la compra a l'ordinador. Aquest arxiu ha de 
+tenir un format específic generat amb la data del dia i una extensió pròpia, 
+per exemple: 20260223.daw-shop. Per exemple podria ser un JSON.
+
+Compartir llistes (Importar): Habilita una "zona de recepció" a la pantalla. 
+Si un usuari arrossega un fitxer .daw-shop des del seu ordinador cap a aquesta 
+zona, l'aplicació ha de llegir l'arxiu i carregar aquella llista de la compra 
+automàticament a la pantalla.

@@ -166,7 +166,6 @@ class AuthController extends BaseController
         try {
             // The insert() method returns the new user's ID if successful
             $userId = $this->userModel->insert($data);
-
             if ($userId) {
                 // Success! Redirect to login page with success message
                 return redirect()->to('/login')

@@ -11,6 +11,7 @@ class PostReplyCell extends Cell
 
     public function mount($post_id)
     {
+        print_r($post_id);
         $postModel = model('PostModel');
         $mediaModel = model('MediaModel');
         $this->parent = $postModel->find($post_id);

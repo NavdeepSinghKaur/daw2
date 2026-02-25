@@ -20,9 +20,7 @@ class PostCell extends Cell
         }
         // $this->posts = $postModel->where('parent_id', null)->orderBy('created_at', 'ASC')->findAll();
 
-        $query = $postModel->select('Posts.*, Media.media_url')
-        ->join('Media', 'Media.post_id = Posts.id', 'left')
-        ->where('parent_id', null);
+        $query = $postModel->where('parent_id', null);
         if (session()->get('admin') == false) {
             $query->groupStart()
                 ->where('is_public', true)
@@ -30,21 +28,38 @@ class PostCell extends Cell
                 // ->where('user_id !=', session()->get('id'))
             ->groupEnd();
         }
-        $this->posts = $query->orderBy('created_at', 'ASC')->findAll();
-        print_r($this->posts);
-        if ($this->getImage($this->posts[0]['media_url']) !== null) {
-            [$this->posts[0]['media_img'], $this->posts[0]['mime_type']] = $this->getImage($this->posts[0]['media_url']);
+        $this->posts = $query->orderBy('created_at', 'DESC')->findAll();
+        
+        foreach($this->posts as &$post) {
+            [$post['image_url'], $post['mime_type']] = $this->getImage($post['id']);
         }
+            // var_dump($this->posts);
+            
+        // var_dump($this->posts);
+        // die;
+        // foreach ($this->posts as &$post) {
+        //     if ($this->getImage($post['media_url']) !== null) {
+        //         [$post['media_url'], $post['mime_type']] = $this->getImage($post['media_url']);
+        //     }
+        // }
     }
 
-    private function getImage($imgName)
+    private function getImage($post_id)
     {
-        $path = WRITEPATH . 'uploads/posts/' . $imgName;
-        if (file_exists($path)) {
-            $base64 = base64_encode(file_get_contents($path));
-            $mimeType = mime_content_type($path);
-
-            return [$base64, $mimeType];
+        $base64List = [];
+        $mimeTypeList = [];
+        $mediaModel = model('MediaModel');
+        $media = $mediaModel->where('post_id', $post_id)->findAll();
+        foreach ($media as $file) {
+            $path = WRITEPATH . 'uploads/posts/' . $file['media_url'];
+            if (file_exists($path)) {
+                $base64 = base64_encode(file_get_contents($path));
+                $mimeType = mime_content_type($path);
+    
+                $base64List[] = $base64;
+                $mimeTypeList[] = $mimeType;
+            }
         }
+        return [$base64List, $mimeTypeList];
     }
 }

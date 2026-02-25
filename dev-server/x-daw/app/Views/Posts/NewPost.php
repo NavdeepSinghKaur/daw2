@@ -3,7 +3,7 @@
     <input type="text" name="title" id="title">
     <input type="text" name="text" id="text">
 
-    <input type="file" name="media" id="media" accept="image/*">
+    <input type="file" name="media[]" id="media" accept="image/*" multiple>
 
     <label class="switch-visibility">
         <input type="checkbox" name="checkbox" id="checkbox">

@@ -8,7 +8,7 @@ class UserModel extends Model
 {
     protected $table            = 'Users';
     protected $primaryKey       = 'uid';
-    protected $useAutoIncrement = true;
+    protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;

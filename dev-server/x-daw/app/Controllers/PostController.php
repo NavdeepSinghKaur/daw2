@@ -43,12 +43,12 @@ class PostController extends BaseController
         return redirect()->to('/post/reply/' . $this->request->getPost('parent_id'));
     }
 
-    public function getPosts()
-    {
-        $posts = $this->postModel->findAll();
-        var_dump($posts);
-        die;
-    }
+    // public function getPosts()
+    // {
+    //     $posts = $this->postModel->findAll();
+    //     var_dump($posts);
+    //     die;
+    // }
 
     public function new()
     {
@@ -61,30 +61,35 @@ class PostController extends BaseController
         $this->mediaModel = model('MediaModel');
 
         $session = session();
-        $media = $this->request->getFile('media');
+        $media = $this->request->getFileMultiple('media');
 
         
         $postData = [
             'user_id' => $session->get('id'),
-            'title' => $title = $this->request->getPost('title'),
-            'text' => $text = $this->request->getPost('text'),
-            'is_public' => $visibility = $this->request->getPost('checkbox') == 'on' 
+            'title' => /*$title =*/ $this->request->getPost('title'),
+            'text' => /*$text =*/ $this->request->getPost('text'),
+            'is_public' => /*$visibility =*/ $this->request->getPost('checkbox') == 'on' 
             ? true
             : false,
         ];
 
         $this->postModel->insert($postData);
-        
-        if ($media->isValid() && !$media->hasMoved()) {
-            $mediaName = bin2hex(random_bytes(16));
-            $media->move(WRITEPATH . 'uploads/posts', $mediaName);
-            
-            $mediaData = [
-                'post_id' => $this->postModel->getInsertID(),
-                'media_url' => $mediaName,
-                'type' => $media->getClientMimeType(),
-            ];
-            $this->mediaModel->insert($mediaData);
+        print_r($postData);
+        // print_r($this->request);
+        if ($media !== null) {
+            // if ($media->isValid() && !$media->hasMoved()) {
+                foreach($media as $file) {
+                    $mediaName = bin2hex(random_bytes(16));
+                    $file->move(WRITEPATH . 'uploads/posts', $mediaName);
+                    
+                    $mediaData = [
+                        'post_id' => $this->postModel->getInsertID(),
+                        'media_url' => $mediaName,
+                        'type' => $file->getClientMimeType(),
+                    ];
+                    $this->mediaModel->insert($mediaData);
+                }
+            // }
         }
 
 

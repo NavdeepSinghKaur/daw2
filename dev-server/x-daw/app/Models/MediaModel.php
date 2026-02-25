@@ -8,11 +8,11 @@ class MediaModel extends Model
 {
     protected $table            = 'Media';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = false;
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id", "post_id", "media_url", "type"];
+    protected $allowedFields    = ["post_id", "media_url", "type"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -35,7 +35,7 @@ class MediaModel extends Model
 
     // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = ['generateUid'];
+    protected $beforeInsert   = [];
     protected $afterInsert    = [];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
@@ -44,11 +44,11 @@ class MediaModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    protected function generateUid(array $data)
-    {
-        if (!isset($data['data']['id'])) {
-            $data['data']['id'] = bin2hex(random_bytes(16));
-        }
-        return $data;
-    }
+    // protected function generateUid(array $data)
+    // {
+    //     if (!isset($data['data']['id'])) {
+    //         $data['data']['id'] = bin2hex(random_bytes(16));
+    //     }
+    //     return $data;
+    // }
 }

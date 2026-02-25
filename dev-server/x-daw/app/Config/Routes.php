@@ -14,7 +14,7 @@ $routes->get('logout', 'HomeController::logout');
 // post routes
 $routes->get('/post/new', 'PostController::new');
 $routes->post('/post/new', 'PostController::create');
-$routes->get('/post', 'PostController::getPosts');
+// $routes->get('/post', 'PostController::getPosts');
 $routes->get('/post/reply/(:segment)', 'PostController::reply/$1');
 $routes->post('/post/reply', 'PostController::createReply');
 $routes->get('/post/delete/(:segment)', 'PostController::delete/$1');
