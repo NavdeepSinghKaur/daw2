@@ -18,7 +18,9 @@ foreach ($posts as $post) {
     <?php if (!$isInsideReply) {?>
         <a href="<?= base_url('/post/reply/' . $post['id']) ?>">Reply</a>
     <?php }?>
-    <?php if ($post['created_at'] < date('Y-m-d H:i:s')) {?>
+    <?php
+    $compare = new DateTime('+30 minutes');
+    if (new DateTime($post['created_at']) < $compare->format('Y-m-d H:i:s')) {?>
         <a href="<?= base_url('/post/edit/' . $post['id']) ?>">Editar</a>
     <?php }?>
     <button>Descarregar</button>

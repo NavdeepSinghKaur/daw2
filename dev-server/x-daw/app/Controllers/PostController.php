@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\PostModel;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class PostController extends BaseController
 {
@@ -75,10 +73,11 @@ class PostController extends BaseController
 
         $this->postModel->insert($postData);
         print_r($postData);
+        print_r($media);
         // print_r($this->request);
         if ($media !== null) {
-            // if ($media->isValid() && !$media->hasMoved()) {
-                foreach($media as $file) {
+            foreach($media as $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
                     $mediaName = bin2hex(random_bytes(16));
                     $file->move(WRITEPATH . 'uploads/posts', $mediaName);
                     
@@ -89,7 +88,7 @@ class PostController extends BaseController
                     ];
                     $this->mediaModel->insert($mediaData);
                 }
-            // }
+            }
         }
 
 

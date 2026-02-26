@@ -11,6 +11,5 @@
         <p><?= $reply['title'] ?></p>
         <p><?= $reply['text'] ?></p>
         <a href="<?= base_url('/post/reply/' . $reply['id']) ?>">Reply</a>
-        <?= view_cell('PostReplyCell', ['post_id' => $reply['id']]) ?>
     </div>
 <?php endforeach; ?>

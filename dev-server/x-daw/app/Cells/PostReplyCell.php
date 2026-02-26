@@ -13,7 +13,7 @@ class PostReplyCell extends Cell
     {
         print_r($post_id);
         $postModel = model('PostModel');
-        $mediaModel = model('MediaModel');
+
         $this->parent = $postModel->find($post_id);
         $this->replies = $postModel->where('parent_id', $post_id)->findAll();
     }
