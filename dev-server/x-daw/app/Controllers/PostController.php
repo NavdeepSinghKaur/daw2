@@ -72,8 +72,8 @@ class PostController extends BaseController
         ];
 
         $this->postModel->insert($postData);
-        print_r($postData);
-        print_r($media);
+        // print_r($postData);
+        // print_r($media);
         // print_r($this->request);
         if ($media !== null) {
             foreach($media as $file) {
@@ -83,6 +83,7 @@ class PostController extends BaseController
                     
                     $mediaData = [
                         'post_id' => $this->postModel->getInsertID(),
+                        'user_id' => $session->get('id'),
                         'media_url' => $mediaName,
                         'type' => $file->getClientMimeType(),
                     ];
