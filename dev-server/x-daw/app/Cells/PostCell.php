@@ -3,6 +3,7 @@
 namespace App\Cells;
 
 use CodeIgniter\View\Cells\Cell;
+use Codigniter\I18n\Time;
 
 class PostCell extends Cell
 {
