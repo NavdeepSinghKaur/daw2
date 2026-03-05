@@ -7,24 +7,25 @@
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
     <style>
         /* Opcional: Ajustos pel contenidor */
-        .container { max-width: 900px; margin: 0 auto; font-family: sans-serif; }
+        .text-container { max-width: 900px; margin: 0 auto; font-family: sans-serif; }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="text-container">
         <form action="<?= base_url('/post/new') ?>" method="post" enctype="multipart/form-data">
         
+            <label for="title">Títol</label>
             <input type="text" name="title" id="title">
-            <!-- <input type="text" name="text" id="text"> -->
         
             <input type="file" name="media[]" id="media" accept="image/*" multiple>
         
             <label class="switch-visibility">
-                <input type="checkbox" name="checkbox" id="checkbox">
-                <span class="slider-round"></span>
+                <span class="slider-round">Visibilitat</span>
+                <input type="checkbox" name="checkbox" id="checkbox" checked>
             </label>
-        
-            <label>Contingut:</label>
+
+            llevar todo esto después en una cell, y cargar la info allí directamente, así simplificamos y cumplimos DRY
+            <label>Contingut</label>
             <textarea id="text" type="text" name="text"></textarea>
             <button type="submit">Postejar</button>
         </form>
@@ -37,6 +38,6 @@
         spellChecker: false,
         placeholder: "Escriu aquí fent servir Markdown (## Títol, **negreta**...)",
     });
-</script>
+    </script>
 </body>
 </html>

@@ -9,6 +9,7 @@ class PostCell extends Cell
 {
     public $posts = [];
     public $isInsideReply = false;
+    public $pager = null;
 
     public function mount($post_id = null)
     {
@@ -29,6 +30,8 @@ class PostCell extends Cell
                 ->groupEnd();
             }
             $this->posts = $query->orderBy('created_at', 'DESC')->paginate(10);
+
+            $this->pager = $postModel->pager;
         }
 
         // with images
