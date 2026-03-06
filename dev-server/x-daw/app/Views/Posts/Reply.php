@@ -9,12 +9,21 @@
 <body>
     <?= $this->include('Nav') ?>
     
-    <form action="<?= base_url('/post/reply') ?>" method="post">
+    <?= view_cell('WriteTextCell', 
+    [
+        'userId' => session()->get('id'), 
+        'route' => '/post/reply',
+        'postId' => '',
+        'title' => '', 
+        'text' => '',
+        'parentId' => $parent_id
+    ]) ?>;
+    <!-- <form action="<?= base_url('/post/reply') ?>" method="post">
         <input type="text" name="parent_id" id="parent_id" value="<?= $parent_id ?>">
         <input type="text" name="title" id="title">
         <input type="text" name="text" id="text">
         <button type="submit">Post</button>
-    </form>
+    </form> -->
     <?= view_cell('PostReplyCell', ['post_id' => $parent_id]) ?>
 </body>
 </html>

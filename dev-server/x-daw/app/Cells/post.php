@@ -27,7 +27,7 @@
             $created = new DateTime($post['created_at']);
             $created->modify('+30 minutes');
         
-            if ( $now < $created ) {?>
+            if ( $now < $created && $post['user_id'] === session()->get('id')) {?>
                 <a href="<?= base_url('/post/edit/' . $post['id']) ?>">Editar</a>
             <?php }?>
             

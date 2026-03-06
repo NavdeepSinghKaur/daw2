@@ -102,6 +102,20 @@ class PostController extends BaseController
         return view('Posts/Edit', ['post' => $post]);
     }
 
+    public function saveEdit($id) 
+    {
+        $postData = [
+            'title' => $this->request->getPost('title'),
+            'text' => $this->request->getPost('text'),
+            'is_public' => $this->request->getPost('checkbox') == 'on' 
+                ? true
+                : false,
+        ];
+
+        $this->postModel->update($id, $postData);
+        return redirect()->to('/post/reply/' . $id);
+    }
+
     public function delete($id)
     {
         $this->postModel->delete($id);

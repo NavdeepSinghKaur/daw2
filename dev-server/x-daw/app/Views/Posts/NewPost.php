@@ -11,7 +11,8 @@
     </style>
 </head>
 <body>
-    <div class="text-container">
+    <?= view_cell('WriteTextCell', ['route' => '/post/new', 'userId' => session()->get('id')]) ?>;
+    <!-- <div class="text-container">
         <form action="<?= base_url('/post/new') ?>" method="post" enctype="multipart/form-data">
         
             <label for="title">Títol</label>
@@ -38,6 +39,6 @@
         spellChecker: false,
         placeholder: "Escriu aquí fent servir Markdown (## Títol, **negreta**...)",
     });
-    </script>
+    </script> -->
 </body>
 </html>
