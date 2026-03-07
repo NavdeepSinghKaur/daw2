@@ -37,3 +37,5 @@ $routes->post('register', 'AuthController::create');
 // Captcha routes
 $routes->get('captcha', 'CaptchaController::index');
 
+// Media routes
+$routes->get('media', 'MediaController::index');

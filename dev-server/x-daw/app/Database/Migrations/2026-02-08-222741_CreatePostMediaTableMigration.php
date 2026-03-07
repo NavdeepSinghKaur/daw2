@@ -23,7 +23,7 @@ class CreatePostMediaTableMigration extends Migration
             ],
             'user_id' => [
                 'type' => 'VARCHAR',
-                'constraint' => 36,
+                'constraint' => 128,
                 'null' => false,
             ],
             'media_url' => [
@@ -40,7 +40,7 @@ class CreatePostMediaTableMigration extends Migration
 
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('post_id', 'Posts', 'id', '', 'CASCADE');
-        $this->forge->addForeignKey('user_id', 'Users', 'id', '', 'CASCADE');
+        $this->forge->addForeignKey('user_id', 'Users', 'uid', '', 'CASCADE');
         $this->forge->createTable('Media');
 
     }

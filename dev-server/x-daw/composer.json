@@ -12,7 +12,8 @@
     "require": {
         "php": "^8.2",
         "codeigniter4/framework": "^4.7",
-        "league/commonmark": "^2.8"
+        "league/commonmark": "^2.8",
+        "spomky-labs/otphp": "^11.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",

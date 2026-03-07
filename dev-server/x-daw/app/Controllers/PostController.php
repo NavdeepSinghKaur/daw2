@@ -76,6 +76,7 @@ class PostController extends BaseController
                         'media_url' => $mediaName,
                         'type' => $file->getClientMimeType(),
                     ];
+                    print_r($mediaData);
                     $this->mediaModel->insert($mediaData);
                 }
             }

@@ -6,7 +6,6 @@
     <title>Crear post</title>
     <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
     <style>
-        /* Opcional: Ajustos pel contenidor */
         .text-container { max-width: 900px; margin: 0 auto; font-family: sans-serif; }
     </style>
 </head>

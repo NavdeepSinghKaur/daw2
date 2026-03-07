@@ -3,6 +3,6 @@
 if (session()->get('email') !== null) {
     session()->destroy();
 }
-base_url('Home');
+$this->redirect()->to('/welcome');
 ?>
 

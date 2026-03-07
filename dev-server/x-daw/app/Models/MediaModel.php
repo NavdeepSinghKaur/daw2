@@ -12,7 +12,7 @@ class MediaModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["post_id", "media_url", "type"];
+    protected $allowedFields    = ["post_id", "media_url", "user_id", "type"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
