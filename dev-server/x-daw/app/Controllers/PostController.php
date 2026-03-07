@@ -11,6 +11,7 @@ class PostController extends BaseController
     public function __construct()
     {
         $this->postModel = model('PostModel');
+        helper('uuid_helper');
     }
 
     public function index()
@@ -22,31 +23,22 @@ class PostController extends BaseController
         return view('Posts/Reply', ['parent_id' => $parent_id]);
     }
 
-    public function createReply()
+    public function createReply($parentId)
     {
-        // $this->postModel = new PostModel();
-
         $session = session();
         $postData = [
-            'parent_id' => $this->request->getPost('parent_id'),
+            'parent_id' => $parentId,
             'user_id' => $session->get('id'),
-            'title' => $title = $this->request->getPost('title'),
-            'text' => $text = $this->request->getPost('text'),
-            'is_public' => $visibility = $this->request->getPost('checkbox') == 'on' 
+            'title' => $this->request->getPost('title'),
+            'text' => $this->request->getPost('text'),
+            'is_public' => $this->request->getPost('checkbox') == 'on' 
                 ? true
                 : false,
         ];
         $this->postModel->insert($postData);
 
-        return redirect()->to('/post/reply/' . $this->request->getPost('parent_id'));
+        return redirect()->to('/post/reply/' . $parentId);
     }
-
-    // public function getPosts()
-    // {
-    //     $posts = $this->postModel->findAll();
-    //     var_dump($posts);
-    //     die;
-    // }
 
     public function new()
     {
@@ -55,7 +47,6 @@ class PostController extends BaseController
 
     public function create()
     {
-        // $this->postModel = model('PostModel');
         $this->mediaModel = model('MediaModel');
 
         $session = session();
@@ -64,21 +55,19 @@ class PostController extends BaseController
         
         $postData = [
             'user_id' => $session->get('id'),
-            'title' => /*$title =*/ $this->request->getPost('title'),
-            'text' => /*$text =*/ $this->request->getPost('text'),
-            'is_public' => /*$visibility =*/ $this->request->getPost('checkbox') == 'on' 
+            'title' => $this->request->getPost('title'),
+            'text' => $this->request->getPost('text'),
+            'is_public' => $this->request->getPost('checkbox') == 'on' 
             ? true
             : false,
         ];
 
         $this->postModel->insert($postData);
-        // print_r($postData);
-        // print_r($media);
-        // print_r($this->request);
+
         if ($media !== null) {
             foreach($media as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
-                    $mediaName = bin2hex(random_bytes(16));
+                    $mediaName = generate_uuid();
                     $file->move(WRITEPATH . 'uploads/posts', $mediaName);
                     
                     $mediaData = [

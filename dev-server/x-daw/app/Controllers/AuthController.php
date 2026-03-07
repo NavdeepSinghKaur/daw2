@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
 
 class AuthController extends BaseController
@@ -185,14 +184,14 @@ class AuthController extends BaseController
         }
     }
 
-    private function checkCaptcha()
-    {
-        $captcha = session()->get('captchaResult');
-        $captchaInput = $this->request->getPost('captcha-answer');
+    // private function checkCaptcha()
+    // {
+    //     $captcha = session()->get('captchaResult');
+    //     $captchaInput = $this->request->getPost('captcha-answer');
 
-        if ($captcha != $captchaInput) {
-            return redirect()->back()->withInput()->with('errors', 'El captcha no es correcte');
-        }
-    }
+    //     if ($captcha != $captchaInput) {
+    //         return redirect()->back()->withInput()->with('errors', 'El captcha no es correcte');
+    //     }
+    // }
 
 }

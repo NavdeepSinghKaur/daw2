@@ -11,7 +11,6 @@
             <input type="checkbox" name="checkbox" id="checkbox" checked>
         </label>
 
-        llevar todo esto después en una cell, y cargar la info allí directamente, así simplificamos y cumplimos DRY
         <label>Contingut</label>
         <textarea id="text" type="text" name="text"><?php if ($this->route == '/post/edit' && isset($this->text)): echo $this->text; endif; ?></textarea>
         <button type="submit">Postejar</button>

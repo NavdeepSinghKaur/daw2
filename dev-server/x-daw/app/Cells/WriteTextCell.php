@@ -12,27 +12,28 @@ class WriteTextCell extends Cell
     public string $title;
     public string $text;
     public string $parentId;
+    public array $parameters = [];
     public array $configuration = [];
 
-
-    // pass the url where to point
-    // the text to show in the button
-    // 
-    public function mount($userId = '', $route = '', $postId = '', $title = '', $text = '', $parentId = '')
+    public function mount(array $parameters)
     {
-        $this->userId = $userId;
-        $this->postId = $postId;
-        $this->route = $route;
-        if ($route === '/post/edit') {
-            $this->title = $title;
-            $this->text = $text;
+        $this->userId = $parameters['userId'];
+        $this->route = $parameters['route'];
+        $this->postId = $parameters['postId'] ?? '';
+        
+        if ($this->route == '/post/reply') {
+            $this->postId = $parameters['parentId'];
+
         }
-        $this->parentId = $parentId;
-        print_r($this->parentId);
-        // print_r($this->route);
-        // echo ($this->route == '/post/newEdit' && isset($this->text));
-        // print_r($this->text);
-        // print_r($this->title);
-        // die;
+            
+        if ($this->route === '/post/edit') {
+            $this->postId = $parameters['postId'] ?? '';
+            $this->title = $parameters['title'];
+            $this->text = $parameters['text'];
+        }
+
+        if ($this->route === '/post/new') {
+            $this->postId = '';
+        }
     }
 }

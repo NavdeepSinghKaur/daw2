@@ -65,7 +65,8 @@ class UserModel extends Model
     protected function generateUid(array $data)
     {
         if (!isset($data['data']['uid'])) {
-            $data['data']['uid'] = bin2hex(random_bytes(16));
+            helper('uuid_helper');
+            $data['data']['uid'] = generate_uuid();
         }
         return $data;
     }

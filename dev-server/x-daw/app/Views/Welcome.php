@@ -17,7 +17,6 @@
 
             <div class="col-5">
                 <h1 class="fw-bold mb-5" style="font-size: 4rem; letter-spacing: -2px;">Uneix-te avui</h1>
-                <!-- <h2 class="fw-bold mb-4">Únete hoy.</h2> -->
                 
                 <div class="d-grid gap-2 w-75">
                     <a href="/register" class="btn btn-dark rounded-pill fw-bold py-2 mb-2">
@@ -28,7 +27,6 @@
                         <hr class="flex-grow-1"> <span class="mx-2 text-secondary">o</span> <hr class="flex-grow-1">
                     </div>
 
-                    <!-- <h5 class="fw-bold mt-4 mb-3">¿Ya tienes cuenta?</h5> -->
                     <a href="/login" class="btn btn-outline-primary rounded-pill fw-bold py-2">
                         Iniciar sesió
                     </a>

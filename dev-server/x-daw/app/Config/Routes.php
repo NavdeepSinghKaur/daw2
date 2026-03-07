@@ -12,16 +12,18 @@ $routes->get('logout', 'HomeController::logout');
 
 
 // post routes
+$routes->addPlaceholder('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+
 $routes->get('/post/new', 'PostController::new');
 $routes->post('/post/new', 'PostController::create');
 // $routes->get('/post', 'PostController::getPosts');
-$routes->get('/post/reply/(:segment)', 'PostController::reply/$1');
-$routes->post('/post/reply', 'PostController::createReply');
+$routes->get('/post/reply/(:uuid)', 'PostController::reply/$1');
+$routes->post('/post/reply/(:uuid)', 'PostController::createReply/$1');
 
-$routes->get('/post/delete/(:segment)', 'PostController::delete/$1');
+$routes->get('/post/delete/(:uuid)', 'PostController::delete/$1');
 
-$routes->get('/post/edit/(:segment)', 'PostController::edit/$1');
-$routes->post('/post/edit/(:segment)', 'PostController::saveEdit/$1');
+$routes->get('/post/edit/(:uuid)', 'PostController::edit/$1');
+$routes->post('/post/edit/(:uuid)', 'PostController::saveEdit/$1');
 
 // login routes
 $routes->get('welcome', 'AuthController::index');

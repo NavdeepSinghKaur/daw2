@@ -11,17 +11,16 @@
     </style>
 </head>
 <body>
-    <?php
-    // print_r($post);
-    // die;
-    ?>
-    <?= view_cell('WriteTextCell', 
-    [
+    <?= $this->include('Nav') ?>
+
+    <?php $parameters = [
         'userId' => session()->get('id'), 
         'route' => '/post/edit',
         'postId' => $post['id'],
         'title' => $post['title'], 
         'text' => $post['text']
-    ]) ?>;
+    ]; ?>
+
+    <?= view_cell('WriteTextCell', ['parameters' => $parameters]) ?>;
 </body>
 </html>

@@ -44,11 +44,4 @@ class MediaModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    // protected function generateUid(array $data)
-    // {
-    //     if (!isset($data['data']['id'])) {
-    //         $data['data']['id'] = bin2hex(random_bytes(16));
-    //     }
-    //     return $data;
-    // }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Helpers\uuid_Helper;
 
 class PostModel extends Model
 {
@@ -47,7 +48,8 @@ class PostModel extends Model
     protected function generateUid(array $data)
     {
         if (!isset($data['data']['id'])) {
-            $data['data']['id'] = bin2hex(random_bytes(16));
+            helper('uuid_helper');
+            $data['data']['id'] = generate_uuid();
         }
         return $data;
     }
