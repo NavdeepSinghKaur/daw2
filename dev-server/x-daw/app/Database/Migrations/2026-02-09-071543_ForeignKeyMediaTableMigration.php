@@ -8,13 +8,8 @@ class ForeignKeyMediaTableMigration extends Migration
 {
 public function up()
     {
-        $this->db->query("
-            ALTER TABLE Posts
-            ADD CONSTRAINT posts_parent_id_fk
-            FOREIGN KEY (parent_id) REFERENCES Posts(id)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE
-        ");
+        $this->forge->addForeignKey('parent_id', 'Posts', 'id', 'CASCADE', 'CASCADE', 'posts_parent_id_fk');
+        $this->forge->processIndexes('Posts');
     }
 
     public function down()

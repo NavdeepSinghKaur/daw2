@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (product.value !== '' && units.value !== '') {
             const newProduct = {
-                id: generateId(),
+                id: parseInt(Math.random()*100000),
                 productName: product.value,
                 units: units.value,
                 bought: false
@@ -27,10 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(products);
     });
 
-    function generateId() {
-        return parseInt(Math.random()*100000);
-    }
-
     function showProducts() {
         const ul = document.getElementById('list');
         ul.innerHTML = '';
@@ -40,18 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
             li.id = product.id;
             li.draggable = true;
 
-            // Checkbox
             const box = document.createElement('input');
             box.type = 'checkbox';
             box.checked = product.bought;
             box.addEventListener('change', () => changeBought(product.id));
 
-            // Name
             const productText = document.createElement('span');
             productText.className = 'product-text';
             productText.textContent = product.productName;
 
-            // Qty
             const qtySpan = document.createElement('span');
             qtySpan.className = 'product-qty';
             qtySpan.textContent = product.units;
@@ -101,32 +94,28 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
             if (productId !== elementDraggedId) {
-                li.classList.add('drag-over');
+                li.classList.add('dragged');
             }
         });
 
         li.addEventListener('dragleave', () => {
-            li.classList.remove('drag-over')
+            li.classList.remove('dragged')
         });
 
         li.addEventListener('drop', (e) => {
             e.preventDefault();
-            li.classList.remove('drag-over');
+            li.classList.remove('dragged');
 
             if (productId !== elementDraggedId) {
-                let temp1Var = products.indexOf(productId);
-
-                // let temp2Var = [];
                 let productToMove = [];
                 let movedProduct = [];
-                // let positions = [];
+
                 products.forEach((product, i) => {
                     if (product.id == elementDraggedId) {
                         movedProduct.push(product, i);
                     }
                     if (product.id == productId) {
                         productToMove.push(product, i);
-                        // positions.push(i);
                     }
                 });
                 // console.log(productToMove);
@@ -135,30 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 products[movedProduct[1]] = productToMove[0];
                 handleLocalStorage(false);
                 showProducts();
-                // for (let i = 0; i < products.length; i++) {
-                //     if (product.id == movedProductId) {
-                //         movedProduct = [...product];
-                //     }
-                //     if (productToMove == productId) {
-                //         productToMoveId = [...product];
-                //     }
-                // }
-                // temp2Var.push(...products[products.indexOf(productId)]);
-                // const productToMoveId = products.indexOf[elementDraggedId];
-                // const movedProductId = products.indexOf(productId);
-
-                // products.splice(productToMoveId, 1, movedProduct);
-                // products.splice(movedProductId, 1, productToMove);
-                // handleLocalStorage(false);
-                // showProducts();
-                // products[products.indexOf(productId)] = products[products.indexOf[elementDraggedId]];
-                
-                
-                // products.forEach((product) => {
-                //     if (product.id == productId) {
-                        
-                //     }
-                // })
             }
         })
     }
@@ -168,17 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
     bin.addEventListener('dragover', (e) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
-        bin.classList.add('drag-over');
+        bin.classList.add('dragged');
     });
 
     bin.addEventListener('dragleave', (e) => {
         e.preventDefault();
-        bin.classList.remove('drag-over');
+        bin.classList.remove('dragged');
     });
 
     bin.addEventListener('drop', (e) => {
         e.preventDefault();
-        bin.classList.remove('drag-over');
+        bin.classList.remove('dragged');
 
         let idx = 0;
         for (let i = 0; i < products.length; i++) {

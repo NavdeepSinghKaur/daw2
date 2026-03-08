@@ -4,6 +4,7 @@ namespace App\Cells;
 
 use CodeIgniter\View\Cells\Cell;
 use Codigniter\I18n\Time;
+use League\CommonMark\CommonMarkConverter;
 
 class PostCell extends Cell
 {
@@ -11,16 +12,24 @@ class PostCell extends Cell
     public $isInsideReply = false;
     public $pager = null;
 
+    public $converter;
+
     public function mount($post_id = null)
     {
-        // if there are replies
+        $configuration = [
+            'html_input' => 'strip',
+            'allow_unsafe_links' => false,
+
+        ];
+        
+        $this->converter = new CommonMarkConverter($configuration);
+
         $postModel = model('PostModel');
         if ($post_id !== null) {
             $this->isInsideReply = true;
             $this->posts = $postModel->where('id', $post_id)->findAll();
         }
         
-        // if it's the first
         if (!$this->isInsideReply) {
             $query = $postModel->where('parent_id', null);
             if (session()->get('admin') == false) {

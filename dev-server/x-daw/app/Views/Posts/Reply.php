@@ -12,7 +12,9 @@
 </head>
 <body>
     <?= $this->include('Nav') ?>
-    
+    <div class="d-flex">
+        <p class="mx-auto">Escriu la teva resposta:</p>
+    </div>
     <?php $parameters = [
         'userId' => session()->get('id'), 
         'route' => '/post/reply',

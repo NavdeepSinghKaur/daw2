@@ -10,9 +10,10 @@
             ?>
     
             <p class='fw-bold h3 my-2'><?= $reply['title'] ?></p>
-            <p><?= $reply['text'] ?></p>
+            <p><?= $converter->convert($reply['text']) ?></p>
             <a href="<?= base_url('/post/reply/' . $reply['id']) ?>">Reply</a>
         </div>
         <?php endforeach; ?>
+        <?= $pag->links() ?>
     </div>
 </div>

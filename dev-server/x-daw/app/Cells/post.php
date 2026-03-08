@@ -8,12 +8,12 @@
                 echo '<a href="' . base_url('/post/delete/' . $post['id']) . '" class="btn btn-danger rounded-pill px-2 py-0 ms-auto">Eliminar</a>';
             }
             echo "<p class='fw-bold h3 my-2' >{$post['title']}</p>";
-            echo "<p>{$post['text']}</p>";
+            echo "<p>{$converter->convert($post['text'])}</p>";
 
             if (!empty($post['image_url'])) { 
                 foreach($post['image_url'] as $i => $media) {
                     ?>
-                    <img src="data:<?= $post['mime_type'][$i] ?>;base64,<?= $media ?>" style="max-width: 300px; max-height: 300px;">
+                    <img class="mb-3" src="data:<?= $post['mime_type'][$i] ?>;base64,<?= $media ?>" style="max-width: 300px; max-height: 300px;">
             <?php }
             }
         
@@ -39,5 +39,5 @@
     <?php 
     }
     ?>
-        <?php if(!$isInsideReply) { echo($pager->simpleLinks()); } ?>
+    <?php if(!$isInsideReply) { echo($pager->links()); } ?>
 </div>    
