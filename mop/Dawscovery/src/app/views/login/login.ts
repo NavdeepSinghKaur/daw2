@@ -2,11 +2,11 @@ import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
 import { User } from '../../models/user';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -20,11 +20,11 @@ export class Login {
 
   constructor() {
     this._user = {
-      connections: 0,
-      id: 0,
+      connections: [],
       username: '',
       posts: [],
-      pendingConnections: [],
+      connectionFrom: [],
+      connectionTo: [],
       password: '',
       postLists: [],
     };
@@ -34,11 +34,11 @@ export class Login {
 
   public async login() {
     this._user = {
-      connections: 0,
-      id: 0,
+      connections: [],
       username: this.username(),
       posts: [],
-      pendingConnections: [],
+      connectionFrom: [],
+      connectionTo: [],
       password: this.password(),
       postLists: [],
     }

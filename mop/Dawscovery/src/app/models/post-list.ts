@@ -1,7 +1,7 @@
 export interface PostList {
     author: string;
-    createdAt: string;
-    id: number;
+    createdAt: Date;
+    id?: string;
     name: string;
     posts: string[];
     shared: string[];

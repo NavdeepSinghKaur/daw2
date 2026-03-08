@@ -1,9 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, CollectionReference, collection, addDoc, getDoc, collectionData } from '@angular/fire/firestore';
+import { Firestore, DocumentReference, CollectionReference, collection, addDoc, collectionData, arrayRemove, arrayUnion, doc, query, updateDoc, where } from '@angular/fire/firestore';
 import { Post } from '../models/post';
-import { DocumentReference } from '@angular/fire/firestore';
-import { doc } from 'firebase/firestore';
-import { DocumentSnapshot } from '@angular/fire/compat/firestore';
+import { catchError, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +15,7 @@ export class PostService {
     this._postCollection = collection(this._firestore, 'posts') as CollectionReference<Post>;
   }
 
-  public async addPost(post: Post) {
+  public async createPost(post: Post): Promise<void> {
     try {
       let result: DocumentReference<Post> = await addDoc(this._postCollection, post) as DocumentReference<Post>;
       console.log(result);
@@ -26,29 +24,47 @@ export class PostService {
     }
   }
 
-  public async getPosts(author: string) {
-    collectionData(this._postCollection, { idField: 'author' }).subscribe(
-      (data: any) => { console.log(data); }
+  // public async getPosts(id: string) {
+  //   collectionData(this._postCollection, { idField: 'author' }).subscribe(
+  //     (data: any) => { console.log(data); }
+  //   );
+  // }
+
+  public getOwnPosts(author: string): Observable<Post[] | string> {
+    const q = query(this._postCollection, where('author', '==', author));
+
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((posts: any) => {
+        console.log(posts);
+        return posts as Post[];
+      }), catchError(error => {
+        console.log(error);
+        return error as string;
+      })
     );
-    // try {
-    //   const docRef = doc(this._firestore, 'posts', author) as DocumentReference<Post>;
+  }
 
-    //   getDoc(docRef).then(
-    //     (doc) => {
-    //       console.log(doc.data());
-    //       return doc.data();
-    //     }
-    //   ).catch(
-    //     (error: any) => { console.log("error:", error) }
-    //   ).finally(
-    //     () => { console.log("completed") }
-    //   );
-    //   // const result: DocumentReference<Post> = await getDoc(doc);
+  public async savePost(postId: string, userName: string): Promise<void> {
+    let ref = doc(this._firestore, 'posts', postId);
 
-    //   // let result = await ()
+    await updateDoc(ref, { savedBy: arrayUnion(userName) });
+  }
 
-    // } catch (error: any) {
-    //   console.log(error);
-    // }
+  public async unsavePost(postId: string, userName: string): Promise<void> {
+    let ref = doc(this._firestore, 'posts', postId);
+
+    await updateDoc(ref, { savedBy: arrayRemove(userName) });
+  }
+
+  public getSavedPosts(userName: string): Observable<Post[] | string> {
+    const q = query(this._postCollection, where('savedBy', 'array-contains', userName));
+
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((posts: any) => {
+        return posts as Post[];
+      }), catchError(error => {
+        return error as string;
+      })
+    );
   }
 }

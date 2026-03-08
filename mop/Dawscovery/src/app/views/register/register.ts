@@ -1,14 +1,16 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { User } from '../../models/user';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Register {
   public username: WritableSignal<string>;
@@ -16,14 +18,15 @@ export class Register {
   private _user: User;
 
   private _authSrv: AuthService = inject(AuthService);
+  private _router: Router = inject(Router);
 
   constructor() {
     this._user = {
-      connections: 0,
-      id: 0,
+      connections: [],
       username: '',
       posts: [],
-      pendingConnections: [],
+      connectionFrom: [],
+      connectionTo: [],
       password: '',
       postLists: [],
     };
@@ -33,14 +36,18 @@ export class Register {
 
   public async register() {
     this._user = {
-      connections: 0,
-      id: 0,
+      connections: [],
       username: this.username(),
       posts: [],
-      pendingConnections: [],
+      connectionFrom: [],
+      connectionTo: [],
       password: this.password(),
       postLists: [],
     }
-    await this._authSrv.register(this._user);
+    const res = await this._authSrv.register(this.username(), this.password());
+    if (res) {
+      this._router.navigate(['/']);
+    }
   }
+
 }

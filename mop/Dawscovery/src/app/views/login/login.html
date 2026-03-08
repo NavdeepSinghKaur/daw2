@@ -1,5 +1,17 @@
-<form (ngSubmit)="login()">
-    <input type="text" placeholder="username" [(ngModel)]="username" name="username">
-    <input type="password" placeholder="password" [(ngModel)]="password" name="password">
-    <button type="submit">Login</button>
-</form>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-sm p-4" style="width: 400px;">
+        <h2 class="text-center mb-4">Iniciar Sesió</h2>
+        <form (ngSubmit)="login()">
+            <div class="mb-3">
+                <label class="form-label">usuari</label>
+                <input type="text" class="form-control" [(ngModel)]="username" name="username">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">contrasenya</label>
+                <input type="password" class="form-control" [(ngModel)]="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-2">Entrar</button>
+        </form>
+        <p>no tens un compte? <a routerLink="/register">Registra't</a></p>
+    </div>
+</div>

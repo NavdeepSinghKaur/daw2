@@ -1,10 +1,10 @@
 export interface Post {
     address: string;
     author: string;
+    id?: string;
     createdAt: string;
     description: string;
-    images: string;
-    likes: number;
+    images: string[];
     rating: {
         aesthetics: number;
         massification: number;

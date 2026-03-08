@@ -1,0 +1,42 @@
+<div class="container d-flex justify-content-start my-5">
+    <div class="card shadow-sm p-4">
+        <h2 class="text-center mb-4">Crear Post</h2>
+        <form (submit)="createPost()">
+            <label for="address" class="form-label">Ubicació</label>
+            <input type="text" id="address" name="address" [(ngModel)]="address" class="form-control mb-3">
+
+            <label for="description" class="form-label">Descripció</label>
+            <textarea name="description" id="description" cols="30" rows="5" [(ngModel)]="description"
+                class="form-control mb-3"></textarea>
+
+            <label for="images" class="form-label">Imatges</label>
+            <input type="file" id="images" name="images" (change)="uploadImage($event)" class="form-control mb-3">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="aesthetics" class="form-label">Estètica</label>
+                    <input type="number" id="aesthetics" name="aesthetics" [(ngModel)]="aesthetics"
+                        class="form-control mb-3">
+                </div>
+                <div class="col-md-6">
+                    <label for="massification" class="form-label">Massificació</label>
+                    <input type="number" id="massification" name="massification" [(ngModel)]="massification"
+                        class="form-control mb-3">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="noise" class="form-label">So</label>
+                    <input type="number" id="noise" name="noise" [(ngModel)]="noise" class="form-control mb-3">
+                </div>
+                <div class="col-md-6">
+                    <label for="price" class="form-label">Preu</label>
+                    <input type="number" id="price" name="price" [(ngModel)]="price" class="form-control mb-3">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-3">Crear Post</button>
+        </form>
+    </div>
+</div>

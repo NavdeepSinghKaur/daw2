@@ -1,9 +1,9 @@
 export interface User {
-    connections: number;
-    id: number;
+    connections: string[];
     username: string;
     posts: string[];
-    pendingConnections: string[];
+    connectionFrom: string[];
+    connectionTo: string[];
     password: string;
     postLists: string[];
 };

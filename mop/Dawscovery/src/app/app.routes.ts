@@ -5,6 +5,7 @@ import { Home } from './views/home/home';
 import { Posts } from './views/posts/posts';
 import { Connections } from './views/connections/connections';
 import { authGuard } from './auth-guard';
+import { Lists } from './views/lists/lists';
 
 export const routes: Routes = [
     {
@@ -30,13 +31,17 @@ export const routes: Routes = [
         canActivate: [authGuard],
         component: Connections,
     },
+    {
+        path: 'lists',
+        canActivate: [authGuard],
+        component: Lists
+    },
     // {
     //     path: 'profile',
     //     component: 
     // },
     {
         path: '**',
-        canActivate: [authGuard],
         redirectTo: ''
     }
 ];

@@ -1,1 +1,25 @@
-<p>menu works!</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-white px-4 border">
+    <a class="navbar-brand font-weight-bold" href="#">
+        <span class="text-black">Dawscovery</span>
+    </a>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/posts" routerLinkActive="active">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/connections" routerLinkActive="active">Agregar amics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/lists" routerLinkActive="active">Llistes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/home" routerLinkActive="active">Inici</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="logout()">Tancar sessió</a>
+            </li>
+        </ul>
+    </div>
+</nav>

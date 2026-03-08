@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, CollectionReference, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, CollectionReference, addDoc, doc, setDoc } from '@angular/fire/firestore';
 import { User } from '../models/user';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from '@angular/fire/auth';
 
@@ -24,12 +24,24 @@ export class AuthService {
     }
   }
 
-  public async register(user: User) {
+  public async register(userName: string, password: string): Promise<boolean> {
     try {
-      let result: UserCredential = await createUserWithEmailAndPassword(this._auth, user.username, user.password)
+      let result: UserCredential = await createUserWithEmailAndPassword(this._auth, userName, password)
+      let ref = doc(this._firestore, 'users', userName);
+      await setDoc(ref, {
+        connections: [],
+        username: userName,
+        posts: [],
+        connectionFrom: [],
+        connectionTo: [],
+        password: password,
+        postLists: [],
+      });
       console.log(result)
+      return true;
     } catch (error: any) {
       console.log(error)
+      return false;
     }
   }
 
