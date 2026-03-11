@@ -4,16 +4,18 @@ import { Register } from './views/register/register';
 import { Home } from './views/home/home';
 import { Posts } from './views/posts/posts';
 import { Connections } from './views/connections/connections';
-import { authGuard } from './auth-guard';
+import { authGuard } from './guards/auth-guard';
 import { Lists } from './views/lists/lists';
 
 export const routes: Routes = [
     {
         path: 'login',
+        canDeactivate: [authGuard],
         component: Login,
     },
     {
         path: 'register',
+        canDeactivate: [authGuard],
         component: Register,
     },
     {

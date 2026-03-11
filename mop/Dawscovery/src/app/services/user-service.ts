@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Firestore, CollectionReference, collection, collectionData, where, query, doc, arrayUnion, updateDoc, arrayRemove } from '@angular/fire/firestore';
 import { User } from '../models/user';
-import { catchError, firstValueFrom, map, Observable } from 'rxjs';
+import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
 import { Connections } from '../views/connections/connections';
 
 @Injectable({
@@ -17,7 +17,7 @@ export class UserService {
 
   }
 
-  getUser(username: string): Observable<User | String> {
+  getUser(username: string): Observable<User | string> {
     const q = query(this._userCollection, where('username', '==', username));
     return collectionData(q, { idField: 'username' }).pipe(
       map((user: any) => {
@@ -32,6 +32,7 @@ export class UserService {
   async addConnection(from: string, to: string): Promise<void> {
     let ref = doc(this._firestore, 'users', to);
     try {
+      console.log(from);
       await updateDoc(ref, { 'pendingConnections.from': arrayUnion(from) });
     } catch (error: any) {
       console.log(error);
@@ -70,7 +71,7 @@ export class UserService {
         return users[0]?.pendingConnections?.from ?? [];
       }),
       catchError((error: any) => {
-        return [error];
+        return of([error]);
       })
     )
   }

@@ -1,3 +1,5 @@
-<p>posts works!</p>
+<button (click)="alterCreateNewPost()">Crear nou post</button>
 
-<app-create-post></app-create-post>
+@if (getCreateNewPost()) {
+<app-create-post (closeModal)="alterCreateNewPost()"></app-create-post>
+}

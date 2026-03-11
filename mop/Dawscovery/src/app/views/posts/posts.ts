@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { PostService } from '../../services/post-service';
 import { CreatePost } from './create-post/create-post';
 import { Auth } from '@angular/fire/auth';
@@ -14,6 +14,7 @@ export class Posts implements OnInit {
 
   private _postService: PostService = inject(PostService);
   private _auth: Auth = inject(Auth);
+  public createNewPost: WritableSignal<boolean> = signal(false);
 
   constructor() {
     let username = this._auth.currentUser?.email!;
@@ -27,6 +28,12 @@ export class Posts implements OnInit {
     // });
   }
 
+  alterCreateNewPost() {
+    this.createNewPost.set(!this.createNewPost());
+  }
 
+  get getCreateNewPost() {
+    return this.createNewPost.asReadonly();
+  }
 
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { PostService } from '../../../services/post-service';
 import { Post } from '../../../models/post';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +14,7 @@ import { Auth } from '@angular/fire/auth';
 export class CreatePost {
   private _postService: PostService = inject(PostService);
   private _auth: Auth = inject(Auth);
+  public closeModal: OutputEmitterRef<boolean> = output<boolean>();
   private images: string[] = [];
 
   public address: WritableSignal<string> = signal<string>('');
