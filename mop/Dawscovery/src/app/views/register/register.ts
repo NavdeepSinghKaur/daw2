@@ -35,15 +35,8 @@ export class Register {
   }
 
   public async register() {
-    this._user = {
-      connections: [],
-      username: this.username(),
-      posts: [],
-      connectionFrom: [],
-      connectionTo: [],
-      password: this.password(),
-      postLists: [],
-    }
+    this._user.username = this.username();
+    this._user.password = this.password();
     const res = await this._authSrv.register(this.username(), this.password());
     if (res) {
       this._router.navigate(['/']);

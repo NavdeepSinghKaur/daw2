@@ -3,3 +3,30 @@
 @if (getCreateNewPost()) {
 <app-create-post (closeModal)="alterCreateNewPost()"></app-create-post>
 }
+
+<div class="d-block">
+    <p>Els teus posts</p>
+    @for (post of posts(); track post.id) {
+    <div class="d-flexbox">
+        <p>{{post.address}}</p>
+        <p>{{post.description}}</p>
+        <p>{{post.author}}</p>
+        <p>{{post.id}}</p>
+        <p>{{post.savedBy}}</p>
+        <button (click)="deletePost(post.id!)">Eliminar</button>
+    </div>
+    }
+</div>
+
+<div class="d-block">
+    <p>Els posts de les teves conexions</p>
+    @for(post of friendsPosts(); track post.id) {
+    <div class="d-flexbox">
+        <p>{{post.address}}</p>
+        <p>{{post.description}}</p>
+        <p>{{post.author}}</p>
+        <p>{{post.id}}</p>
+        <p>{{post.savedBy}}</p>
+    </div>
+    }
+</div>

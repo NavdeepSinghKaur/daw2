@@ -33,14 +33,14 @@ export class UserService {
     let ref = doc(this._firestore, 'users', to);
     try {
       console.log(from);
-      await updateDoc(ref, { 'pendingConnections.from': arrayUnion(from) });
+      await updateDoc(ref, { 'connectionFrom': arrayUnion(from) });
     } catch (error: any) {
       console.log(error);
     }
 
     let ref2 = doc(this._firestore, 'users', from);
     try {
-      await updateDoc(ref2, { 'pendingConnections.to': arrayUnion(to) });
+      await updateDoc(ref2, { 'connectionTo': arrayUnion(to) });
     } catch (error: any) {
       console.log(error);
     }
@@ -49,7 +49,7 @@ export class UserService {
   async acceptConnection(from: string, to: string) {
     let ref = doc(this._firestore, 'users', to);
     try {
-      await updateDoc(ref, { 'pendingConnections.from': arrayRemove(from) });
+      await updateDoc(ref, { 'connectionFrom': arrayRemove(from) });
       await updateDoc(ref, { connections: arrayUnion(from) });
     } catch (error: any) {
       console.log(error);
@@ -57,8 +57,23 @@ export class UserService {
 
     let ref2 = doc(this._firestore, 'users', from);
     try {
-      await updateDoc(ref2, { 'pendingConnections.to': arrayRemove(to) });
+      await updateDoc(ref2, { 'connectionTo': arrayRemove(to) });
       await updateDoc(ref2, { connections: arrayUnion(to) });
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
+
+  async rejectConnection(from: string, to: string) {
+    let ref = doc(this._firestore, 'users', to);
+    try {
+      await updateDoc(ref, { 'connectionFrom': arrayRemove(from) });
+    } catch (error: any) {
+      console.log(error);
+    }
+
+    try {
+      await updateDoc(ref, { 'connectionTo': arrayRemove(to) });
     } catch (error: any) {
       console.log(error);
     }
@@ -68,7 +83,31 @@ export class UserService {
     let q = query(this._userCollection, where('username', '==', userName));
     return collectionData(q, { idField: 'username' }).pipe(
       map((users: any) => {
-        return users[0]?.pendingConnections?.from ?? [];
+        return users[0]?.connections ?? [];
+      }),
+      catchError((error: any) => {
+        return of([error]);
+      })
+    )
+  }
+
+  getPendingConnections(userName: string): Observable<string[]> {
+    let q = query(this._userCollection, where('username', '==', userName));
+    return collectionData(q, { idField: 'username' }).pipe(
+      map((users: any) => {
+        return users[0]?.connectionFrom ?? [];
+      }),
+      catchError((error: any) => {
+        return of([error]);
+      })
+    )
+  }
+
+  getSentRequests(userName: string): Observable<string[]> {
+    const q = query(this._userCollection, where('username', '==', userName));
+    return collectionData(q, { idField: 'username' }).pipe(
+      map((users: any) => {
+        return users[0].connectionTo ?? [];
       }),
       catchError((error: any) => {
         return of([error]);

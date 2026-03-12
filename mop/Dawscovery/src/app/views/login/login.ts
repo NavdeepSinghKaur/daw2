@@ -33,15 +33,9 @@ export class Login {
   }
 
   public async login() {
-    this._user = {
-      connections: [],
-      username: this.username(),
-      posts: [],
-      connectionFrom: [],
-      connectionTo: [],
-      password: this.password(),
-      postLists: [],
-    }
+    this._user.username = this.username();
+    this._user.password = this.password();
+
     await this._authSrv.login(this._user)
 
     this._router.navigate(['']);

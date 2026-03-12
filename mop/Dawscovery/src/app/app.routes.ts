@@ -6,16 +6,21 @@ import { Posts } from './views/posts/posts';
 import { Connections } from './views/connections/connections';
 import { authGuard } from './guards/auth-guard';
 import { Lists } from './views/lists/lists';
+import { Intro } from './views/intro/intro';
 
 export const routes: Routes = [
     {
+        path: 'intro',
+        component: Intro
+    },
+    {
         path: 'login',
-        canDeactivate: [authGuard],
+        // canDeactivate: [authGuard],
         component: Login,
     },
     {
         path: 'register',
-        canDeactivate: [authGuard],
+        // canDeactivate: [authGuard],
         component: Register,
     },
     {

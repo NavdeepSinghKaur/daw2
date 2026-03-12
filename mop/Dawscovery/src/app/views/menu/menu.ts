@@ -16,6 +16,6 @@ export class Menu {
 
   public logout(): void {
     this._authSrv.logout();
-    this._router.navigate(['login']);
+    this._router.navigate(['intro']);
   }
 }
