@@ -17,26 +17,24 @@ export class Connections implements OnInit {
   private _auth: Auth = inject(Auth);
   private _userService: UserService = inject(UserService);
 
-  public friends: WritableSignal<string[] | null> = signal(null);
-  public pending: WritableSignal<string[] | null> = signal(null);
-  public sent: WritableSignal<string[] | null> = signal(null);
-
+  public friends: Signal<string[] | null>;
+  public pending: Signal<string[]>;
+  public sent: WritableSignal<string[] | null>;
   public currentUser: WritableSignal<user2 | null>;
   public targetUser: WritableSignal<string>;
 
   constructor() {
-    console.log(this._auth.currentUser);
-    // this.currentUser = signal(this._auth.currentUser);
-    // const user: string | null = this._auth.currentUser?.email!;
+    this.friends = signal(null);
+    this.pending = signal(['']);
+    this.sent = signal(null);
     this.currentUser = signal(this._auth.currentUser);
     this.targetUser = signal('');
   }
 
   ngOnInit() {
     const email = this._auth.currentUser?.email!;
-    console.log(email);
-    this._userService.getUser(email).subscribe((user: any) => {
-      console.log(user);
+
+    this._userService.getUser(email).then((user: any) => {
       this.currentUser.set(user);
     });
 
@@ -53,7 +51,11 @@ export class Connections implements OnInit {
       console.error('Cannot send request: User email is undefined.');
       return;
     }
-    this._userService.addConnection(from, to);
+    try {
+      this._userService.addConnection(from, to);
+    } catch (error: any) {
+      console.error("An error has occured: ", error);
+    }
   }
 
   acceptRequest(from: string) {
@@ -63,7 +65,11 @@ export class Connections implements OnInit {
       console.error('Cannot accept request: User email is undefined.');
       return;
     }
-    this._userService.acceptConnection(from, to);
+    try {
+      this._userService.acceptConnection(from, to);
+    } catch(error: any) {
+      console.error("An error has occured: ", error);
+    }
   }
 
   rejectRequest(from: string) {
@@ -73,17 +79,23 @@ export class Connections implements OnInit {
       console.error('Cannot reject request: User email is undefined.');
       return;
     }
-    this._userService.rejectConnection(from, to);
+
+    try {
+      this._userService.rejectConnection(from, to);
+    }catch(error: any) {
+      console.error("An error has occured while rejecting the connection request:", error);
+    }
   }
 
   getAllFriends() {
     const user: string | null = this._auth.currentUser?.email!;
     this._userService.getConnections(user).subscribe({
-      next: (users) => {
-        this.friends.set(users);
+      next: (users: any) => {
+        users as User[]
+        this.friends = signal(users);
       },
-      error: (error) => {
-        console.log(error)
+      error: (error: any) => {
+        console.error("Cannot retrieve friends. Error trace: ", error);
       }
     });
   }
@@ -91,9 +103,11 @@ export class Connections implements OnInit {
   getPendingConnections() {
     const user: string | null = this._auth.currentUser?.email!;
     this._userService.getPendingConnections(user).subscribe({
-      next: (res) => {
-        this.pending.set(res);
-        console.log(res);
+      next: (res: any) => {
+        this.pending = signal(res);
+      },
+      error: (error: any) =>  {
+        console.error(error);
       }
     });
   }
@@ -101,9 +115,11 @@ export class Connections implements OnInit {
   getSentConnections() {
     const user: string | null = this._auth.currentUser?.email!;
     this._userService.getSentRequests(user).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.sent.set(res);
-        console.log(res);
+      },
+      error: (error: any) => {
+        console.error(error);
       }
     });
   }

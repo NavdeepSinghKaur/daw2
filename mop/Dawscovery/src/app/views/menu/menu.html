@@ -1,25 +1,29 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white px-4 border">
-    <a class="navbar-brand font-weight-bold" routerLink="/home">
-        <span class="text-black">Dawscovery</span>
+<nav class="navbar navbar-expand-lg bg-white border-bottom px-4">
+
+    <a class="navbar-brand fw-bold tracking-tight" routerLink="/home">
+        Dawscovery lite
     </a>
 
     <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-center gap-1">
+
             <li class="nav-item">
-                <a class="nav-link" routerLink="/home" routerLinkActive="active">Inici</a>
+                <a class="nav-link nav-pill" routerLink="/home" routerLinkActive="active">Inici</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/posts" routerLinkActive="active">Posts</a>
+                <a class="nav-link nav-pill" routerLink="/posts" routerLinkActive="active">Posts</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/connections" routerLinkActive="active">Agregar amics</a>
+                <a class="nav-link nav-pill" routerLink="/connections" routerLinkActive="active">Gestionar amics</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLink="/lists" routerLinkActive="active">Llistes</a>
+                <a class="nav-link nav-pill" routerLink="/lists" routerLinkActive="active">Llistes de posts</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" (click)="logout()">Tancar sessió</a>
+
+            <li class="nav-item ms-2">
+                <a class="btn btn-sm btn-outline-dark px-3" (click)="logout()">Tancar sessió</a>
             </li>
+
         </ul>
     </div>
 </nav>

@@ -1,48 +1,55 @@
-<div class="d-flex">
-    <h1 class="m-auto mt-5">Gestionar conexions</h1>
+<div class="container-fluid px-4 py-3">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h4 class="fw-semibold mb-0">Gestionar connexions</h4>
+        <form (ngSubmit)="sendRequest()" class="d-flex align-items-center gap-2">
+            <div class="input-group">
+                <input type="text" id="searchUser" name="searchUser" [(ngModel)]="targetUser"
+                    class="form-control form-control-sm" placeholder="Nom d'usuari...">
+                <button type="submit" class="btn btn-sm btn-primary">Enviar petició</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-4">
+            <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Les teves connexions</h5>
+            <div class="d-flex flex-column gap-2">
+                @for (friend of friends(); track $index) {
+                <div class="card border px-3 py-2">
+                    <span class="small"><i class="bi bi-person me-2"></i>{{ friend }}</span>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-4">
+            <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Connexions pendents</h5>
+            <div class="d-flex flex-column gap-2">
+                @for (pending of pending(); track $index) {
+                <div class="card border px-3 py-2">
+                    <span class="small mb-2"><i class="bi bi-person me-2"></i>{{ pending }}</span>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-dark w-50" (click)="acceptRequest(pending)">Acceptar</button>
+                        <button class="btn btn-sm btn-outline-danger w-50"
+                            (click)="rejectRequest(pending)">Rebutjar</button>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-4">
+            <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Connexions enviades</h5>
+            <div class="d-flex flex-column gap-2">
+                @for (sent of sent(); track $index) {
+                <div class="card border px-3 py-2">
+                    <span class="small mb-2"><i class="bi bi-person me-2"></i>{{ sent }}</span>
+                    <button class="btn btn-sm btn-outline-secondary w-100">Cancel·lar</button>
+                </div>
+                }
+            </div>
+        </div>
+
+    </div>
 </div>
-<div class="d-flex justify-content-center mt-5">
-    <form (ngSubmit)="sendRequest()" class="d-none d-md-flex align-items-center gap-2" style="max-width: 500px;">
-        <label for="searchUser" class="form-label mb-0 text-nowrap">Enviar petició</label>
-        <div class="input-group">
-            <input type="text" id="searchUser" name="searchUser" [(ngModel)]="targetUser" class="form-control"
-                placeholder="Usuari...">
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </div>
-    </form>
-</div>
-
-<div class="d-flex mt-5">
-    <div class="d-block mx-auto">
-        <p class="mx-auto">Llista de les teves conexions</p>
-        @for (friend of friends(); track $index) {
-        <div class="d-flexbox">
-            <p>{{friend}}</p>
-        </div>
-        }
-    </div>
-
-    <!-- <div class="d-flex mt-5"> -->
-    <div class="d-block mx-auto">
-        <p class="mx-auto">Conexions pendents</p>
-        @for (pending of pending(); track $index) {
-        <div class="d-flexbox">
-            <p>{{pending}}</p>
-            <button class="btn btn-primary" (click)="acceptRequest(pending)">Acceptar</button>
-            <button class="btn btn-danger" (click)="rejectRequest(pending)">Rebutjar</button>
-        </div>
-        }
-    </div>
-    <!-- </div> -->
-
-    <!-- <div class="d-flex mt-5"> -->
-    <div class="d-block mx-auto">
-        <p class="mx-auto">Conexions enviades</p>
-        @for (sent of sent(); track $index) {
-        <div class="d-flexbox">
-            <p>{{sent}}</p>
-            <button class="btn btn-primary">Cancelar</button>
-        </div>
-        }
-    </div>
-    <!-- </div> -->

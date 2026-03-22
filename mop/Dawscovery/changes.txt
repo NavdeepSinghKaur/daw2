@@ -1,0 +1,42 @@
+Exercici 1.
+
+1. He elmininat tots els conosle.log.
+
+Component home: 
+1. Al fitxer llegia el signal user() sense utilitzar asReadonly() ni el legia a la template com un getter
+2. Al component home.ts llegia la promise getUser utilizant el métode .then(). Ara, utilitzo await amb try/catch -> this._userService.getUser
+enviant el procès al ngOnInit()
+
+
+Component register:
+1. Al registrar un usuari, no validava el signal username i password, ara si. També he generat un nou signal anomenat errorAtRegister, que s'encarrega de mostrar els errors
+2. igual que al component anteriorment mencionat, si hi ha un error, el capturo, dintre d'un try/catch.
+
+
+component Posts: 
+1. Quan s'executen els métodes getOwnPosts i getAllFriends, no hi a una captura d'error (només hi ha next: () => {}), arreglat.
+2. També als dos métodes mencionats, el tipus tampoc estava escrit, explícitament (encara que sigui any)
+3. He agregat try/catches als promises
+4. friendsPosts() es un signal ara, i no un writableSignal (com que només s'escriu una vegada, no fa falta que sigui un writableSignal). També, d'aquesta forma, no fa falta tenir un métode get, estavliant línies de codi
+
+
+component CreatePost:
+1. Els signals s'assignaven fora del constructor.
+2. També he agregat un try/catch + eliminat conosle.log innecessari (al crear post)
+3.
+
+component Connections:
+1. Friends de writableSignal a signal. No fa falta tenir un writableSignal
+2. Eliminats conosle.logs
+3. es capturen errors als observables, també amb el tipus
+4. al métode convertit el type d'any a users as User[]
+5. també els signals s'nicialitzen dins del constructor, no com abans
+5. Canviat pending de writablesignal a signal
+6. Agregat try/catch als promises
+
+Exercici 2.
+Opció elegida: La tercera, implementar la funcionalitat de les llists.
+
+Component Lists:
+_postListService: He canviat el endpoint hsowPostLists 
+En aquest component, ja estava injectat el service _postListService.

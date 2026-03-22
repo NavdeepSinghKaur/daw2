@@ -18,9 +18,8 @@ export class AuthService {
   public async login(user: User) {
     try {
       let result: UserCredential = await signInWithEmailAndPassword(this._auth, user.username, user.password)
-      console.log(result);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -37,10 +36,9 @@ export class AuthService {
         password: password,
         postLists: [],
       });
-      console.log(result)
       return true;
     } catch (error: any) {
-      console.log(error)
+      console.error(error)
       return false;
     }
   }
@@ -48,9 +46,8 @@ export class AuthService {
   public async logout() {
     try {
       let result: void = await signOut(this._auth);
-      console.log(result);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
   }
 }

@@ -21,27 +21,18 @@ export class PostService {
   public async createPost(post: Post): Promise<void> {
     try {
       let result: DocumentReference<Post> = await addDoc(this._postCollection, post) as DocumentReference<Post>;
-      console.log(result);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
   }
-
-  // public async getPosts(id: string) {
-  //   collectionData(this._postCollection, { idField: 'author' }).subscribe(
-  //     (data: any) => { console.log(data); }
-  //   );
-  // }
 
   public getOwnPosts(author: string): Observable<Post[] | string> {
     const q = query(this._postCollection, where('author', '==', author));
 
     return collectionData(q, { idField: 'id' }).pipe(
       map((posts: any) => {
-        console.log(posts);
         return posts as Post[];
       }), catchError(error => {
-        console.log(error);
         return error as string;
       })
     );
@@ -86,7 +77,7 @@ export class PostService {
 
         return collectionData(q, { idField: 'id' }).pipe(
           map((posts: any) => {
-            console.log(posts);
+
             return posts as Post[]
           })
         );
@@ -95,16 +86,17 @@ export class PostService {
         return error as string;
       })
     )
-    // .subscribe({
-    //   next: (user: any) => {
-    //     users.push(user);
-    //   },
-    //   error: (error: any) => {
-    //     console.log(error);
-    //   },
-    //   complete: () => {
-    //     console.log(users);
-    //   }
-    // })
+  }
+
+  public async likePost(postId: string, username: string) {
+    const ref = doc(this._firestore, 'posts', postId);
+
+    await updateDoc(ref, { savedBy: arrayUnion(username) });
+  }
+
+  public async unlikePost(postId: string, username: string) {
+    const ref = doc(this._firestore, 'posts', postId);
+
+    await updateDoc(ref, { savedBy: arrayRemove(username) });
   }
 }

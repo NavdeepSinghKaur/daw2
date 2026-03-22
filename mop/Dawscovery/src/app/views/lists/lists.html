@@ -1,0 +1,43 @@
+<p>El meu tauler de llists de posts</p>
+
+<p>Els teus post Lists</p>
+@for (postList of ownPostLists(); track $index) {
+    <p>Nom de la llista{{ postList.name }}</p>
+
+    <small>Llista creada: {{ postList.createdAt }}</small>
+    <small>Compartida amb: {{ postList.shared }}</small>
+    @for (post of postList.posts; track $index) {
+        <div class="card-body">
+            <p class="fw-semibold mb-1">{{ post.address }}</p>
+            <p class="text-muted small mb-2">{{ post.description }}</p>
+            <div class="d-flex gap-2 flex-wrap small text-muted">
+                <span><i class="bi bi-person"></i> {{ post.author }}</span>
+                <span><i class="bi bi-bookmark"></i> {{ post.savedBy.length }} guardats</span>
+                <span>#{{ post.id }}</span>
+            </div>
+        </div>
+    }
+}    
+
+<p>Els post lists de les teves connexions</p>
+<div class="d-block">
+    @for (postList of friendsPostLists(); track $index) {
+        <p>Autor: {{ postList.author }}</p>
+        <p>Nom de la llista{{ postList.name }}</p>
+
+        <small>Llista creada: {{ postList.createdAt }}</small>
+        <small>Compartida amb: {{ postList.shared }}</small>
+        @for (post of postList.posts; track $index) {
+            <div class="card-body">
+                <p class="fw-semibold mb-1">{{ post.address }}</p>
+                <p class="text-muted small mb-2">{{ post.description }}</p>
+                <div class="d-flex gap-2 flex-wrap small text-muted">
+                    <span><i class="bi bi-person"></i> {{ post.author }}</span>
+                    <span><i class="bi bi-bookmark"></i> {{ post.savedBy.length }} guardats</span>
+                    <span>#{{ post.id }}</span>
+                </div>
+            </div>
+        }
+    }    
+</div>
+

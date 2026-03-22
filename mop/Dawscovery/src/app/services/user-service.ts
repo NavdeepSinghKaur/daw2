@@ -17,32 +17,29 @@ export class UserService {
 
   }
 
-  getUser(username: string): Observable<User | string> {
+  async getUser(username: string): Promise<User> {
     const q = query(this._userCollection, where('username', '==', username));
-    return collectionData(q, { idField: 'username' }).pipe(
-      map((user: any) => {
-        return user[0] as User;
-      }),
-      catchError((error: any) => {
-        return error as string;
-      })
+
+    return await firstValueFrom(
+      collectionData(q, { idField: 'username' }).pipe(
+        map((users: any) => users[0] as User)
+      )
     );
   }
 
   async addConnection(from: string, to: string): Promise<void> {
     let ref = doc(this._firestore, 'users', to);
     try {
-      console.log(from);
       await updateDoc(ref, { 'connectionFrom': arrayUnion(from) });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
 
     let ref2 = doc(this._firestore, 'users', from);
     try {
       await updateDoc(ref2, { 'connectionTo': arrayUnion(to) });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -52,7 +49,7 @@ export class UserService {
       await updateDoc(ref, { 'connectionFrom': arrayRemove(from) });
       await updateDoc(ref, { connections: arrayUnion(from) });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
 
     let ref2 = doc(this._firestore, 'users', from);
@@ -60,7 +57,7 @@ export class UserService {
       await updateDoc(ref2, { 'connectionTo': arrayRemove(to) });
       await updateDoc(ref2, { connections: arrayUnion(to) });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -69,13 +66,13 @@ export class UserService {
     try {
       await updateDoc(ref, { 'connectionFrom': arrayRemove(from) });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
 
     try {
       await updateDoc(ref, { 'connectionTo': arrayRemove(to) });
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     }
   }
 

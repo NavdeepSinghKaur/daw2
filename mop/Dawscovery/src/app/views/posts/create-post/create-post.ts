@@ -15,7 +15,7 @@ export class CreatePost {
   private _postService: PostService = inject(PostService);
   private _auth: Auth = inject(Auth);
   public closeModal: OutputEmitterRef<boolean> = output<boolean>();
-  private images: string[] = [];
+  public images: WritableSignal<string[]> = signal<string[]>([]);
 
   public address: WritableSignal<string> = signal<string>('');
   public description: WritableSignal<string> = signal<string>('');
@@ -27,6 +27,13 @@ export class CreatePost {
   private _post: Post;
 
   constructor() {
+    this.address = signal<string>('');
+    this.description = signal<string>('');
+    this.aesthetics = signal<number>(0);
+    this.massification = signal<number>(0);
+    this.noise = signal<number>(0);
+    this.price = signal<number>(0);
+    
     this._post = {
       address: '',
       author: '',
@@ -48,42 +55,39 @@ export class CreatePost {
     const user = this._auth.currentUser?.email;
     this._post.address = this.address();
     this._post.description = this.description();
-    // this._post.images = this.images();
-    this._post.images = ['']; //this.images;
+    this._post.images = this.images();
     this._post.rating.aesthetics = this.aesthetics();
     this._post.rating.massification = this.massification();
     this._post.rating.noise = this.noise();
     this._post.rating.price = this.price();
     this._post.author = user!;
-    //this._post.author = this._cookieService.getCookie('username')!;
 
-    const res = await this._postService.createPost(this._post);
-    console.log(res);
+    try {
+      const res = await this._postService.createPost(this._post);
+    } catch(errror: any) {
+      console.error("An error has occured: ", errror);
+    }
+
     this.cleanAllVariables();
   }
 
-  uploadImage(event: Event): void {
+  uploadImage(event: Event) {
     const input = event.target as HTMLInputElement;
-    let res = '';
+    if (!input.files) return;
 
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
+    Array.from(input.files).forEach(file => {
       const reader = new FileReader();
-
       reader.onload = () => {
-        this.images.push(reader.result as string);
+        this.images.update(current => [...current, reader.result as string]);
       };
-
-      reader.readAsDataURL(file)
-    }
-    // return res;
+      reader.readAsDataURL(file);
+    });
   }
 
   private cleanAllVariables() {
     this.address.set('');
     this.description.set('');
-    this.images = [];
-    // this.images.set('');
+    this.images.set([]);
     this.aesthetics.set(0);
     this.massification.set(0);
     this.noise.set(0);

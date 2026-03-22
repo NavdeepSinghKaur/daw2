@@ -1,30 +1,66 @@
 <div class="modal d-block bg-dark bg-opacity-50" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
-        <div class="modal-content p-4 shadow">
-            <button (click)="closeModal.emit(false)">Close</button>
-            <h2 class="text-center mb-4">Crear Post</h2>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-semibold mb-0">Crear nou post</h5>
+                <button class="btn-close" (click)="closeModal.emit(false)"></button>
+            </div>
+
             <form (submit)="createPost()">
-                <label class="form-label">Ubicació</label>
-                <input type="text" name="address" [(ngModel)]="address" class="form-control mb-2">
 
-                <label class="form-label">Descripció</label>
-                <textarea name="description" rows="3" [(ngModel)]="description" class="form-control mb-2"></textarea>
-
-                <label class="form-label">Imatges</label>
-                <input type="file" (change)="uploadImage($event)" class="form-control mb-3">
-
-                <div class="row g-2 mb-3">
-                    <div class="col-6"><input type="number" placeholder="Estètica" [(ngModel)]="aesthetics"
-                            name="aesthetics" class="form-control"></div>
-                    <div class="col-6"><input type="number" placeholder="Massificació" [(ngModel)]="massification"
-                            name="massification" class="form-control"></div>
-                    <div class="col-6"><input type="number" placeholder="So" [(ngModel)]="noise" name="noise"
-                            class="form-control"></div>
-                    <div class="col-6"><input type="number" placeholder="Preu" [(ngModel)]="price" name="price"
-                            class="form-control"></div>
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Ubicació</label>
+                    <input type="text" name="address" [(ngModel)]="address" class="form-control form-control-sm"
+                        placeholder="Ex: Carrer X o Y">
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Crear Post</button>
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Descripció</label>
+                    <textarea name="description" rows="3" [(ngModel)]="description" class="form-control form-control-sm"
+                        placeholder="Descriu el lloc..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Imatges (màxim total 1
+                        megabyte)</label>
+                    <input type="file" (change)="uploadImage($event)" class="form-control form-control-sm">
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mt-2">
+                    @for (img of images(); track img) {
+                    <img [src]="img" style="width: 64px; height: 64px; object-fit: cover; border-radius: 6px;">
+                    }
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label small fw-semibold text-muted text-uppercase">Valoracions</label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="number" placeholder="Estètica" [(ngModel)]="aesthetics" name="aesthetics"
+                                class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <input type="number" placeholder="Massificació" [(ngModel)]="massification"
+                                name="massification" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <input type="number" placeholder="So" [(ngModel)]="noise" name="noise"
+                                class="form-control form-control-sm">
+                        </div>
+                        <div class="col-6">
+                            <input type="number" placeholder="Preu" [(ngModel)]="price" name="price"
+                                class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary w-50"
+                        (click)="closeModal.emit(false)">Cancel·lar</button>
+                    <button type="submit" class="btn btn-sm btn-dark w-50">Crear Post</button>
+                </div>
+
             </form>
         </div>
     </div>

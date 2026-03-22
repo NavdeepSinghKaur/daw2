@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Vue Shop</title>
+</head>
+
+<body>
+    <div id="vue-shop">
+        {{ message }}
+    </div>
+    <script>
+        const app = document.getElementById('vue-shop');
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const message = ref("Hello word");
+                return { message }
+            }
+        }).mount(app)
+    </script>
+    <script src="main.js"></script>
+</body>
+
+</html>

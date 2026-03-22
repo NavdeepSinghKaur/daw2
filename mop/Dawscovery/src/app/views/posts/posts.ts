@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { PostService } from '../../services/post-service';
 import { CreatePost } from './create-post/create-post';
 import { Auth } from '@angular/fire/auth';
@@ -15,24 +15,28 @@ export class Posts implements OnInit {
 
   private _postService: PostService = inject(PostService);
   private _auth: Auth = inject(Auth);
-  public createNewPost: WritableSignal<boolean> = signal(false);
-  public friendsPosts: WritableSignal<Post[] | null> = signal(null);
+
+  public createNewPost: WritableSignal<boolean>;
+  public friendsPosts: Signal<Post[] | null>
+  public username: Signal<string>;
 
   public posts: WritableSignal<Post[] | null>;
 
   constructor() {
     this.posts = signal(null);
-
-    let username = this._auth.currentUser?.email!;
-    console.log(username)
-    this._postService.getOwnPosts(username).subscribe(res => { console.log(res) });
+    this.username = signal(this._auth.currentUser?.email!).asReadonly();
+    this.friendsPosts = signal(null);
+    this.createNewPost = signal(false);
   }
 
   ngOnInit(): void {
     this._postService.getOwnPosts(this._auth.currentUser?.email!).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         res = res as Post[];
         this.posts.set(res);
+
+      }, error: (error: any) => {
+        console.error("Error while fetching posts: ", error);
       }
     });
 
@@ -44,7 +48,11 @@ export class Posts implements OnInit {
   }
 
   deletePost(postId: string) {
-    this._postService.deletePost(postId, this._auth.currentUser?.email!);
+    try {
+      this._postService.deletePost(postId, this._auth.currentUser?.email!);
+    } catch(error: any) {
+      console.error("Error while deleting post", error);
+    }
   }
 
   get getCreateNewPost() {
@@ -53,10 +61,29 @@ export class Posts implements OnInit {
 
   getFriendsPosts() {
     this._postService.getFriendsPosts(this._auth.currentUser?.email!).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         res = res as Post[];
-        this.friendsPosts.set(res);
+        this.friendsPosts = signal(res);
+      },
+      error: (error: any) => {
+        console.error("Error while fetching friends' posts", error);
       }
     })
+  }
+
+  likePost(postId: string) {
+    try {
+      this._postService.likePost(postId, this._auth.currentUser?.email!);
+    } catch (error: any) {
+      console.error("Error while liking post", error);
+    }
+  }
+
+  unlikePost(postId: string) {
+    try {
+      this._postService.unlikePost(postId, this._auth.currentUser?.email!);
+    } catch(error: any) {
+      console.error("error while unliking post", error);
+    }
   }
 }
