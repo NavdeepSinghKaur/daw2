@@ -1,0 +1,28 @@
+<ion-menu side="start" menuId="main-menu" contentId="main-content"> <!-- THIS MUST MATCH the id above exactly -->
+
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>dawscovery +</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-menu-toggle autoHide="false">
+        <ion-item routerLink="/home" routerDirection="root" detail="false">
+          <ion-icon name="home" slot="start"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle autoHide="false">
+        <ion-item routerLink="/lists" detail="false">
+          <ion-icon name="list" slot="start"></ion-icon>
+          <ion-label>Lists</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <!-- Add more items as needed -->
+    </ion-list>
+  </ion-content>
+</ion-menu>

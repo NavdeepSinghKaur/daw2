@@ -1,0 +1,82 @@
+<ion-content>
+  <div class="container-fluid px-4 py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-semibold mb-0">El meu tauler</h4>
+      <button class="btn btn-primary" (click)="alterCreateNewPost()">
+        <i class="bi bi-plus-lg me-1"></i> Crear nou post
+      </button>
+    </div>
+
+    @if (getCreateNewPost()) {
+    <!-- convert the next, for later -->
+    <!-- <app-create-post (closeModal)="alterCreateNewPost()"></app-create-post> -->
+    }
+
+    <section class="mb-5">
+      <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Els teus posts</h5>
+      <div class="row g-3">
+        @for (post of posts(); track post.id) {
+        <div class="col-4">
+          <div class="card border h-100">
+            @if (post.images && post.images[0] && post.images[0] !== '') {
+            <img [src]="post.images[0]" class="card-img-top">
+            }
+            <div class="card-body">
+              <p class="fw-semibold mb-1">{{ post.address }}</p>
+              <p class="text-muted small mb-2">{{ post.description }}</p>
+              <div class="d-flex gap-2 flex-wrap small text-muted">
+                <span><i class="bi bi-person"></i> {{ post.author }}</span>
+                <span><i class="bi bi-bookmark"></i> {{ post.savedBy.length }} guardats</span>
+                <span>#{{ post.id }}</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pt-0">
+              <button class="btn btn-sm btn-outline-danger w-100" (click)="deletePost(post.id!)">
+                <i class="bi bi-trash"></i> Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+
+    <section>
+      <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Posts de les teves
+        connexions</h5>
+      <div class="row g-3">
+        @for (post of friendsPosts(); track post.id) {
+        <div class="col-4">
+          <div class="card border h-100">
+            @if (post.images && post.images[0] && post.images[0] !== '') {
+            <img [src]="post.images[0]" class="card-img-top">
+            }
+            <div class="card-body">
+              <p class="fw-semibold mb-1">{{ post.address }}</p>
+              <p class="text-muted small mb-2">{{ post.description }}</p>
+              <div class="d-flex gap-2 flex-wrap small text-muted">
+                <span><i class="bi bi-person"></i> {{ post.author }}</span>
+                <span><i class="bi bi-bookmark"></i> {{ post.savedBy.length }} guardats</span>
+                <span>#{{ post.id }}</span>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 pt-0">
+              @if (!post.savedBy.includes(username())) {
+              <button class="btn btn-sm btn-outline-primary w-100" (click)="likePost(post.id!)">
+                <i class="bi bi-bookmark-plus"></i> Guardar com a favorit
+              </button>
+              } @else {
+              <button class="btn btn-sm btn-primary w-100" (click)="unlikePost(post.id!)">
+                <i class="bi bi-bookmark-fill"></i> Eliminar de favorits
+              </button>
+              }
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</ion-content>
