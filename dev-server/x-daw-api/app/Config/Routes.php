@@ -41,6 +41,7 @@ $routes->get('captcha', 'CaptchaController::index');
 $routes->get('media', 'MediaController::index');
 
 // API routes
+
 // public routes
 $routes->post('api/login', 'ApiController::login');
 $routes->get('api/posts/get-post/(:uuid)', 'ApiController::getPost/$1');
@@ -48,8 +49,14 @@ $routes->get('api/posts/get-comments/(:uuid)', 'ApiController::getComments/$1');
 $routes->get('api/posts/entire/(:uuid)', 'ApiController::getEntirePost/$1');
 $routes->get('api/posts/post-data/(:uuid)', 'ApiController::getPostData/$1');
 
-
 // private routes
-$routes->group('api', ['filter' => 'auth'], function ($routes) {
-
+$routes->group('api', ['filter' => 'apiAuth'], function ($route) {
+    $route->post('/logout', 'ApiController::logout');
+    $route->post('/posts/create-post', 'ApiController::createPost');
+    $route->post('/modify-user', 'ApiController::modifyUser');
+    $route->post('/posts/create', 'ApiController::createPost');
+    $route->post('/posts/comment', 'ApiController::createComment');
+    $route->post('/posts/edit', 'ApiController::editPost');
+    $route->post('/posts/change-visibility', 'ApiController::editPostVisibility');
+    $route->get('/posts/delete/(:uuid)', 'ApiController::deletePost');
 });

@@ -1,56 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestionar connexions</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
-  <div class="container-fluid px-4 py-3">
-    <div class="d-flex justify-content-between align-items-center mb-5">
-      <h4 class="fw-semibold mb-0">Gestionar connexions</h4>
-      <form (ngSubmit)="sendRequest()" class="d-flex align-items-center gap-2">
-        <div class="input-group">
-          <input type="text" id="searchUser" name="searchUser" [(ngModel)]="targetUser"
-            class="form-control form-control-sm" placeholder="Nom d'usuari...">
-          <button type="submit" class="btn btn-sm btn-primary">Enviar petició</button>
-        </div>
-      </form>
-    </div>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Nom d'usuari" [ngModel]="targetUser()" (ngModelChange)="targetUser.set($event)"></ion-input>
+      <ion-button (click)="sendRequest()">Enviar petició</ion-button>
+    </ion-item>
+  </ion-list>
 
-    <div class="row g-4">
+  <ion-title>Les teves connexions</ion-title>
+  <ion-list>
+    @for (friend of friends(); track $index) {
+    <ion-item>
+      <ion-label>{{ friend }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
 
-      <div class="col-4">
-        <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Les teves connexions</h5>
-        <div class="d-flex flex-column gap-2">
-          @for (friend of friends(); track $index) {
-          <div class="card border px-3 py-2">
-            <span class="small"><i class="bi bi-person me-2"></i>{{ friend }}</span>
-          </div>
-          }
-        </div>
-      </div>
+  <ion-title>Connexions pendents</ion-title>
+  <ion-list>
+    @for (pending of pending(); track $index) {
+    <ion-item>
+      <ion-label>{{ pending }}</ion-label>
+      <ion-button (click)="acceptRequest(pending)">Acceptar</ion-button>
+      <ion-button (click)="rejectRequest(pending)">Rebutjar</ion-button>
+    </ion-item>
+    }
+  </ion-list>
 
-      <div class="col-4">
-        <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Connexions pendents</h5>
-        <div class="d-flex flex-column gap-2">
-          @for (pending of pending(); track $index) {
-          <div class="card border px-3 py-2">
-            <span class="small mb-2"><i class="bi bi-person me-2"></i>{{ pending }}</span>
-            <div class="d-flex gap-2">
-              <button class="btn btn-sm btn-dark w-50" (click)="acceptRequest(pending)">Acceptar</button>
-              <button class="btn btn-sm btn-outline-danger w-50" (click)="rejectRequest(pending)">Rebutjar</button>
-            </div>
-          </div>
-          }
-        </div>
-      </div>
-
-      <div class="col-4">
-        <h5 class="text-muted text-uppercase fw-semibold mb-3 small">Connexions enviades</h5>
-        <div class="d-flex flex-column gap-2">
-          @for (sent of sent(); track $index) {
-          <div class="card border px-3 py-2">
-            <span class="small mb-2"><i class="bi bi-person me-2"></i>{{ sent }}</span>
-            <button class="btn btn-sm btn-outline-secondary w-100">Cancel·lar</button>
-          </div>
-          }
-        </div>
-      </div>
-
-    </div>
-  </div>
+  <ion-title>Connexions enviades</ion-title>
+  <ion-list>
+    @for (sent of sent(); track $index) {
+    <ion-item>
+      <ion-label>{{ sent }}</ion-label>
+      <ion-button>Cancel·lar</ion-button>
+    </ion-item>
+    }
+  </ion-list>
 </ion-content>

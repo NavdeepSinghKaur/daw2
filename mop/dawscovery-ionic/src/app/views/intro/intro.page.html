@@ -1,45 +1,34 @@
 <ion-content>
-  <div class="container mt-5 ">
-    <div class="p-5 mb-5 bg-light rounded shadow-sm text-center border">
-      <h2 class="display-4 fw-bold mb-3">Benvingut a Dawscovery</h2>
-      <button class="btn btn-primary btn-lg px-5 py-2" routerLink="/register">Registra't</button>
-      <button class="btn btn-outline-dark btn-lg px-5 py-2 ms-3" routerLink="/login">Inicia sessió</button>
-    </div>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Benvingut a Dawscovery</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Connecta</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Connecta amb gent real que coneixes i no bots.
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Comparteix</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Comparteix les zones que has descobert amb les teves connexions.
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Descobreix</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Descobreix les noves rutes, ubicacoins, i llocs que segurament no has visitat.
+    </ion-card-content>
+  </ion-card>
+  <ion-button (click)="register()" expand="block">Registrar-se</ion-button>
+  <ion-button (click)="login()" expand="block">Iniciar sessió</ion-button>
 
-    <div class="row mt-5">
-
-      <div class="col-4">
-        <div class="card h-100 border-0 shadow-sm bg-light">
-          <div class="card-body p-4 text-center">
-            <h3 class="h4 card-title fw-bold mb-3 text-primary">Conecta</h3>
-            <p class="card-text text-secondary fs-5">
-              Connecta amb gent real que coneixes i no bots.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="card h-100 border-0 shadow-sm bg-light">
-          <div class="card-body p-4 text-center">
-            <h3 class="h4 card-title fw-bold mb-3 text-primary">Comparteix</h3>
-            <p class="card-text text-secondary fs-5">
-              Comparteix les zones que has descobert amb les teves connexions.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <div class="card h-100 border-0 shadow-sm bg-light">
-          <div class="card-body p-4 text-center">
-            <h3 class="h4 card-title fw-bold mb-3 text-primary">Descobreix</h3>
-            <p class="card-text text-secondary fs-5">
-              Descobreix les noves rutes, ubicacoins, i llocs que segurament no has visitat.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </ion-content>

@@ -1,26 +1,25 @@
-import { Component, inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonButton, IonLabel, IonInput } from '@ionic/angular/standalone';
 import { Auth } from '@angular/fire/auth';
 import { UserService } from 'src/app/services/user-service';
 import { User } from 'src/app/models/user.model';
 import { User as user2 } from '@angular/fire/auth';
-
 @Component({
   selector: 'app-connections',
   templateUrl: './connections.page.html',
   styleUrls: ['./connections.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonLabel, IonButton, IonItem, IonList, IonContent, IonHeader, IonTitle, IonToolbar, IonInput, CommonModule, FormsModule]
 })
 export class ConnectionsPage implements OnInit {
 
   private _auth: Auth = inject(Auth);
   private _userService: UserService = inject(UserService);
 
-  public friends: Signal<string[] | null>;
-  public pending: Signal<string[]>;
+  public friends: WritableSignal<string[] | null>;
+  public pending: WritableSignal<string[]>;
   public sent: WritableSignal<string[] | null>;
   public currentUser: WritableSignal<user2 | null>;
   public targetUser: WritableSignal<string>;
@@ -94,7 +93,7 @@ export class ConnectionsPage implements OnInit {
     this._userService.getConnections(user).subscribe({
       next: (users: any) => {
         users as User[]
-        this.friends = signal(users);
+        this.friends.set(users);
       },
       error: (error: any) => {
         console.error("Cannot retrieve friends. Error trace: ", error);
@@ -106,7 +105,7 @@ export class ConnectionsPage implements OnInit {
     const user: string | null = this._auth.currentUser?.email!;
     this._userService.getPendingConnections(user).subscribe({
       next: (res: any) => {
-        this.pending = signal(res);
+        this.pending.set(res);
       },
       error: (error: any) => {
         console.error(error);

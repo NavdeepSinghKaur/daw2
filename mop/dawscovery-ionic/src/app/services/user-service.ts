@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
 import { Firestore, CollectionReference, collection, collectionData, where, query, doc, arrayUnion, updateDoc, arrayRemove } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
 import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
@@ -9,6 +9,7 @@ import { catchError, firstValueFrom, map, Observable, of } from 'rxjs';
 export class UserService {
 
   private _firestore: Firestore = inject(Firestore);
+  private _injector = inject(Injector);
 
   private _userCollection: CollectionReference<User> = collection(this._firestore, 'users') as CollectionReference<User>;
 
@@ -19,11 +20,15 @@ export class UserService {
   async getUser(username: string): Promise<User> {
     const q = query(this._userCollection, where('username', '==', username));
 
-    return await firstValueFrom(
-      collectionData(q, { idField: 'username' }).pipe(
-        map((users: any) => users[0] as User)
-      )
+    const res = await firstValueFrom(
+      runInInjectionContext(this._injector, () => {
+        return collectionData(q, { idField: 'username' }).pipe(
+          map((users: any) => users[0] as User)
+        );
+      })
     );
+
+    return res
   }
 
   async addConnection(from: string, to: string): Promise<void> {
@@ -77,37 +82,46 @@ export class UserService {
 
   getConnections(userName: string): Observable<string[]> {
     let q = query(this._userCollection, where('username', '==', userName));
-    return collectionData(q, { idField: 'username' }).pipe(
-      map((users: any) => {
-        return users[0]?.connections ?? [];
-      }),
-      catchError((error: any) => {
-        return of([error]);
-      })
-    )
+    return runInInjectionContext(this._injector, () => {
+      return collectionData(q, { idField: 'username' }).pipe(
+        map((users: any) => {
+          return users[0]?.connections ?? [];
+        }),
+        catchError((error: any) => {
+          console.error("Error in getConnections:", error);
+          return of([]);
+        })
+      );
+    });
   }
 
   getPendingConnections(userName: string): Observable<string[]> {
     let q = query(this._userCollection, where('username', '==', userName));
-    return collectionData(q, { idField: 'username' }).pipe(
-      map((users: any) => {
-        return users[0]?.connectionFrom ?? [];
-      }),
-      catchError((error: any) => {
-        return of([error]);
-      })
-    )
+    return runInInjectionContext(this._injector, () => {
+      return collectionData(q, { idField: 'username' }).pipe(
+        map((users: any) => {
+          return users[0]?.connectionFrom ?? [];
+        }),
+        catchError((error: any) => {
+          console.error("Error in getPendingConnections:", error);
+          return of([]);
+        })
+      );
+    });
   }
 
   getSentRequests(userName: string): Observable<string[]> {
     const q = query(this._userCollection, where('username', '==', userName));
-    return collectionData(q, { idField: 'username' }).pipe(
-      map((users: any) => {
-        return users[0].connectionTo ?? [];
-      }),
-      catchError((error: any) => {
-        return of([error]);
-      })
-    )
+    return runInInjectionContext(this._injector, () => {
+      return collectionData(q, { idField: 'username' }).pipe(
+        map((users: any) => {
+          return users[0].connectionTo ?? [];
+        }),
+        catchError((error: any) => {
+          console.error("Error in getSentRequests:", error);
+          return of([]);
+        })
+      );
+    });
   }
 }

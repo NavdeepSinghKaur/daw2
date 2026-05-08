@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>create-post</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item>
+      <ion-title>Descripció</ion-title>
+      <ion-textarea placeholder="Agrega descripció" [ngModel]="description()"
+        (ngModelChange)="description.set($event)"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-title>Ubicació</ion-title>
+      <ion-input placeholder="Ubicació aquí" [ngModel]="address()" (ngModelChange)="address.set($event)"></ion-input>
+    </ion-item>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-title>Valoracions</ion-title>
+      </ion-list-header>
+      <ion-item>
+        <ion-label position="stacked">Estètica</ion-label>
+        <ion-range min="1" max="5" snaps="true" [ngModel]="aesthetics()" (ngModelChange)="aesthetics.set($event)">
+          <ion-label slot="start">1</ion-label>
+          <ion-label slot="end">5</ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Massificació</ion-label>
+        <ion-range min="1" max="5" snaps="true" [ngModel]="massification()" (ngModelChange)="massification.set($event)">
+          <ion-label slot="start">1</ion-label>
+          <ion-label slot="end">5</ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">So</ion-label>
+        <ion-range min="1" max="5" snaps="true" [ngModel]="noise()" (ngModelChange)="noise.set($event)">
+          <ion-label slot="start">1</ion-label>
+          <ion-label slot="end">5</ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Preu</ion-label>
+        <ion-range min="1" max="5" snaps="true" [ngModel]="price()" (ngModelChange)="price.set($event)">
+          <ion-label slot="start">1</ion-label>
+          <ion-label slot="end">5</ion-label>
+        </ion-range>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <input type="file" #fileInput (change)="uploadImage($event)" style="display: none" accept="image/*" multiple>
+      <ion-button (click)="fileInput.click()">
+        <ion-icon name="image" slot="start"></ion-icon>
+        Agregar imatge
+      </ion-button>
+    </ion-item>
+
+    @if (images().length > 0) {
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          @for (image of images(); track $index) {
+          <ion-thumbnail>
+            <ion-img [src]="image"></ion-img>
+          </ion-thumbnail>
+          }
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    }
+
+    <ion-button (click)="createPost()">Crear post</ion-button>
+  </ion-list>
+</ion-content>

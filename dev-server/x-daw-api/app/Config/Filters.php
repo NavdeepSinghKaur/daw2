@@ -36,7 +36,7 @@ class Filters extends BaseFilters
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'isLoggedIn'    => AuthFilter::class,
-
+        'apiAuth'       => ApiAuthFilter::class,
     ];
 
     /**

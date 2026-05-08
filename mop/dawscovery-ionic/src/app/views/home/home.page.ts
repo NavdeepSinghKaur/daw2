@@ -1,9 +1,8 @@
-import { Component, inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonApp, IonGrid, IonRow, IonCol, IonCard, IonCardContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonList, IonItem } from '@ionic/angular/standalone';
 import { UserService } from 'src/app/services/user-service';
-import { AuthService } from 'src/app/services/auth-service';
 import { Auth } from '@angular/fire/auth';
 
 @Component({
@@ -11,7 +10,7 @@ import { Auth } from '@angular/fire/auth';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCard, IonCol, IonRow, IonGrid, IonApp, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonItem, IonList, IonLabel, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class HomePage implements OnInit {
 
@@ -20,11 +19,11 @@ export class HomePage implements OnInit {
   private user: WritableSignal<any> = signal<any>(null);
 
   constructor() {
-
   }
 
-  ngOnInit() {
-    this.user.set(this._userService.getUser(this._auth.currentUser?.email ?? ''));
+  async ngOnInit() {
+    const res = await this._userService.getUser(this._auth.currentUser!.email!)
+    this.user.set(res);
   }
 
   get getUser() {

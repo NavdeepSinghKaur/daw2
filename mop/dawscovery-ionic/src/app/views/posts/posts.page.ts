@@ -1,17 +1,17 @@
 import { Component, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
 import { Auth } from '@angular/fire/auth';
-import { Post } from 'src/app/models/post.model';
 import { PostService } from 'src/app/services/post-service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.page.html',
   styleUrls: ['./posts.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonCardContent, IonCardSubtitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, RouterModule, IonCardTitle]
 })
 export class PostsPage implements OnInit {
 
@@ -19,30 +19,19 @@ export class PostsPage implements OnInit {
   private _auth: Auth = inject(Auth);
 
   public createNewPost: WritableSignal<boolean>;
-  public friendsPosts: Signal<Post[] | null>
+  public friendsPosts = this._postService.friendsPosts;
   public username: Signal<string>;
 
-  public posts: WritableSignal<Post[] | null>;
+  public posts = this._postService.ownPosts;
 
   constructor() {
-    this.posts = signal(null);
     this.username = signal(this._auth.currentUser?.email!).asReadonly();
-    this.friendsPosts = signal(null);
     this.createNewPost = signal(false);
   }
 
   ngOnInit(): void {
-    this._postService.getOwnPosts(this._auth.currentUser?.email!).subscribe({
-      next: (res: any) => {
-        res = res as Post[];
-        this.posts.set(res);
-
-      }, error: (error: any) => {
-        console.error("Error while fetching posts: ", error);
-      }
-    });
-
-    this.getFriendsPosts();
+    this._postService.getOwnPosts(this._auth.currentUser?.email!);
+    this._postService.getFriendsPosts(this._auth.currentUser?.email!);
   }
 
   alterCreateNewPost() {
@@ -51,7 +40,7 @@ export class PostsPage implements OnInit {
 
   deletePost(postId: string) {
     try {
-      this._postService.deletePost(postId, this._auth.currentUser?.email!);
+      this._postService.deletePost(postId);
     } catch (error: any) {
       console.error("Error while deleting post", error);
     }
@@ -62,15 +51,7 @@ export class PostsPage implements OnInit {
   }
 
   getFriendsPosts() {
-    this._postService.getFriendsPosts(this._auth.currentUser?.email!).subscribe({
-      next: (res: any) => {
-        res = res as Post[];
-        this.friendsPosts = signal(res);
-      },
-      error: (error: any) => {
-        console.error("Error while fetching friends' posts", error);
-      }
-    })
+    this._postService.getFriendsPosts(this._auth.currentUser?.email!);
   }
 
   likePost(postId: string) {
