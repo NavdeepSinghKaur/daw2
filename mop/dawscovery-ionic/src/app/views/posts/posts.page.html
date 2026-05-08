@@ -7,44 +7,45 @@
 <ion-content>
   <ion-button routerLink="/create-post" routerDirection="root">Crear nou post</ion-button>
   <ion-title>Els teus posts</ion-title>
-
   @for (post of posts(); track post.id) {
-  <ion-card>
-    @if (post.images && post.images[0] && post.images[0] !== '') {
-    <img [src]="post.images[0]" class="card-img-top">
-    }
-    <ion-card-header>
-      <ion-card-title>{{ post.description }}</ion-card-title>
-      <ion-card-subtitle>{{ post.address }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>{{ post.savedBy.length }} guardats</ion-card-content>
-    <ion-card-content>#{{ post.id }}</ion-card-content>
-    <ion-button (click)="deletePost(post.id!)">Eliminar</ion-button>
-  </ion-card>
+    <ion-card>
+      @if (post.images && post.images[0] && post.images[0] !== '') {
+        <img [src]="post.images[0]" class="card-img-top">
+      }
+      <ion-card-header>
+        <ion-card-title>{{ post.description }}</ion-card-title>
+        <ion-card-subtitle>{{ post.address }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>{{ post.savedBy.length }} guardats</ion-card-content>
+      <ion-card-content>#{{ post.id }}</ion-card-content>
+      <ion-button id="delete-post-alert" color="danger" (click)="showDeleteAlert(post.id!)">Eliminar</ion-button>
+    </ion-card>
   }
+
   <ion-title>Posts de les teves connexions</ion-title>
 
   @for (post of friendsPosts(); track post.id) {
-  <ion-card>
-    @if (post.images && post.images[0] && post.images[0] !== '') {
-    <img [src]="post.images[0]" class="card-img-top">
-    }
-    <ion-card-header>
-      <ion-card-title>{{ post.description }}</ion-card-title>
-      <ion-card-subtitle>{{ post.address }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>{{ post.savedBy.length }} guardats</ion-card-content>
-    <ion-card-content>Post creat per: {{ post.author }}</ion-card-content>
-    @if (!post.savedBy.includes(username())) {
-    <ion-button class="btn btn-sm btn-outline-primary w-100" (click)="likePost(post.id!)">
-      <i class="bi bi-bookmark-plus"></i> Guardar com a favorit
-    </ion-button>
-    } @else {
-    <ion-button class="btn btn-sm btn-primary w-100" (click)="unlikePost(post.id!)">
-      <i class="bi bi-bookmark-fill"></i> Eliminar de favorits
-    </ion-button>
-    }
-  </ion-card>
+    <ion-card>
+      @if (post.images && post.images[0] && post.images[0] !== '') {
+        <img [src]="post.images[0]" class="card-img-top">
+      }
+      <ion-card-header>
+        <ion-card-title>{{ post.description }}</ion-card-title>
+        <ion-card-subtitle>{{ post.address }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>{{ post.savedBy.length }} guardats</ion-card-content>
+      <ion-card-content>Post creat per: {{ post.author }}</ion-card-content>
+      @if (!post.savedBy.includes(username())) {
+        <ion-button class="btn btn-sm btn-outline-primary w-100" (click)="likePost(post.id!)">
+          <i class="bi bi-bookmark-plus"></i> Guardar com a favorit
+        </ion-button>
+      } @else {
+        <ion-button color="danger" class="btn btn-sm btn-danger w-100" (click)="unlikePost(post.id!)">
+          <i class="bi bi-bookmark-fill"></i> Eliminar de favorits
+        </ion-button>
+      }
+    </ion-card>
   }
-
+  <ion-toast [isOpen]="showDelete" message="S'ha eliminat el post" [duration]="2000" (didDismiss)="setShowDelete()"></ion-toast>
 </ion-content>

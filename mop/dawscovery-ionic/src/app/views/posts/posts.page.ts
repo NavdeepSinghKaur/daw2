@@ -1,7 +1,7 @@
-import { Component, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonAlert, AlertController, IonToast } from '@ionic/angular/standalone';
 import { Auth } from '@angular/fire/auth';
 import { PostService } from 'src/app/services/post-service';
 import { RouterModule } from '@angular/router';
@@ -11,22 +11,28 @@ import { RouterModule } from '@angular/router';
   templateUrl: './posts.page.html',
   styleUrls: ['./posts.page.scss'],
   standalone: true,
-  imports: [IonCardContent, IonCardSubtitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, RouterModule, IonCardTitle]
+  imports: [IonCardContent, IonCardSubtitle, IonCardHeader, IonCard, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, RouterModule, IonCardTitle, IonAlert, IonToast]
 })
 export class PostsPage implements OnInit {
 
   private _postService: PostService = inject(PostService);
   private _auth: Auth = inject(Auth);
+  private _alertController = inject(AlertController);
+
+  private _showDelete: WritableSignal<boolean> = signal(false);
+  public showDelete = computed(() => {this._showDelete.asReadonly()})
 
   public createNewPost: WritableSignal<boolean>;
   public friendsPosts = this._postService.friendsPosts;
   public username: Signal<string>;
-
   public posts = this._postService.ownPosts;
+  public selectedPostId: WritableSignal<string>;
+  
 
   constructor() {
     this.username = signal(this._auth.currentUser?.email!).asReadonly();
     this.createNewPost = signal(false);
+    this.selectedPostId = signal('');
   }
 
   ngOnInit(): void {
@@ -38,12 +44,40 @@ export class PostsPage implements OnInit {
     this.createNewPost.set(!this.createNewPost());
   }
 
-  deletePost(postId: string) {
+  setSelectedPostId(postId: string) {
+    this.selectedPostId.set(postId);
+  }
+
+  async showDeleteAlert(postId: string) {
+    const message = await this._alertController.create({
+      header: 'Segur que vols eliminar el post?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Si, eliminar post',
+          cssClass: 'alert-button-confirm',
+          handler: () => { this._deletePost(postId); }
+        }
+      ]
+    });
+
+    await message.present();
+  }
+
+  private _deletePost(postId: string) {
     try {
       this._postService.deletePost(postId);
+      this._showDelete.set(true);
     } catch (error: any) {
       console.error("Error while deleting post", error);
     }
+  }
+
+  public setShowDelete() {
+    this._showDelete.set(false);
   }
 
   get getCreateNewPost() {
