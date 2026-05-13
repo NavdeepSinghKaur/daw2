@@ -1,5 +1,4 @@
-import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { Restriction } from '@angular/core/event_dispatcher.d';
+import { computed, effect, inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { CapacitorBarcodeScanner, CapacitorBarcodeScannerOptions, CapacitorBarcodeScannerScanOrientation, CapacitorBarcodeScannerScanResult, CapacitorBarcodeScannerTypeHint } from '@capacitor/barcode-scanner';
 
 @Injectable({
@@ -12,13 +11,10 @@ export class Scanner {
   public async scanImage(): Promise<void> {
     const options: CapacitorBarcodeScannerOptions = {
       scanOrientation: CapacitorBarcodeScannerScanOrientation.PORTRAIT,
-      hint: [
-        CapacitorBarcodeScannerTypeHint.QR_CODE,
-        CapacitorBarcodeScannerTypeHint.EAN_13
-      ],
+      hint: CapacitorBarcodeScannerTypeHint.QR_CODE,
       scanButton: true,
       scanText: "Scan"
-    }
+    };
 
     let res: CapacitorBarcodeScannerScanResult = await CapacitorBarcodeScanner.scanBarcode(options);
 

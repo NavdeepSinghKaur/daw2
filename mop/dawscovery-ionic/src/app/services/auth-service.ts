@@ -1,7 +1,8 @@
 import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { CollectionReference, Firestore, collection, collectionData, doc, query, setDoc, where } from '@angular/fire/firestore';
 import { User } from '../models/user.model';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { firstValueFrom, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +11,14 @@ export class AuthService {
 
   private _firestore: Firestore = inject(Firestore);
   private _auth: Auth = inject(Auth);
+  private _userCollection: CollectionReference<User> = collection(this._firestore, 'users') as CollectionReference<User>;
+
 
   private _loginResponse: WritableSignal<any> = signal('')
-  public loginResponse: Signal<any> = computed(() => { this._loginResponse.asReadonly() })
+  public loginResponse: Signal<any> = computed(() => this._loginResponse.asReadonly() )
 
+  private _googleLoginResponse: WritableSignal<any> = signal('')
+  public googleLoginResponse: Signal<any> = computed(() => this._googleLoginResponse.asReadonly() )
   constructor() {
   }
 
@@ -51,11 +56,35 @@ export class AuthService {
     }
   }
 
-  public async logout() {
-    try {
-      await signOut(this._auth);
-    } catch (error: any) {
-      console.error(error);
+  public async generateUserTemplate(username: string) {
+    let q = query(this._userCollection, where('username', '==', username));
+    let userExists: boolean = false;
+
+    await firstValueFrom(
+      collectionData(q, { idField: 'username' }).pipe(
+        map((users: any) => {
+          if (users[0]) {
+            userExists = true;
+          }
+        })
+      )
+    );
+    
+    if (!userExists) {
+      const user = {
+        username: username,
+        password: '',
+        connections: [],
+        posts: [],
+        connectionFrom: [],
+        connectionTo: [],
+        postLists: [],
+      }
+  
+      let ref = doc(this._firestore, 'users', username);
+      await setDoc(ref, user);
     }
+
+    this._loginResponse.set({'success': true, 'errorMessage': false})
   }
 }

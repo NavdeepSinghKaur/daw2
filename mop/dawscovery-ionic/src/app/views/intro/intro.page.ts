@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonButton } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
-import { Auth, user, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth-service';
+import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-intro',
@@ -15,6 +15,8 @@ import { Observable } from 'rxjs';
 })
 export class IntroPage implements OnInit {
   private _router: Router = inject(Router)
+  private _authSrv: AuthService = inject(AuthService);
+  private _auth: Auth = inject(Auth);
 
   constructor() { }
 
@@ -28,5 +30,18 @@ export class IntroPage implements OnInit {
 
   register() {
     this._router.navigate(['/register']);
+  }
+
+  public async loginGoogle() {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(this._auth, provider);
+      
+      await this._authSrv.generateUserTemplate(result.user.email!)
+      console.log(this._authSrv.loginResponse())
+      this._router.navigate(['/home'])
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

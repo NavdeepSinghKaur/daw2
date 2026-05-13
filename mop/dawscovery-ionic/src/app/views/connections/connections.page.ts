@@ -125,4 +125,9 @@ export class ConnectionsPage implements OnInit {
     });
   }
 
+  async cancelSentRequest(to: string) {
+    const user: string = this._auth.currentUser!.email!;
+    await this._userService.rejectConnection(user, to)
+  }
+
 }

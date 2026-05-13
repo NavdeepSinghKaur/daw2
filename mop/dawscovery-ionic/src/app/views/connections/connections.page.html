@@ -5,6 +5,7 @@
 </ion-header>
 <ion-content>
   <ion-list>
+    <ion-title>Agregar connexió</ion-title>
     <ion-item>
       <ion-input label="Nom d'usuari" [ngModel]="targetUser()" (ngModelChange)="targetUser.set($event)"></ion-input>
       <ion-button (click)="sendRequest()">Enviar petició</ion-button>
@@ -36,7 +37,7 @@
     @for (sent of sent(); track $index) {
     <ion-item>
       <ion-label>{{ sent }}</ion-label>
-      <ion-button>Cancel·lar</ion-button>
+      <ion-button (click)="cancelSentRequest(sent)">Cancel·lar</ion-button>
     </ion-item>
     }
   </ion-list>

@@ -47,5 +47,5 @@
       }
     </ion-card>
   }
-  <ion-toast [isOpen]="showDelete" message="S'ha eliminat el post" [duration]="2000" (didDismiss)="setShowDelete()"></ion-toast>
 </ion-content>
+<ion-toast [isOpen]="getShowToastMessage()" [message]="getToastMessage()" [duration]="2000" (didDismiss)="setShowToastMessage()"></ion-toast>

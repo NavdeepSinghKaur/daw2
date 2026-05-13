@@ -1,8 +1,8 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { Auth, authState, signOut } from '@angular/fire/auth';
 import { Router, RouterModule } from '@angular/router';
 import { IonApp, IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonMenuToggle, IonRouterOutlet, IonRouterLink, IonButton } from '@ionic/angular/standalone';
-
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { IonApp, IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, 
   standalone: true,
   imports: [IonButton, IonApp, IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonMenuToggle, IonRouterOutlet, IonRouterLink, RouterModule],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   private _auth: Auth = inject(Auth);
   private _router: Router = inject(Router);
@@ -26,6 +26,9 @@ export class AppComponent {
     });
   }
 
+  async ngOnInit() {
+    await SplashScreen.hide();
+  }
 
   public async logout() {
     try {

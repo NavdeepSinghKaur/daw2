@@ -1,20 +1,17 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonList, IonButton, IonInput, IonItem, IonText } from '@ionic/angular/standalone';
+import { IonContent, IonList, IonButton, IonInput, IonItem } from '@ionic/angular/standalone';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { User } from 'src/app/models/user.model';
-import { Auth, user, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
-
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonList, CommonModule, IonButton, IonInput, IonItem, FormsModule, RouterModule, IonText]
+  imports: [IonContent, IonList, CommonModule, IonButton, IonInput, IonItem, FormsModule, RouterModule]
 })
 export class LoginPage implements OnInit {
   public username: WritableSignal<string>;
@@ -41,24 +38,6 @@ export class LoginPage implements OnInit {
   ngOnInit() {
 
   }
-
-  private auth: Auth = inject(Auth);
-
-  user$: Observable<any> = user(this.auth);
-
-  async loginGoogle() {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(this.auth, provider);
-      this._user.username = result.user.email!
-
-      await this._authSrv.login(this._user)
-      this._router.navigate(['']);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
 
   public async login() {
     this._user.username = this.username();
