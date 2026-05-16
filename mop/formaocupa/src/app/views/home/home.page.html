@@ -1,18 +1,65 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Formaocupa
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs>
+  <ion-tab tab="home">
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-title>
+          Formaocupa
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Escola d'hosteleria</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Nombre de visitants escanejats: {{visitors()}}
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+    <ion-content [fullscreen]="true">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Escola d'hosteleria</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Nombre de qr escanejats: {{visitors()}}
+          <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+            <ion-fab-button (click)="scanQr()">
+              +
+            </ion-fab-button>
+          </ion-fab>
+        </ion-card-content>
+        @if (getVisitorsList().length > 0) {
+        <ion-button (click)="showVisitorsList()">
+          Mostrar llista
+        </ion-button>
+
+        @if (getShowVisitorList()) {
+        @for (item of getVisitorsList(); track item; let i = $index) {
+        <ion-item>
+          <ion-label>Codi visiatnt {{i +1}}: {{item}}</ion-label>
+        </ion-item>
+        }
+        }
+        }
+      </ion-card>
+
+      <ion-toast [isOpen]="getVisitedMessage()" message="visita registrada" [duration]="1000"
+        (didDismiss)="setVisitedMessage()"></ion-toast>
+    </ion-content>
+  </ion-tab>
+
+  <ion-tab tab="logout">
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-title>
+          Tancar sessió
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content [fullscreen]="true">
+      <ion-button (click)="logout()">Tancar sessió</ion-button>
+    </ion-content>
+  </ion-tab>
+
+  <ion-tab-bar>
+    <ion-tab-button tab="home">
+      <ion-label>Inici</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="logout">
+      <ion-label>Tancar sessió</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
